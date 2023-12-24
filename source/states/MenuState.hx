@@ -2,8 +2,13 @@ package states;
 
 import backend.FlappyButton;
 import backend.FlappyState;
+import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.text.FlxText;
+import flixel.util.FlxColor;
+import lime.app.Application;
 import objects.Background;
+import openfl.Lib;
 
 class MenuState extends FlappyState
 {
@@ -32,12 +37,23 @@ class MenuState extends FlappyState
         title.scrollFactor.set();
         add(title);
 
+        var levelEditorTxt:FlxText = new FlxText(0, 0, 0, 'LEVEL EDITOR', 32);
+        levelEditorTxt.setFormat(Paths.fontFile('04B.TTF'), 32, FlxColor.LIME, CENTER, OUTLINE, FlxColor.BLACK);
+        levelEditorTxt.borderSize = 2;
+        levelEditorTxt.screenCenter(X);
+        levelEditorTxt.y = title.y + (title.height / 2) + levelEditorTxt.height;
+        add(levelEditorTxt);
+
         var startButton:FlappyButton = new FlappyButton(0, 0, 'start');
         startButton.screenCenter();
         startButton.onClicked = function(){
-            switchState(new PlayState());
+            FlappyState.switchState(new PlayState());
         }
         add(startButton);
+
+        var versionTxt:FlxText = new FlxText(2, FlxG.height - 20, 0, 'v' + Application.current.meta.get('version'), 18);
+        versionTxt.setFormat(Paths.fontFile('04B.TTF'), 18, FlxColor.WHITE, LEFT, OUTLINE, FlxColor.BLACK);
+        add(versionTxt);
 
         super.create();
     }

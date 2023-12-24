@@ -70,6 +70,11 @@ class Paths
         return sound;
     }
 
+    public static function fontFile(key:String)
+    {
+        return 'assets/fonts/$key';
+    }
+
     public static function dumpCache()
     {
         for (key in imageCache.keys())

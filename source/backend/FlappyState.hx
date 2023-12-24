@@ -2,8 +2,8 @@ package backend;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.FlxState;
 import flixel.addons.ui.FlxUIState;
+import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
 
@@ -12,6 +12,7 @@ class FlappyState extends FlxUIState
 	private var keys:Keys;
 
 	public var doFadeTransition:Bool = false;
+	public var fadeDuration:Float = 0.5;
 
 	override public function new(doFadeTransition:Bool = false)
 	{
@@ -25,36 +26,55 @@ class FlappyState extends FlxUIState
 	override public function create()
 	{
 		super.create();
+
+		if (this.doFadeTransition)
+			fadeObjects(true);
 	}
 
-	public function switchState(nextState:FlappyState)
+	public function fadeObjects(fadeIn:Bool = true)
 	{
-		var duration:Float = 0.385;
-
-		if (doFadeTransition)
+		for (object in members)
 		{
-			var objectCount:Int = 0;
-
-			for (object in members)
+			if (object is FlxSprite)
 			{
-				if (object is FlxSprite)
+				var object:FlxSprite = cast object;
+
+				var pos:Float = object.y - 20;
+				var alpha:Float = 0;
+
+				if (fadeIn)
 				{
-					objectCount++;
+					pos += 20;
+					alpha = 1;
 
-					var object:FlxSprite = cast object;
-					FlxTween.tween(object, {alpha: 0, y: object.y - 20}, duration);
+					object.y -= 20;
+					object.alpha = 0;
 				}
-			}
 
-			if (objectCount > 0)
-			{
-				persistentUpdate = false;
-				new FlxTimer().start(duration, function(_){
-					FlxG.switchState(nextState);
-				});
+				FlxTween.tween(object, {alpha: alpha}, fadeDuration, {ease: FlxEase.quadInOut});
+				FlxTween.tween(object, {y: pos}, fadeDuration, {ease: FlxEase.quadOut});
 			}
-			else
+		}
+	}
+
+	public static function switchState(nextState:FlappyState)
+	{
+		var currentState:FlappyState = cast FlxG.state;
+
+		if (nextState == currentState)
+		{
+			FlxG.resetState();
+			return;
+		}
+
+		if (currentState.doFadeTransition)
+		{
+			currentState.fadeObjects(false);
+
+			currentState.persistentUpdate = false;
+			new FlxTimer().start(currentState.fadeDuration, function(_){
 				FlxG.switchState(nextState);
+			});
 		}
 		else
 		{

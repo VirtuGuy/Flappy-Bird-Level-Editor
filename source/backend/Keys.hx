@@ -15,13 +15,27 @@ class Keys
 
     // Key strings
     private var ui_accept:String = 'ui_accept';
+    private var ui_back:String = 'ui_back';
+    private var game_flap:String = 'game_flap';
 
     // Keys
     public var UI_ACCEPT(get, default):Bool;
+    public var UI_BACK(get, default):Bool;
+    public var GAME_FLAP(get, default):Bool;
 
     private function get_UI_ACCEPT():Bool
     {
         return keyJustPressed(ui_accept);
+    }
+
+    private function get_UI_BACK():Bool
+    {
+        return keyJustPressed(ui_back);
+    }
+
+    private function get_GAME_FLAP():Bool
+    {
+        return keyJustPressed(game_flap);
     }
 
     private function keyJustPressed(keyName:String):Bool
@@ -40,8 +54,12 @@ class Keys
         {
             case Keys1:
                 bindKey(ui_accept, [SPACE, ENTER]);
+                bindKey(ui_back, [ESCAPE, BACKSPACE]);
+                bindKey(game_flap, [SPACE, ENTER]);
             case Keys2:
                 bindKey(ui_accept, [Z]);
+                bindKey(ui_back, [X]);
+                bindKey(game_flap, [Z]);
         }
     }
 

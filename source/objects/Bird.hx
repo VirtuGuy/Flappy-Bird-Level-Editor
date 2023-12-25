@@ -1,5 +1,6 @@
 package objects;
 
+import backend.FlappySettings;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
@@ -14,13 +15,15 @@ class Bird extends FlxSprite
 
     private var playerSkinDir:String = 'playerSkins';
 
-    override public function new(x:Float = 0, y:Float = 0, playerSkin:String = 'default')
+    public var isDead:Bool = false;
+
+    override public function new(x:Float = 0, y:Float = 0)
     {
         speed = new FlxPoint();
 
         super(x, y);
 
-        this.playerSkin = playerSkin;
+        this.playerSkin = FlappySettings.playerSkin;
 
         animation.add('idle', [0], 8);
         animation.add('flap', [1, 0, 2], 8, false);
@@ -49,10 +52,20 @@ class Bird extends FlxSprite
 
     public function flap()
     {
+        if (isDead) return;
+
         animation.play('flap', true);
         speed.y = -flapHeight;
         
-        FlxG.sound.play(Paths.soundFile('sfx_wing', false));
+        FlxG.sound.play(Paths.soundFile(Paths.sounds.get('wing'), false));
+    }
+
+    public function killBird()
+    {
+        if (isDead) return;
+
+        isDead = true;
+        FlxG.sound.play(Paths.soundFile(Paths.sounds.get('hit'), false));
     }
 
     private function set_playerSkin(value:String):String

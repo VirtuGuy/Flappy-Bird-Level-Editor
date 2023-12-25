@@ -1,6 +1,7 @@
 package states;
 
 import backend.FlappyButton;
+import backend.FlappySettings;
 import backend.FlappyState;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -8,7 +9,6 @@ import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import lime.app.Application;
 import objects.Background;
-import openfl.Lib;
 
 class MenuState extends FlappyState
 {
@@ -17,7 +17,7 @@ class MenuState extends FlappyState
 
     override public function new()
     {
-        super(true);
+        super(true, true);
     }
 
     override function create()
@@ -38,7 +38,7 @@ class MenuState extends FlappyState
         add(title);
 
         var levelEditorTxt:FlxText = new FlxText(0, 0, 0, 'LEVEL EDITOR', 32);
-        levelEditorTxt.setFormat(Paths.fontFile('04B.TTF'), 32, FlxColor.LIME, CENTER, OUTLINE, FlxColor.BLACK);
+        levelEditorTxt.setFormat(Paths.fontFile(Paths.textures.get('font')), 32, FlxColor.LIME, CENTER, OUTLINE, FlxColor.BLACK);
         levelEditorTxt.borderSize = 2;
         levelEditorTxt.screenCenter(X);
         levelEditorTxt.y = title.y + (title.height / 2) + levelEditorTxt.height;
@@ -46,13 +46,14 @@ class MenuState extends FlappyState
 
         var startButton:FlappyButton = new FlappyButton(0, 0, 'start');
         startButton.screenCenter();
+        startButton.clickSound = true;
         startButton.onClicked = function(){
             FlappyState.switchState(new PlayState());
         }
         add(startButton);
 
         var versionTxt:FlxText = new FlxText(2, FlxG.height - 20, 0, 'v' + Application.current.meta.get('version'), 18);
-        versionTxt.setFormat(Paths.fontFile('04B.TTF'), 18, FlxColor.WHITE, LEFT, OUTLINE, FlxColor.BLACK);
+        versionTxt.setFormat(Paths.fontFile(Paths.textures.get('font')), 18, FlxColor.WHITE, LEFT, OUTLINE, FlxColor.BLACK);
         add(versionTxt);
 
         super.create();
@@ -60,7 +61,7 @@ class MenuState extends FlappyState
 
     override function update(elapsed:Float)
     {
-        bg.scroll(-2);
+        bg.scroll(-FlappySettings.menuScrollSpeed);
         bgPosX = bg.posX;
 
         super.update(elapsed);

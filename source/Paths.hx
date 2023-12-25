@@ -10,8 +10,24 @@ class Paths
     public static var imageExt:String = 'png';
     public static var soundExt:String = #if html5 'mp3'; #else 'ogg'; #end
 
+    // For caching images and sounds, which makes assets load faster
     public static var imageCache:Map<String, FlxGraphic> = [];
     public static var soundCache:Map<String, Sound> = [];
+
+    // Textures and sounds (in case of a path change)
+    public static var textures:Map<String, String> = [
+        "font" => '04B.TTF',
+        "bgSky" => 'background/Sky',
+        "bgGround" => 'background/Ground',
+        "pipe" => 'objects/pipe',
+    ];
+
+    public static var sounds:Map<String, String> = [
+        "wing" => 'sfx_wing',
+        "hit" => 'sfx_hit',
+        "point" => 'sfx_point',
+        "swooshing" => 'sfx_swooshing'
+    ];
 
     // Paths
     public static function imagePath(key:String)
@@ -73,6 +89,25 @@ class Paths
     public static function fontFile(key:String)
     {
         return 'assets/fonts/$key';
+    }
+
+    public static function fileExists(path:String)
+    {
+        var exists:Bool = false;
+        if (OpenFlAssets.exists(path, null))
+            exists = true;
+
+        return exists;
+    }
+
+    public static function getText(path:String)
+    {
+        var content:String = "";
+
+        if (fileExists(path))
+            content = OpenFlAssets.getText(path);
+
+        return content;
     }
 
     public static function dumpCache()

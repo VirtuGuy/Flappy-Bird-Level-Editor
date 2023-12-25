@@ -31,6 +31,8 @@
 
 	<set name="BUILD_DIR" value="export" />
 	<source path="source" />
+
+	<!--Excludes sound extensions for desktop and html5-->
 	<assets path="assets" exclude="*.ogg" if="html5" />
 	<assets path="assets" exclude="*.mp3" unless="html5" />
 

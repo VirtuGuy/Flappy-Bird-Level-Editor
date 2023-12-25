@@ -3,7 +3,7 @@ package;
 import flixel.FlxG;
 import flixel.FlxState;
 import flixel.text.FlxText;
-import states.MenuState;
+import states.IntroState;
 
 class Init extends FlxState
 {
@@ -29,8 +29,8 @@ class Init extends FlxState
         Paths.dumpCache();
 
         // BG
-        loadImage('background/Sky');
-        loadImage('background/Ground');
+        loadImage(Paths.textures.get('bgSky'));
+        loadImage(Paths.textures.get('bgGround'));
 
         // Player skins
         loadImage('playerSkins/default');
@@ -38,11 +38,17 @@ class Init extends FlxState
         // Buttons
         loadImage('buttons/start');
 
+        // Objects
+        loadImage(Paths.textures.get('pipe'));
+
         // Other
         loadImage('title');
 
         // Sounds
-        loadSound('sfx_wing', false);
+        loadSound(Paths.sounds.get('wing'), false);
+        loadSound(Paths.sounds.get('hit'), false);
+        loadSound(Paths.sounds.get('point'), false);
+        loadSound(Paths.sounds.get('swooshing'), false);
     }
 
     function loadImage(key:String)
@@ -95,6 +101,6 @@ class Init extends FlxState
 
     function boot()
     {
-        FlxG.switchState(new MenuState());
+        FlxG.switchState(new IntroState());
     }
 }

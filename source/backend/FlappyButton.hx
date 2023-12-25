@@ -1,5 +1,6 @@
 package backend;
 
+import flixel.FlxG;
 import flixel.addons.display.FlxExtendedMouseSprite;
 import flixel.util.FlxColor;
 
@@ -7,6 +8,7 @@ class FlappyButton extends FlxExtendedMouseSprite
 {
     public var buttonName:String = '';
     public var justClicked:Bool = false;
+    public var clickSound:Bool = false;
 
     // Callbacks
     public var onClicked:Void->Void;
@@ -47,9 +49,14 @@ class FlappyButton extends FlxExtendedMouseSprite
 
     private function clicked()
     {
+        if (justClicked) return;
+
         setBrightness(clickBrightness);
 
-        if (onClicked != null && !justClicked)
+        if (clickSound)
+            FlxG.sound.play(Paths.soundFile(Paths.sounds.get('swooshing'), false));
+
+        if (onClicked != null)
             onClicked();
 
         justClicked = true;

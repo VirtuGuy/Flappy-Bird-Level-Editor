@@ -11,23 +11,25 @@ class FlappyState extends FlxUIState
 {
 	private var keys:Keys;
 
-	public var doFadeTransition:Bool = false;
+	public var doFadeInTransition:Bool = false;
+	public var doFadeOutTransition:Bool = false;
 	public var fadeDuration:Float = 0.5;
 
-	override public function new(doFadeTransition:Bool = false)
+	override public function new(doFadeInTransition:Bool = false, doFadeOutTransition:Bool = false)
 	{
 		keys = new Keys();
 
 		super();
 
-		this.doFadeTransition = doFadeTransition;
+		this.doFadeInTransition = doFadeInTransition;
+		this.doFadeOutTransition = doFadeOutTransition;
 	}
 
 	override public function create()
 	{
 		super.create();
 
-		if (this.doFadeTransition)
+		if (this.doFadeInTransition)
 			fadeObjects(true);
 	}
 
@@ -67,12 +69,12 @@ class FlappyState extends FlxUIState
 			return;
 		}
 
-		if (currentState.doFadeTransition)
+		if (currentState.doFadeOutTransition)
 		{
 			currentState.fadeObjects(false);
 
 			currentState.persistentUpdate = false;
-			new FlxTimer().start(currentState.fadeDuration, function(_){
+			new FlxTimer().start(currentState.fadeDuration + 0.15, function(_){
 				FlxG.switchState(nextState);
 			});
 		}

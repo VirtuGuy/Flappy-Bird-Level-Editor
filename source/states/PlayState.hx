@@ -29,16 +29,19 @@ class PlayState extends FlappyState
 		bird.scrollFactor.set();
 		bg.backObjects.add(bird);
 
+		bg.setScroll(-FlappySettings.scrollSpeed);
+
 		super.create();
 	}
 
 	function die()
 	{
 		bird.killBird();
+		bg.setScroll(0);
 		
 		for (pipe in grpPipes.members)
 		{
-			pipe.speed.x = 0;
+			pipe.velocity.x = 0;
 		}
 	}
 
@@ -54,8 +57,6 @@ class PlayState extends FlappyState
 	{
 		if (!bird.isDead)
 		{
-			bg.scroll(-FlappySettings.scrollSpeed);
-
 			if (keys.GAME_FLAP || FlxG.mouse.justPressed)
 			{
 				bird.flap();
@@ -71,6 +72,8 @@ class PlayState extends FlappyState
 		}
 
 		super.update(elapsed);
+
+		// FlxG.collide(bird, bg.ground);
 	}
 
 	override function closeSubState()

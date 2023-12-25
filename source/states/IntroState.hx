@@ -17,7 +17,7 @@ class IntroState extends FlappyState
 
     override function create()
     {
-        var introTxt:FlxText = new FlxText(0, 0, 0, 'AbsurdCoolMan', 32);
+        var introTxt:FlxText = new FlxText(0, 0, 0, 'AbsurdCoolMan\nMade with HaxeFlixel', 32);
         introTxt.setFormat(Paths.fontFile(Paths.textures.get('font')), 32, FlxColor.WHITE, CENTER);
         introTxt.scrollFactor.set();
         introTxt.screenCenter();
@@ -36,7 +36,7 @@ class IntroState extends FlappyState
 
     override function update(elapsed:Float)
     {
-        if (FlxG.keys.justPressed.ANY && canSkip)
+        if ((FlxG.keys.justPressed.ANY || FlxG.mouse.justPressed) && canSkip)
             transition();
 
         super.update(elapsed);
@@ -44,6 +44,8 @@ class IntroState extends FlappyState
 
     function transition(?_)
     {
+        if (!canSkip) return;
+
         canSkip = false;
 
         FlxG.sound.play(Paths.soundFile(Paths.sounds.get('swooshing'), false));

@@ -2,7 +2,6 @@ package objects;
 
 import flixel.FlxBasic;
 import flixel.FlxG;
-import flixel.FlxSprite;
 import flixel.addons.display.FlxBackdrop;
 import flixel.group.FlxGroup;
 
@@ -10,9 +9,9 @@ class Background extends FlxGroup
 {
     public var sky:FlxBackdrop;
     public var ground:FlxBackdrop;
-    public var posX:Float = 0;
 
     public var backObjects:FlxTypedGroup<FlxBasic>;
+    public var posX:Float = 0;
 
     override public function new()
     {
@@ -37,19 +36,27 @@ class Background extends FlxGroup
         ground.y = FlxG.height - ground.height;
     }
 
+    override function update(elapsed:Float)
+    {
+        posX = sky.x;
+
+        super.update(elapsed);
+    }
+
+    public function setScroll(x:Float)
+    {
+        sky.velocity.x = x;
+        ground.velocity.x = x;
+
+        sky.velocity.x *= sky.scrollFactor.x;
+        ground.velocity.x *= ground.scrollFactor.x;
+    }
+
     public function setPosX(x:Float)
     {
         posX = x;
 
         sky.x = posX;
         ground.x = posX;
-
-        sky.x *= sky.scrollFactor.x;
-        ground.x *= ground.scrollFactor.x;
-    }
-
-    public function scroll(scrollX:Float)
-    {
-        setPosX(posX + scrollX);
     }
 }

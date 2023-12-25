@@ -3,13 +3,11 @@ package objects;
 import backend.FlappySettings;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.math.FlxPoint;
 
 class Bird extends FlxSprite
 {
-    public var speed(default, null):FlxPoint;
-    public var gravity:Float = 0.3;
-    public var flapHeight:Float = 5;
+    public var gravity:Float = 20;
+    public var flapHeight:Float = 300;
 
     public var playerSkin(default, set):String = '';
 
@@ -19,8 +17,6 @@ class Bird extends FlxSprite
 
     override public function new(x:Float = 0, y:Float = 0)
     {
-        speed = new FlxPoint();
-
         super(x, y);
 
         this.playerSkin = FlappySettings.playerSkin;
@@ -32,10 +28,7 @@ class Bird extends FlxSprite
 
     override function update(elapsed:Float)
     {
-        speed.y += gravity;
-
-        x += speed.x;
-        y += speed.y;
+        velocity.y += gravity;
 
         if (animation.curAnim != null)
         {
@@ -45,7 +38,7 @@ class Bird extends FlxSprite
             }
         }
 
-        angle = speed.y * 2;
+        angle = (velocity.y / 100) * 5;
 
         super.update(elapsed);
     }
@@ -55,7 +48,7 @@ class Bird extends FlxSprite
         if (isDead) return;
 
         animation.play('flap', true);
-        speed.y = -flapHeight;
+        velocity.y = -flapHeight;
         
         FlxG.sound.play(Paths.soundFile(Paths.sounds.get('wing'), false));
     }

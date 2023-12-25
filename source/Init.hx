@@ -3,6 +3,7 @@ package;
 import flixel.FlxG;
 import flixel.FlxState;
 import flixel.text.FlxText;
+import flixel.util.FlxColor;
 import states.IntroState;
 
 class Init extends FlxState
@@ -15,7 +16,7 @@ class Init extends FlxState
         FlxG.mouse.useSystemCursor = true;
 
         var text:FlxText = new FlxText(0, 0, 0, 'Loading...', 32);
-        text.alignment = CENTER;
+        text.setFormat(Paths.fontFile(Paths.textures.get('font')), 32, FlxColor.WHITE, CENTER);
         text.screenCenter();
         add(text);
 

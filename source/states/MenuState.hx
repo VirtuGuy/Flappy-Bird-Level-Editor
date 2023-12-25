@@ -28,6 +28,8 @@ class MenuState extends FlappyState
         bg.setPosX(bgPosX);
         add(bg);
 
+        bg.setScroll(-FlappySettings.menuScrollSpeed);
+
         var title:FlxSprite = new FlxSprite();
         title.loadGraphic(Paths.imageFile('title'));
         title.setGraphicSize(Std.int(title.width * 3));
@@ -37,8 +39,8 @@ class MenuState extends FlappyState
         title.scrollFactor.set();
         add(title);
 
-        var levelEditorTxt:FlxText = new FlxText(0, 0, 0, 'LEVEL EDITOR', 32);
-        levelEditorTxt.setFormat(Paths.fontFile(Paths.textures.get('font')), 32, FlxColor.LIME, CENTER, OUTLINE, FlxColor.BLACK);
+        var levelEditorTxt:FlxText = new FlxText(0, 0, 0, 'Level Editor', 32);
+        levelEditorTxt.setFormat(Paths.fontFile(Paths.textures.get('font')), 32, FlxColor.WHITE, CENTER, OUTLINE, FlxColor.BLACK);
         levelEditorTxt.borderSize = 2;
         levelEditorTxt.screenCenter(X);
         levelEditorTxt.y = title.y + (title.height / 2) + levelEditorTxt.height;
@@ -54,6 +56,7 @@ class MenuState extends FlappyState
 
         var versionTxt:FlxText = new FlxText(2, FlxG.height - 20, 0, 'v' + Application.current.meta.get('version'), 18);
         versionTxt.setFormat(Paths.fontFile(Paths.textures.get('font')), 18, FlxColor.WHITE, LEFT, OUTLINE, FlxColor.BLACK);
+        versionTxt.borderSize = 1.2;
         add(versionTxt);
 
         super.create();
@@ -61,7 +64,6 @@ class MenuState extends FlappyState
 
     override function update(elapsed:Float)
     {
-        bg.scroll(-FlappySettings.menuScrollSpeed);
         bgPosX = bg.posX;
 
         super.update(elapsed);

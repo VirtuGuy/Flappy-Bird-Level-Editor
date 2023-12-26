@@ -18,7 +18,7 @@ class IntroState extends FlappyState
     override function create()
     {
         var introTxt:FlxText = new FlxText(0, 0, 0, 'AbsurdCoolMan\nMade with HaxeFlixel', 32);
-        introTxt.setFormat(Paths.fontFile(Paths.textures.get('font')), 32, FlxColor.WHITE, CENTER);
+        introTxt.setFormat(Paths.fontFile(Paths.fonts.get('default')), 32, FlxColor.WHITE, CENTER);
         introTxt.scrollFactor.set();
         introTxt.screenCenter();
         add(introTxt);

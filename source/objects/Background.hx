@@ -11,7 +11,6 @@ class Background extends FlxGroup
     public var ground:FlxBackdrop;
 
     public var backObjects:FlxTypedGroup<FlxBasic>;
-    public var posX:Float = 0;
 
     override public function new()
     {
@@ -34,29 +33,5 @@ class Background extends FlxGroup
 
         sky.y = FlxG.height - sky.height;
         ground.y = FlxG.height - ground.height;
-    }
-
-    override function update(elapsed:Float)
-    {
-        posX = sky.x;
-
-        super.update(elapsed);
-    }
-
-    public function setScroll(x:Float)
-    {
-        sky.velocity.x = x;
-        ground.velocity.x = x;
-
-        sky.velocity.x *= sky.scrollFactor.x;
-        ground.velocity.x *= ground.scrollFactor.x;
-    }
-
-    public function setPosX(x:Float)
-    {
-        posX = x;
-
-        sky.x = posX;
-        ground.x = posX;
     }
 }

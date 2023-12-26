@@ -1,6 +1,5 @@
 package objects;
 
-import backend.FlappySettings;
 import flixel.FlxSprite;
 
 class Pipe extends FlxSprite
@@ -8,8 +7,6 @@ class Pipe extends FlxSprite
     override public function new(x:Float = 0, y:Float = 0)
     {
         super(x, y);
-
-        velocity.x = -FlappySettings.scrollSpeed;
 
         loadGraphic(Paths.imageFile(Paths.textures.get('pipe')));
         setGraphicSize(Std.int(width * 2));

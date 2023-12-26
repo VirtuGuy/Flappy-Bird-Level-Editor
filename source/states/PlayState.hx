@@ -3,10 +3,13 @@ package states;
 import backend.FlappySettings;
 import backend.FlappyState;
 import flixel.FlxG;
+import flixel.FlxSprite;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import objects.Background;
 import objects.Bird;
+import objects.CameraObject;
 import objects.Pipe;
+import substates.GameOverSubstate;
 import substates.PauseSubstate;
 
 class PlayState extends FlappyState
@@ -14,30 +17,36 @@ class PlayState extends FlappyState
 	var bg:Background;
 	var bird:Bird;
 
+	var grpObjects:FlxTypedGroup<FlxSprite>;
 	var grpPipes:FlxTypedGroup<Pipe>;
+
+	var camFollow:CameraObject;
 	
 	override function create()
 	{
 		bg = new Background();
-        bg.setPosX(MenuState.bgPosX);
         add(bg);
 
+		grpObjects = new FlxTypedGroup<FlxSprite>();
+		bg.backObjects.add(grpObjects);
+
 		grpPipes = new FlxTypedGroup<Pipe>();
-		bg.backObjects.add(grpPipes);
 
 		bird = new Bird(50, 50);
 		bird.scrollFactor.set();
 		bg.backObjects.add(bird);
 
-		bg.setScroll(-FlappySettings.scrollSpeed);
+		camFollow = new CameraObject();
+        camFollow.screenCenter();
+		camFollow.x = MenuState.camPosX;
+		camFollow.y -= 12;
 
 		super.create();
 	}
 
-	function die()
+	function die(playHitSound:Bool = true)
 	{
-		bird.killBird();
-		bg.setScroll(0);
+		bird.killBird(playHitSound);
 		
 		for (pipe in grpPipes.members)
 		{
@@ -47,9 +56,17 @@ class PlayState extends FlappyState
 
 	function checkDeath()
 	{
-		if (bird.y < 0 - bird.height)
+		var grounded:Bool = bird.overlaps(bg.ground);
+
+		if (bird.y < 0 - bird.height && !bird.isDead)
 		{
-			die();
+			die(true);
+		}
+
+		if (grounded && !bird.isSinking)
+		{
+			die(false);
+			bird.sink();
 		}
 	}
 
@@ -57,23 +74,29 @@ class PlayState extends FlappyState
 	{
 		if (!bird.isDead)
 		{
-			if (keys.GAME_FLAP || FlxG.mouse.justPressed)
+			camFollow.x += FlappySettings.scrollSpeed;
+
+			if (keys.FLAP || FlxG.mouse.justPressed)
 			{
 				bird.flap();
 			}
 
-			if (keys.UI_BACK)
+			if (keys.PAUSE)
 			{
 				persistentUpdate = false;
 				openSubState(new PauseSubstate());
 			}
-
-			checkDeath();
 		}
+
+		checkDeath();
 
 		super.update(elapsed);
 
-		// FlxG.collide(bird, bg.ground);
+		if (bird.isDead && bird.isSinking && bird.y > FlxG.height - bg.ground.height + 15)
+		{
+			persistentUpdate = false;
+			openSubState(new GameOverSubstate());
+		}
 	}
 
 	override function closeSubState()

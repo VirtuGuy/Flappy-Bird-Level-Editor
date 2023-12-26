@@ -1,19 +1,39 @@
 package states;
 
-import backend.FlappyButton;
 import backend.FlappySettings;
 import backend.FlappyState;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
-import lime.app.Application;
 import objects.Background;
+import objects.ButtonGroup;
+import objects.CameraObject;
 
 class MenuState extends FlappyState
 {
-    public static var bgPosX:Float = 0;
+    public static var camPosX:Float = 0;
     var bg:Background;
+
+    var messageBox:FlxSprite;
+    var messageText:FlxText;
+
+    var camFollow:CameraObject;
+    var grpButtons:ButtonGroup;
+
+    var buttons:Array<String> = [
+        'start',
+        'editor'
+    ];
+
+    var buttonCallbacks:Array<Void->Void> = [
+        function() {
+            FlappyState.switchState(new PlayState());
+        },
+        function() {
+            FlappyState.switchState(new EditorState());
+        }
+    ];
 
     override public function new()
     {
@@ -22,13 +42,10 @@ class MenuState extends FlappyState
 
     override function create()
     {
-        bgPosX = 0;
+        camPosX = 0;
 
         bg = new Background();
-        bg.setPosX(bgPosX);
         add(bg);
-
-        bg.setScroll(-FlappySettings.menuScrollSpeed);
 
         var title:FlxSprite = new FlxSprite();
         title.loadGraphic(Paths.imageFile('title'));
@@ -40,31 +57,62 @@ class MenuState extends FlappyState
         add(title);
 
         var levelEditorTxt:FlxText = new FlxText(0, 0, 0, 'Level Editor', 32);
-        levelEditorTxt.setFormat(Paths.fontFile(Paths.textures.get('font')), 32, FlxColor.WHITE, CENTER, OUTLINE, FlxColor.BLACK);
+        levelEditorTxt.setFormat(Paths.fontFile(Paths.fonts.get('default')), 32, FlxColor.WHITE, CENTER, OUTLINE, FlxColor.BLACK);
         levelEditorTxt.borderSize = 2;
         levelEditorTxt.screenCenter(X);
         levelEditorTxt.y = title.y + (title.height / 2) + levelEditorTxt.height;
+        levelEditorTxt.scrollFactor.set();
         add(levelEditorTxt);
 
-        var startButton:FlappyButton = new FlappyButton(0, 0, 'start');
-        startButton.screenCenter();
-        startButton.clickSound = true;
-        startButton.onClicked = function(){
-            FlappyState.switchState(new PlayState());
-        }
-        add(startButton);
+        var versionTxt:FlxText = new FlxText(2, 0, 0, '', 18);
 
-        var versionTxt:FlxText = new FlxText(2, FlxG.height - 20, 0, 'v' + Application.current.meta.get('version'), 18);
-        versionTxt.setFormat(Paths.fontFile(Paths.textures.get('font')), 18, FlxColor.WHITE, LEFT, OUTLINE, FlxColor.BLACK);
+        versionTxt.text = 'Made by AbsurdCoolMan'
+        + '\nFlappy Bird by Dong Nguyen'
+        + '\n' + Init.curVersion;
+
+        versionTxt.y = FlxG.height - (versionTxt.height - 16);
+
+        versionTxt.setFormat(Paths.fontFile(Paths.fonts.get('default')), 18, FlxColor.WHITE, LEFT, OUTLINE, FlxColor.BLACK);
         versionTxt.borderSize = 1.2;
+        versionTxt.scrollFactor.set();
         add(versionTxt);
 
+        messageBox = new FlxSprite();
+        messageBox.makeGraphic(FlxG.width, 25, FlxColor.fromRGBFloat(0, 0, 0, 0.5));
+        messageBox.screenCenter(X);
+        messageBox.scrollFactor.set();
+
+        messageText = new FlxText(0, messageBox.y, 0, Init.message, 24);
+        messageText.setFormat(Paths.fontFile(Paths.fonts.get('default')), 24, FlxColor.WHITE, RIGHT);
+        messageText.scrollFactor.set();
+
+        if (Init.message != '')
+        {
+            add(messageBox);
+            add(messageText);
+        }
+
+        camFollow = new CameraObject();
+        camFollow.screenCenter();
+        camFollow.y -= 12;
+
         super.create();
+
+        grpButtons = new ButtonGroup(buttons, 0.5, buttonCallbacks);
+        add(grpButtons);
     }
 
     override function update(elapsed:Float)
     {
-        bgPosX = bg.posX;
+        if (Init.message != '')
+        {
+            messageText.x += 2;
+            if (messageText.x > FlxG.width + (messageText.width / 4))
+                messageText.x = -messageText.x;
+        }
+
+        camFollow.x += FlappySettings.menuScrollSpeed;
+        camPosX = camFollow.x;
 
         super.update(elapsed);
     }

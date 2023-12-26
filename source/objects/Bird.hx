@@ -8,12 +8,14 @@ class Bird extends FlxSprite
 {
     public var gravity:Float = 20;
     public var flapHeight:Float = 300;
+    public var sinkSpeed:Float = 10;
 
     public var playerSkin(default, set):String = '';
 
     private var playerSkinDir:String = 'playerSkins';
 
     public var isDead:Bool = false;
+    public var isSinking:Bool = false;
 
     override public function new(x:Float = 0, y:Float = 0)
     {
@@ -28,7 +30,8 @@ class Bird extends FlxSprite
 
     override function update(elapsed:Float)
     {
-        velocity.y += gravity;
+        if (!isSinking)
+            velocity.y += gravity;
 
         if (animation.curAnim != null)
         {
@@ -38,7 +41,10 @@ class Bird extends FlxSprite
             }
         }
 
-        angle = (velocity.y / 100) * 5;
+        if (!isSinking)
+            angle = (velocity.y / 100) * 5;
+        else
+            angle += sinkSpeed / 20;
 
         super.update(elapsed);
     }
@@ -53,12 +59,22 @@ class Bird extends FlxSprite
         FlxG.sound.play(Paths.soundFile(Paths.sounds.get('wing'), false));
     }
 
-    public function killBird()
+    public function killBird(playHitSound:Bool = true)
     {
-        if (isDead) return;
+        if (playHitSound && !isDead)
+            FlxG.sound.play(Paths.soundFile(Paths.sounds.get('hit'), false));
 
         isDead = true;
-        FlxG.sound.play(Paths.soundFile(Paths.sounds.get('hit'), false));
+    }
+
+    public function sink()
+    {
+        if (isSinking) return;
+
+        FlxG.sound.play(Paths.soundFile(Paths.sounds.get('die'), false));
+        velocity.y = sinkSpeed;
+
+        isSinking = true;
     }
 
     private function set_playerSkin(value:String):String

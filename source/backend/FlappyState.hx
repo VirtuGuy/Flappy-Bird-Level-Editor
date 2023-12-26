@@ -2,10 +2,15 @@ package backend;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.FlxState;
 import flixel.addons.ui.FlxUIState;
+import flixel.group.FlxGroup;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
+import objects.Background;
+import objects.ButtonGroup;
+import objects.CameraObject;
 
 class FlappyState extends FlxUIState
 {
@@ -33,6 +38,24 @@ class FlappyState extends FlxUIState
 			fadeObjects(true);
 	}
 
+	public function fadeObject(object:FlxSprite, fadeIn:Bool = true)
+	{
+		var pos:Float = object.y - 20;
+		var alpha:Float = 0;
+
+		if (fadeIn)
+		{
+			pos += 20;
+			alpha = 1;
+
+			object.y -= 20;
+			object.alpha = 0;
+		}
+
+		FlxTween.tween(object, {alpha: alpha}, fadeDuration, {ease: FlxEase.quadInOut});
+		FlxTween.tween(object, {y: pos}, fadeDuration, {ease: FlxEase.quadOut});
+	}
+
 	public function fadeObjects(fadeIn:Bool = true)
 	{
 		for (object in members)
@@ -40,47 +63,62 @@ class FlappyState extends FlxUIState
 			if (object is FlxSprite)
 			{
 				var object:FlxSprite = cast object;
-
-				var pos:Float = object.y - 20;
-				var alpha:Float = 0;
-
-				if (fadeIn)
+				fadeObject(object, fadeIn);
+			}
+			else if (object is FlxGroup && !(object is Background))
+			{
+				var group:FlxGroup = cast object;
+				
+				for (item in group.members)
 				{
-					pos += 20;
-					alpha = 1;
-
-					object.y -= 20;
-					object.alpha = 0;
+					if (item is FlxSprite)
+					{
+						var object:FlxSprite = cast item;
+						fadeObject(object, fadeIn);
+					}
 				}
-
-				FlxTween.tween(object, {alpha: alpha}, fadeDuration, {ease: FlxEase.quadInOut});
-				FlxTween.tween(object, {y: pos}, fadeDuration, {ease: FlxEase.quadOut});
 			}
 		}
 	}
 
-	public static function switchState(nextState:FlappyState)
+	public function stateSwitching(nextState:FlxState)
 	{
-		var currentState:FlappyState = cast FlxG.state;
+		// In case if you want something to happen when the state switches
+	}
 
-		if (nextState == currentState)
-		{
+	public static function doSwitch(nextState:FlxState)
+	{
+		if (FlxG.state != nextState)
+			FlxG.switchState(nextState);
+		else
 			FlxG.resetState();
-			return;
-		}
+	}
 
-		if (currentState.doFadeOutTransition)
+	public static function switchState(nextState:FlxState)
+	{
+		if (FlxG.state is FlappyState)
 		{
-			currentState.fadeObjects(false);
+			var currentState:FlappyState = cast FlxG.state;
 
-			currentState.persistentUpdate = false;
-			new FlxTimer().start(currentState.fadeDuration + 0.15, function(_){
-				FlxG.switchState(nextState);
-			});
+			currentState.stateSwitching(nextState);
+
+			if (currentState.doFadeOutTransition)
+			{
+				currentState.fadeObjects(false);
+
+				currentState.persistentUpdate = false;
+				new FlxTimer().start(currentState.fadeDuration + 0.15, function(_){
+					doSwitch(nextState);
+				});
+			}
+			else
+			{
+				doSwitch(nextState);
+			}
 		}
 		else
 		{
-			FlxG.switchState(nextState);
+			doSwitch(nextState);
 		}
 	}
 }

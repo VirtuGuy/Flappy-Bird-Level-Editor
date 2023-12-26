@@ -16,7 +16,6 @@ class Paths
 
     // Textures and sounds (in case of a path change)
     public static var textures:Map<String, String> = [
-        "font" => '04B.TTF',
         "bgSky" => 'background/Sky',
         "bgGround" => 'background/Ground',
         "pipe" => 'objects/pipe',
@@ -26,7 +25,12 @@ class Paths
         "wing" => 'sfx_wing',
         "hit" => 'sfx_hit',
         "point" => 'sfx_point',
-        "swooshing" => 'sfx_swooshing'
+        "swooshing" => 'sfx_swooshing',
+        "die" => 'sfx_die'
+    ];
+
+    public static var fonts:Map<String, String> = [
+        "default" => '04B.TTF',
     ];
 
     // Paths

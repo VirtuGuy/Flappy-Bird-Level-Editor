@@ -6,7 +6,6 @@ import flixel.input.keyboard.FlxKey;
 private enum KeyScheme
 {
     Keys1;
-    Keys2;
 }
 
 class Keys
@@ -14,33 +13,76 @@ class Keys
     public var keybinds:Map<String, Array<FlxKey>> = new Map<String, Array<FlxKey>>();
 
     // Key strings
-    private var ui_accept:String = 'ui_accept';
-    private var ui_back:String = 'ui_back';
-    private var game_flap:String = 'game_flap';
+    private var k_left:String = 'k_left';
+    private var k_right:String = 'k_right';
+    private var k_pause:String = 'k_pause';
+    private var k_flap:String = 'k_flap';
 
     // Keys
-    public var UI_ACCEPT(get, default):Bool;
-    public var UI_BACK(get, default):Bool;
-    public var GAME_FLAP(get, default):Bool;
+    public var LEFT(get, default):Bool;
+    public var RIGHT(get, default):Bool;
+    public var LEFT_P(get, default):Bool;
+    public var RIGHT_P(get, default):Bool;
+    public var LEFT_R(get, default):Bool;
+    public var RIGHT_R(get, default):Bool;
+    public var PAUSE(get, default):Bool;
+    public var FLAP(get, default):Bool;
 
-    private function get_UI_ACCEPT():Bool
+    // Key functions
+    private function get_LEFT():Bool
     {
-        return keyJustPressed(ui_accept);
+        return keyPressed(k_left);
     }
 
-    private function get_UI_BACK():Bool
+    private function get_RIGHT():Bool
     {
-        return keyJustPressed(ui_back);
+        return keyPressed(k_right);
     }
 
-    private function get_GAME_FLAP():Bool
+    private function get_LEFT_P():Bool
     {
-        return keyJustPressed(game_flap);
+        return keyJustPressed(k_left);
     }
 
+    private function get_RIGHT_P():Bool
+    {
+        return keyJustPressed(k_right);
+    }
+
+    private function get_LEFT_R():Bool
+    {
+        return keyJustReleased(k_left);
+    }
+
+    private function get_RIGHT_R():Bool
+    {
+        return keyJustReleased(k_right);
+    }
+
+    private function get_PAUSE():Bool
+    {
+        return keyJustPressed(k_pause);
+    }
+
+    private function get_FLAP():Bool
+    {
+        return keyJustPressed(k_flap);
+    }
+
+    // Other stuff
     private function keyJustPressed(keyName:String):Bool
     {
         return FlxG.keys.anyJustPressed(keybinds.get(keyName));
+    }
+
+    private function keyPressed(keyName:String):Bool
+    {
+        return FlxG.keys.anyPressed(keybinds.get(keyName));
+    }
+
+    private function keyJustReleased(keyName:String):Bool
+    {
+        return FlxG.keys.anyJustReleased(keybinds.get(keyName));
     }
 
     public function bindKey(keyName:String, keys:Array<FlxKey>)
@@ -53,13 +95,10 @@ class Keys
         switch (scheme)
         {
             case Keys1:
-                bindKey(ui_accept, [SPACE, ENTER]);
-                bindKey(ui_back, [ESCAPE, BACKSPACE]);
-                bindKey(game_flap, [SPACE, ENTER]);
-            case Keys2:
-                bindKey(ui_accept, [Z]);
-                bindKey(ui_back, [X]);
-                bindKey(game_flap, [Z]);
+                bindKey(k_left, [A, FlxKey.LEFT]);
+                bindKey(k_right, [D, FlxKey.RIGHT]);
+                bindKey(k_pause, [ESCAPE, P]);
+                bindKey(k_flap, [SPACE, ENTER]);
         }
     }
 

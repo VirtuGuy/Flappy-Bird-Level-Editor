@@ -1,24 +1,73 @@
 package;
 
+import backend.FlappySettings;
 import flixel.FlxG;
 import flixel.FlxState;
 import flixel.text.FlxText;
+import flixel.ui.FlxBar;
 import flixel.util.FlxColor;
+import haxe.Http;
+import lime.app.Application;
 import states.IntroState;
+import states.OutdatedState;
+
+using StringTools;
 
 class Init extends FlxState
 {
     var loadedFiles:Int = 0;
     var totalFiles:Int = 0;
+    var percentageBar:FlxBar;
+
+    private var percent:Float = 0;
+
+    var images:Array<String> = [];
+    var sounds:Array<Dynamic> = [];
+    
+    public static var curVersion:String = '';
+    public static var latestVersion:String = '';
+    public static var showOutdated:Bool = false;
+    public static var message:String = '';
 
     override function create()
     {
         FlxG.mouse.useSystemCursor = true;
 
+        // Version
+        curVersion = 'v' + Application.current.meta.get('version');
+
+        var verHttp:Http = new Http(FlappySettings.verCheckLink);
+        verHttp.onData = function(data:String){
+            latestVersion = data.split('\n')[0].trim();
+
+            if (curVersion != latestVersion)
+                showOutdated = true;
+        }
+        verHttp.onError = function(error){
+            trace('Error getting version (' + error + ')!');
+        }
+        verHttp.request();
+
+        // Message
+        var messageHttp:Http = new Http(FlappySettings.messageLink);
+        messageHttp.onData = function(data:String){
+            message = data.split('\n')[0].trim();
+            trace('MSG: ' + message);
+        }
+        messageHttp.onError = function(error){
+            trace('Error getting message (' + error + ')!');
+        }
+        messageHttp.request();
+
         var text:FlxText = new FlxText(0, 0, 0, 'Loading...', 32);
-        text.setFormat(Paths.fontFile(Paths.textures.get('font')), 32, FlxColor.WHITE, CENTER);
+        text.setFormat(Paths.fontFile(Paths.fonts.get('default')), 32, FlxColor.WHITE, CENTER);
         text.screenCenter();
         add(text);
+
+        percentageBar = new FlxBar(0, text.y + 50, LEFT_TO_RIGHT, FlxG.width - 200, 10, this, "percent", 0, 1);
+        percentageBar.createFilledBar(FlxColor.BLACK, FlxColor.WHITE);
+        percentageBar.screenCenter(X);
+        add(percentageBar);
 
         startCaching();
 
@@ -30,71 +79,86 @@ class Init extends FlxState
         Paths.dumpCache();
 
         // BG
-        loadImage(Paths.textures.get('bgSky'));
-        loadImage(Paths.textures.get('bgGround'));
+        addImage(Paths.textures.get('bgSky'));
+        addImage(Paths.textures.get('bgGround'));
 
         // Player skins
-        loadImage('playerSkins/default');
+        addImage('playerSkins/default');
 
         // Buttons
-        loadImage('buttons/start');
+        addImage('buttons/start');
+        addImage('buttons/editor');
+        addImage('buttons/restart');
+        addImage('buttons/menu');
 
         // Objects
-        loadImage(Paths.textures.get('pipe'));
+        addImage(Paths.textures.get('pipe'));
 
         // Other
-        loadImage('title');
+        addImage('title');
+        addImage('gameover');
 
         // Sounds
-        loadSound(Paths.sounds.get('wing'), false);
-        loadSound(Paths.sounds.get('hit'), false);
-        loadSound(Paths.sounds.get('point'), false);
-        loadSound(Paths.sounds.get('swooshing'), false);
-    }
+        addSound(Paths.sounds.get('wing'), false);
+        addSound(Paths.sounds.get('hit'), false);
+        addSound(Paths.sounds.get('point'), false);
+        addSound(Paths.sounds.get('swooshing'), false);
+        addSound(Paths.sounds.get('die'), false);
 
-    function loadImage(key:String)
-    {
-        totalFiles++;
-
-        var path:String = Paths.imagePath(key);
-        Paths.imageFile(key);
-
-        var loaded:Bool = false;
-
-        while (!loaded)
+        for (image in images)
         {
-            if (Paths.imageCache.exists(path))
+            Paths.imageFile(image);
+
+            var path:String = Paths.imagePath(image);
+            var loaded:Bool = false;
+
+            while (!loaded)
             {
-                loaded = true;
-                loadedFiles++;
+                if (Paths.imageCache.exists(path))
+                {
+                    loaded = true;
+                    loadedFiles++;
+                }
+            }
+        }
+
+        for (sound in sounds)
+        {
+            Paths.soundFile(sound[0], sound[1]);
+
+            var path:String = Paths.soundPath(sound[0], sound[1]);
+            var loaded:Bool = false;
+
+            while (!loaded)
+            {
+                if (Paths.soundCache.exists(path))
+                {
+                    loaded = true;
+                    loadedFiles++;
+                }
             }
         }
     }
 
-    function loadSound(key:String, isMusic:Bool = false)
+    function addImage(key:String)
     {
         totalFiles++;
+        images.push(key);
+    }
 
-        var path:String = Paths.soundPath(key, isMusic);
-        Paths.soundFile(key, isMusic);
-
-        var loaded:Bool = false;
-
-        while (!loaded)
-        {
-            if (Paths.soundCache.exists(path))
-            {
-                loaded = true;
-                loadedFiles++;
-            }
-        }
+    function addSound(key:String, isMusic:Bool = false)
+    {
+        totalFiles++;
+        sounds.push([key, isMusic]);
     }
 
     override function update(elapsed:Float)
     {
         super.update(elapsed);
 
-        if (loadedFiles >= totalFiles)
+        percent = loadedFiles / totalFiles;
+
+        if (percent >= 1)
         {
             boot();
         }
@@ -102,6 +166,12 @@ class Init extends FlxState
 
     function boot()
     {
-        FlxG.switchState(new IntroState());
+        if (showOutdated)
+        {
+            showOutdated = false;
+            FlxG.switchState(new OutdatedState());
+        }
+        else
+            FlxG.switchState(new IntroState());
     }
 }

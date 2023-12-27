@@ -13,11 +13,6 @@ class Object extends FlxSprite
         super(x, y);
 
         this.objectName = objectName;
-
-        scale.set(2, 2);
-        updateHitbox();
-
-        setRotation(angle);
     }
 
     override function update(elapsed:Float)
@@ -37,6 +32,10 @@ class Object extends FlxSprite
     {
         this.objectName = value;
         loadGraphic(Paths.imageFile('objects/' + value));
+
+        scale.set(2, 2);
+        updateHitbox();
+
         setRotation(angle);
 
         return value;
@@ -47,7 +46,7 @@ class Object extends FlxSprite
         this.selected = value;
 
         if (selected && editorObject)
-            alpha = 0.8;
+            alpha = 0.5;
         else
             alpha = 1;
 

@@ -149,13 +149,13 @@ class EditorState extends FlappyState
         var addKey:Bool = FlxG.mouse.justPressed;
         var deleteKey:Bool = FlxG.mouse.justPressedRight;
 
-        if (selectKey || addKey || deleteKey)
+        if ((selectKey || addKey || deleteKey) && !FlxG.mouse.overlaps(tabMenu, hudCamera))
         {
             if (deleteKey || selectKey)
             {
                 for (object in grpObjects.members)
                 {
-                    if (FlxCollision.pixelPerfectCheck(object, editCursor, 0))
+                    if (FlxCollision.pixelPerfectCheck(editCursor, object, 0))
                     {
                         if (selectKey)
                             setObjectSelection(object);

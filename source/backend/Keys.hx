@@ -15,6 +15,7 @@ class Keys
     // Key strings
     private var k_left:String = 'k_left';
     private var k_right:String = 'k_right';
+    private var k_rotate:String = 'k_rotate';
     private var k_pause:String = 'k_pause';
     private var k_flap:String = 'k_flap';
 
@@ -25,6 +26,7 @@ class Keys
     public var RIGHT_P(get, default):Bool;
     public var LEFT_R(get, default):Bool;
     public var RIGHT_R(get, default):Bool;
+    public var ROTATE(get, default):Bool;
     public var PAUSE(get, default):Bool;
     public var FLAP(get, default):Bool;
 
@@ -57,6 +59,11 @@ class Keys
     private function get_RIGHT_R():Bool
     {
         return keyJustReleased(k_right);
+    }
+
+    private function get_ROTATE():Bool
+    {
+        return keyJustPressed(k_rotate);
     }
 
     private function get_PAUSE():Bool
@@ -97,6 +104,7 @@ class Keys
             case Keys1:
                 bindKey(k_left, [A, FlxKey.LEFT]);
                 bindKey(k_right, [D, FlxKey.RIGHT]);
+                bindKey(k_rotate, [R]);
                 bindKey(k_pause, [P]);
                 bindKey(k_flap, [SPACE, ENTER]);
         }

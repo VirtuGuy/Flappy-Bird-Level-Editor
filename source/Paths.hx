@@ -17,8 +17,7 @@ class Paths
     // Textures and sounds (in case of a path change)
     public static var textures:Map<String, String> = [
         "bgSky" => 'background/Sky',
-        "bgGround" => 'background/Ground',
-        "pipe" => 'objects/pipe',
+        "bgGround" => 'background/Ground'
     ];
 
     public static var sounds:Map<String, String> = [

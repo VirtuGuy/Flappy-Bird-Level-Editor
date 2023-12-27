@@ -9,7 +9,7 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import objects.Background;
 import objects.Bird;
 import objects.CameraObject;
-import objects.Pipe;
+import objects.Object;
 import substates.GameOverSubstate;
 import substates.PauseSubstate;
 
@@ -18,8 +18,7 @@ class PlayState extends FlappyState
 	var bg:Background;
 	var bird:Bird;
 
-	var grpObjects:FlxTypedGroup<FlxSprite>;
-	var grpPipes:FlxTypedGroup<Pipe>;
+	var grpObjects:FlxTypedGroup<Object>;
 
 	var camFollow:CameraObject;
 	var pauseButton:FlappyButton;
@@ -31,10 +30,8 @@ class PlayState extends FlappyState
 		bg = new Background();
         add(bg);
 
-		grpObjects = new FlxTypedGroup<FlxSprite>();
+		grpObjects = new FlxTypedGroup<Object>();
 		bg.backObjects.add(grpObjects);
-
-		grpPipes = new FlxTypedGroup<Pipe>();
 
 		bird = new Bird(50, 50);
 		bird.scrollFactor.set();
@@ -67,11 +64,6 @@ class PlayState extends FlappyState
 	{
 		bird.killBird(playHitSound);
 		remove(pauseButton, true);
-		
-		for (pipe in grpPipes.members)
-		{
-			pipe.velocity.x = 0;
-		}
 	}
 
 	function checkDeath()

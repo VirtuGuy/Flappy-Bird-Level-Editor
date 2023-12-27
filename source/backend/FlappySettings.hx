@@ -9,6 +9,7 @@ class FlappySettings
 
     // Editor settings
     public static var editorScrollSpeed:Float = 8;
+    public static var editorGridSize:Int = 16;
 
     // Links (NOTE TO SELF. UPDATE THESE ON RELEASE)
     public static var httpPrefix:String = 'https://raw.githubusercontent.com/AbsurdCoolMan/Flappy-Bird-Level-Editor-Public-Stuff/main/';

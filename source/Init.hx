@@ -96,7 +96,7 @@ class Init extends FlxState
         addImage('buttons/pause');
 
         // Objects
-        addImage(Paths.textures.get('pipe'));
+        addImage('objects/pipe');
 
         // Other
         addImage('title');

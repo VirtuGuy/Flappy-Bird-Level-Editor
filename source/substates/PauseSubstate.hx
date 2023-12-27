@@ -15,7 +15,7 @@ class PauseSubstate extends FlappySubstate
     var grpButtons:ButtonGroup;
 
     var buttons:Array<String> = [
-        'start',
+        'resume',
         'restart',
         'menu'
     ];

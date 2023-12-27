@@ -7,13 +7,18 @@ import flixel.util.FlxColor;
 class FlappyButton extends FlxExtendedMouseSprite
 {
     public var buttonName:String = '';
-    public var justClicked:Bool = false;
     public var clickSound:Bool = false;
+
+    private var justClicked:Bool = false;
+    private var justReleased:Bool = false;
+    private var justHovered:Bool = false;
+    private var justHoverEnded:Bool = false;
 
     // Callbacks
     public var onClicked:Void->Void;
     public var onReleased:Void->Void;
     public var onHover:Void->Void;
+    public var onHoverEnd:Void->Void;
 
     // Brightnesses
     public var hoverBrightness:Float = 0.9;
@@ -34,24 +39,25 @@ class FlappyButton extends FlxExtendedMouseSprite
 
     override function update(elapsed:Float)
     {
+        if (mouseOver)
+            hover();
+        else
+            hoverEnd();
+
         if (isPressed)
             clicked();
         else
-        {
-            if (mouseOver)
-                hover();
-            else
-                released();
-        }
+            released();
 
         super.update(elapsed);
     }
 
     private function clicked()
     {
-        if (justClicked) return;
-
+        justReleased = false;
         setBrightness(clickBrightness);
+        
+        if (justClicked) return;
 
         if (clickSound)
             FlxG.sound.play(Paths.soundFile(Paths.sounds.get('swooshing'), false));
@@ -65,19 +71,38 @@ class FlappyButton extends FlxExtendedMouseSprite
     private function released()
     {
         justClicked = false;
-
-        setBrightness(1);
+        if (justReleased) return;
 
         if (onReleased != null)
             onReleased();
+
+        justReleased = true;
     }
 
     private function hover()
     {
+        justHoverEnded = false;
         setBrightness(hoverBrightness);
+
+        if (justHovered) return;
 
         if (onHover != null)
             onHover();
+
+        justHovered = true;
+    }
+
+    public function hoverEnd()
+    {
+        justHovered = false;
+        setBrightness(1);
+
+        if (justHoverEnded) return;
+
+        if (onHoverEnd != null)
+            onHoverEnd();
+
+        justHoverEnded = true;
     }
 
     public function setBrightness(brightness:Float)

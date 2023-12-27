@@ -1,5 +1,6 @@
 package states;
 
+import backend.FlappyButton;
 import backend.FlappySettings;
 import backend.FlappyState;
 import flixel.FlxG;
@@ -21,6 +22,9 @@ class PlayState extends FlappyState
 	var grpPipes:FlxTypedGroup<Pipe>;
 
 	var camFollow:CameraObject;
+	var pauseButton:FlappyButton;
+
+	public static var editorMode:Bool = false;
 	
 	override function create()
 	{
@@ -36,6 +40,21 @@ class PlayState extends FlappyState
 		bird.scrollFactor.set();
 		bg.backObjects.add(bird);
 
+		pauseButton = new FlappyButton(0, 0, 'pause');
+
+		pauseButton.setGraphicSize(13, 14);
+		pauseButton.updateHitbox();
+
+		pauseButton.setGraphicSize(Std.int(pauseButton.width * 2));
+		pauseButton.updateHitbox();
+		pauseButton.x = pauseButton.width / 2;
+		pauseButton.y = pauseButton.height / 2;
+
+		pauseButton.onClicked = pause;
+		
+		if (!editorMode)
+			add(pauseButton);
+
 		camFollow = new CameraObject();
         camFollow.screenCenter();
 		camFollow.x = MenuState.camPosX;
@@ -47,6 +66,7 @@ class PlayState extends FlappyState
 	function die(playHitSound:Bool = true)
 	{
 		bird.killBird(playHitSound);
+		remove(pauseButton, true);
 		
 		for (pipe in grpPipes.members)
 		{
@@ -70,22 +90,27 @@ class PlayState extends FlappyState
 		}
 	}
 
+	function pause()
+	{
+		pauseButton.visible = false;
+		openSubState(new PauseSubstate());
+
+		persistentUpdate = false;
+	}
+
 	override function update(elapsed:Float)
 	{
 		if (!bird.isDead)
 		{
 			camFollow.x += FlappySettings.scrollSpeed;
 
-			if (keys.FLAP || FlxG.mouse.justPressed)
+			if (keys.FLAP || (FlxG.mouse.justPressed && !pauseButton.mouseOver))
 			{
 				bird.flap();
 			}
 
 			if (keys.PAUSE)
-			{
-				persistentUpdate = false;
-				openSubState(new PauseSubstate());
-			}
+				pause();
 		}
 
 		checkDeath();
@@ -104,5 +129,6 @@ class PlayState extends FlappyState
 		super.closeSubState();
 
 		persistentUpdate = true;
+		pauseButton.visible = true;
 	}
 }

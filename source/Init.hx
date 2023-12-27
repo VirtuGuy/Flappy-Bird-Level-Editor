@@ -88,8 +88,12 @@ class Init extends FlxState
         // Buttons
         addImage('buttons/start');
         addImage('buttons/editor');
+        addImage('buttons/options');
+        addImage('buttons/exit');
+        addImage('buttons/resume');
         addImage('buttons/restart');
         addImage('buttons/menu');
+        addImage('buttons/pause');
 
         // Objects
         addImage(Paths.textures.get('pipe'));

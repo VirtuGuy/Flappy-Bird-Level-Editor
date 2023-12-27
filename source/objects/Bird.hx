@@ -8,7 +8,7 @@ class Bird extends FlxSprite
 {
     public var gravity:Float = 20;
     public var flapHeight:Float = 300;
-    public var sinkSpeed:Float = 10;
+    public var sinkSpeed:Float = 12;
 
     public var playerSkin(default, set):String = '';
 

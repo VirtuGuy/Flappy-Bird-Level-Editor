@@ -23,7 +23,11 @@ class MenuState extends FlappyState
 
     var buttons:Array<String> = [
         'start',
-        'editor'
+        'editor',
+        'options',
+        #if desktop
+        'exit'
+        #end
     ];
 
     var buttonCallbacks:Array<Void->Void> = [
@@ -32,7 +36,13 @@ class MenuState extends FlappyState
         },
         function() {
             FlappyState.switchState(new EditorState());
+        },
+        function() {},
+        #if desktop
+        function() {
+            Sys.exit(0);
         }
+        #end
     ];
 
     override public function new()
@@ -43,6 +53,7 @@ class MenuState extends FlappyState
     override function create()
     {
         camPosX = 0;
+        PlayState.editorMode = false;
 
         bg = new Background();
         add(bg);
@@ -78,7 +89,7 @@ class MenuState extends FlappyState
         add(versionTxt);
 
         messageBox = new FlxSprite();
-        messageBox.makeGraphic(FlxG.width, 25, FlxColor.fromRGBFloat(0, 0, 0, 0.5));
+        messageBox.makeGraphic(FlxG.width, 25, FlxColor.fromRGBFloat(0, 0, 0, 0.8));
         messageBox.screenCenter(X);
         messageBox.scrollFactor.set();
 

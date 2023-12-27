@@ -97,7 +97,7 @@ class Keys
             case Keys1:
                 bindKey(k_left, [A, FlxKey.LEFT]);
                 bindKey(k_right, [D, FlxKey.RIGHT]);
-                bindKey(k_pause, [ESCAPE, P]);
+                bindKey(k_pause, [P]);
                 bindKey(k_flap, [SPACE, ENTER]);
         }
     }

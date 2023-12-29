@@ -6,16 +6,26 @@ import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.ui.FlxUI;
+import flixel.addons.ui.FlxUIInputText;
+import flixel.addons.ui.FlxUINumericStepper;
 import flixel.addons.ui.FlxUITabMenu;
 import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.text.FlxText;
+import flixel.ui.FlxButton;
 import flixel.util.FlxCollision;
 import flixel.util.FlxColor;
+import haxe.Json;
 import objects.Background;
 import objects.CameraObject;
 import objects.Object;
 
+using StringTools;
+#if sys
+import sys.FileSystem;
+import sys.io.File;
+#end
+
 typedef LevelData = {
-    name:String,
     scrollSpeed:Float,
     objects:Array<LevelObjectData>
 }
@@ -36,24 +46,24 @@ class EditorState extends FlappyState
     var grpObjects:FlxTypedGroup<Object>;
     var tabMenu:FlxUITabMenu;
 
+    // Level data stuff
+    var levelData:LevelData = {
+        scrollSpeed: 4,
+        objects: []
+    }
+
+    var levelName:String = 'example-level';
+    var loadLevelName:String = '';
+
+    // Other things
     var tabs:Array<{name:String, label:String}> = [
         {name: 'editor', label: 'Editor'},
         {name: 'level', label: 'Level'},
         {name: 'object', label: 'Object'}
     ];
 
-    var levelData:LevelData = {
-        name: 'Example Level',
-        scrollSpeed: 4,
-        objects: []
-    }
-
-    var placeholderObjData:LevelObjectData = {
-        name: 'Pipe',
-        x: 0,
-        y: 0,
-        angle: 0
-    }
+    var inputTexts:Array<FlxUIInputText> = [];
+    var numericSteppers:Array<FlxUINumericStepper> = [];
 
     var editObject:Object;
     var editCursor:FlxSprite;
@@ -104,69 +114,96 @@ class EditorState extends FlappyState
 
     override function update(elapsed:Float)
     {
-        // Move
-        if (keys.LEFT || keys.RIGHT)
-        {
-            var posAdd:Int = keys.LEFT ? -1 : 1;
-            var speed:Float = FlappySettings.editorScrollSpeed;
-
-            if (FlxG.keys.pressed.SHIFT)
-                speed *= 1.5;
-
-            camFollow.x += posAdd * speed;
-        }
-
-        // Back
-        if (FlxG.keys.justPressed.ESCAPE)
-        {
-            FlappyState.switchState(new MenuState());
-        }
-
-        // Scroll
-        if (FlxG.mouse.wheel != 0)
-        {
-            camFollow.x += -(FlxG.mouse.wheel * FlappySettings.editorScrollSpeed * 2 * 10);
-        }
-
-        // Rotation
-        if (keys.ROTATE)
-        {
-            var angle:Float = 45;
-            if (FlxG.keys.pressed.SHIFT)
-                angle = 15;
-
-            editObject.setRotation(editObject.angle + angle);
-        }
-
         // Positioning
         editCursor.x = FlxG.mouse.x;
         editCursor.y = FlxG.mouse.y;
         editObject.x = Math.floor(editCursor.x / gridSize) * gridSize;
         editObject.y = Math.floor(editCursor.y / gridSize) * gridSize;
 
-        // Keys
-        var selectKey:Bool = (FlxG.mouse.justPressed && FlxG.keys.pressed.CONTROL);
-        var addKey:Bool = FlxG.mouse.justPressed;
-        var deleteKey:Bool = FlxG.mouse.justPressedRight;
+        // Focus check
+        var canDoStuff:Bool = true;
 
-        if ((selectKey || addKey || deleteKey) && !FlxG.mouse.overlaps(tabMenu, hudCamera))
+        for (input in inputTexts)
         {
-            if (deleteKey || selectKey)
+            if (input.hasFocus)
             {
-                for (object in grpObjects.members)
+                canDoStuff = false;
+                break;
+            }
+        }
+
+        for (stepper in numericSteppers)
+        {
+            @:privateAccess
+            var input:FlxUIInputText = cast stepper.text_field;
+
+            if (input.hasFocus)
+            {
+                canDoStuff = false;
+                break;
+            }
+        }
+
+        if (canDoStuff)
+        {
+            // Move
+            if (keys.LEFT || keys.RIGHT)
+            {
+                var posAdd:Int = keys.LEFT ? -1 : 1;
+                var speed:Float = FlappySettings.editorScrollSpeed;
+    
+                if (FlxG.keys.pressed.SHIFT)
+                    speed *= 1.5;
+    
+                camFollow.x += posAdd * speed;
+            }
+    
+            // Back
+            if (FlxG.keys.justPressed.ESCAPE)
+            {
+                FlappyState.switchState(new MenuState());
+            }
+    
+            // Scroll
+            if (FlxG.mouse.wheel != 0)
+            {
+                camFollow.x += -(FlxG.mouse.wheel * FlappySettings.editorScrollSpeed * 2 * 10);
+            }
+    
+            // Rotation
+            if (keys.ROTATE)
+            {
+                var angle:Float = 45;
+                if (FlxG.keys.pressed.SHIFT)
+                    angle = 15;
+    
+                editObject.setRotation(editObject.angle + angle);
+            }
+
+            // Keys
+            var selectKey:Bool = (FlxG.mouse.justPressed && FlxG.keys.pressed.CONTROL);
+            var addKey:Bool = FlxG.mouse.justPressed;
+            var deleteKey:Bool = FlxG.mouse.justPressedRight;
+
+            if ((selectKey || addKey || deleteKey) && !FlxG.mouse.overlaps(tabMenu, hudCamera))
+            {
+                if (deleteKey || selectKey)
                 {
-                    if (FlxCollision.pixelPerfectCheck(editCursor, object, 0))
+                    for (object in grpObjects.members)
                     {
-                        if (selectKey)
-                            setObjectSelection(object);
-                        else
-                            removeObject(object.x, object.y, object.objectName);
-                        break;
+                        if (FlxCollision.pixelPerfectCheck(editCursor, object, 0))
+                        {
+                            if (selectKey)
+                                setObjectSelection(object);
+                            else
+                                removeObject(object.x, object.y, object.objectName);
+                            break;
+                        }
                     }
                 }
+                else
+                    placeObject(editObject.x, editObject.y, editObject.objectName, editObject.angle);
             }
-            else
-                placeObject(editObject.x, editObject.y, editObject.objectName, editObject.angle);
         }
 
         super.update(elapsed);
@@ -262,6 +299,25 @@ class EditorState extends FlappyState
         var group:FlxUI = new FlxUI(null, tabMenu);
         group.name = 'editor';
 
+        var saveButton:FlxButton = new FlxButton(15, 10, 'Save Level', function(){
+            saveLevel();
+        });
+
+        var loadButton:FlxButton = new FlxButton(15, 35, 'Load Level', function(){
+            loadLevel(loadLevelName);
+        });
+        
+        var loadLevelNameInput:FlxUIInputText = new FlxUIInputText(102, 38, 100, loadLevelName);
+        loadLevelNameInput.name = 'loadLevelInput';
+        inputTexts.push(loadLevelNameInput);
+
+        var loadLevelNameText:FlxText = new FlxText(109, 23, 0, 'Load Level Name');
+
+        group.add(saveButton);
+        group.add(loadButton);
+        group.add(loadLevelNameInput);
+        group.add(loadLevelNameText);
+
         tabMenu.addGroup(group);
     }
 
@@ -269,6 +325,23 @@ class EditorState extends FlappyState
     {
         var group:FlxUI = new FlxUI(null, tabMenu);
         group.name = 'level';
+
+        var levelNameInput:FlxUIInputText = new FlxUIInputText(15, 13, 100, levelName);
+        levelNameInput.name = 'levelNameInput';
+        inputTexts.push(levelNameInput);
+
+        var levelNameText:FlxText = new FlxText(120, 14, 0, 'Level Name');
+
+        var scrollSpeedStepper:FlxUINumericStepper = new FlxUINumericStepper(15, 35, 1, levelData.scrollSpeed, 1);
+        scrollSpeedStepper.name = 'scrollSpeedStepper';
+        numericSteppers.push(scrollSpeedStepper);
+
+        var scrollSpeedText:FlxText = new FlxText(77, 36, 0, 'Scroll Speed');
+
+        group.add(levelNameInput);
+        group.add(levelNameText);
+        group.add(scrollSpeedStepper);
+        group.add(scrollSpeedText);
         
         tabMenu.addGroup(group);
     }
@@ -281,11 +354,73 @@ class EditorState extends FlappyState
         tabMenu.addGroup(group);
     }
 
+    override function getEvent(id:String, sender:Dynamic, data:Dynamic, ?params:Array<Dynamic>)
+    {
+        if (id == FlxUIInputText.CHANGE_EVENT && (sender is FlxUIInputText))
+        {
+            var input:FlxUIInputText = cast sender;
+            var name:String = input.name;
+
+            switch (name)
+            {
+                case 'loadLevelInput':
+                    loadLevelName = input.text;
+                case 'levelName':
+                    levelName = input.text;
+            }
+        }
+        else if (id == FlxUINumericStepper.CHANGE_EVENT && (sender is FlxUINumericStepper))
+        {
+            var stepper:FlxUINumericStepper = cast sender;
+            var name:String = stepper.name;
+
+            switch (name)
+            {
+                case 'scrollSpeedStepper':
+                    levelData.scrollSpeed = stepper.value;
+            }
+        }
+    }
+
     override function destroy()
     {
         super.destroy();
 
         FlxG.cameras.remove(hudCamera, true);
         FlxG.camera.zoom = 1;
+    }
+
+    // Save and load stuff
+    private function saveLevel()
+    {
+        var jsonString:String = Json.stringify(levelData, '\t');
+
+        var path:String = Paths.folder('data/custom-levels');
+        var fileFolderPath:String = '$path/$levelName';
+
+        #if sys
+        if (!Paths.fileExists(path))
+            FileSystem.createDirectory(path);
+        if (!Paths.fileExists(fileFolderPath))
+            FileSystem.createDirectory(fileFolderPath);
+
+        File.saveContent('$fileFolderPath/level.json', jsonString);
+        #end
+    }
+
+    private function loadLevel(levelName:String)
+    {
+        var path:String = Paths.folder('data/custom-levels');
+        var filePath:String = '$path/$levelName/level.json';
+
+        #if sys
+        if (Paths.fileExists(filePath))
+        {
+            var content:String = Paths.getText(filePath);
+            levelData = Json.parse(content);
+        }
+        #end
+
+        updateObjects();
     }
 }

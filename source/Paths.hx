@@ -4,6 +4,10 @@ import flixel.graphics.FlxGraphic;
 import openfl.display.BitmapData;
 import openfl.media.Sound;
 import openfl.utils.Assets as OpenFlAssets;
+#if sys
+import sys.FileSystem;
+import sys.io.File;
+#end
 
 class Paths
 {
@@ -94,11 +98,22 @@ class Paths
         return 'assets/fonts/$key';
     }
 
+    public static function folder(folderName:String)
+    {
+        return 'assets/$folderName';
+    }
+
     public static function fileExists(path:String)
     {
         var exists:Bool = false;
+
+        #if sys
+        if (FileSystem.exists(path))
+            exists = true;
+        #else
         if (OpenFlAssets.exists(path, null))
             exists = true;
+        #end
 
         return exists;
     }
@@ -108,7 +123,13 @@ class Paths
         var content:String = "";
 
         if (fileExists(path))
+        {
+            #if sys
+            content = File.getContent(path);
+            #else
             content = OpenFlAssets.getText(path);
+            #end
+        }
 
         return content;
     }

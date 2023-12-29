@@ -6,6 +6,8 @@ class Object extends FlxSprite
 {
     public var objectName(default, set):String = '';
     public var selected(default, set):Bool = false;
+    public var flipped(default, set):Bool = false;
+
     public var editorObject:Bool = false;
 
     override public function new(x:Float = 0, y:Float = 0, objectName:String = 'pipe')
@@ -18,12 +20,7 @@ class Object extends FlxSprite
     override function update(elapsed:Float)
     {
         if (objectName.toLowerCase() == 'pipe')
-        {
-            if (angle % 360 > 45)
-                flipX = true;
-            else
-                flipX = false;
-        }
+            flipX = flipped == true;
 
         super.update(elapsed);
     }
@@ -36,7 +33,8 @@ class Object extends FlxSprite
         scale.set(2, 2);
         updateHitbox();
 
-        setRotation(angle);
+        origin.y = 0;
+        offset.copyFrom(origin);
 
         return value;
     }
@@ -53,13 +51,15 @@ class Object extends FlxSprite
         return value;
     }
 
-    public function setRotation(angle:Float)
+    private function set_flipped(value:Bool):Bool
     {
-        this.angle = angle;
-        updateHitbox();
+        this.flipped = value;
 
-        // Rotation stuff
-        origin.y = 0;
-        offset.copyFrom(origin);
+        if (this.flipped)
+            angle = 180;
+        else
+            angle = 0;
+
+        return value;
     }
 }

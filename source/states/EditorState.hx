@@ -6,6 +6,7 @@ import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.ui.FlxUI;
+import flixel.addons.ui.FlxUICheckBox;
 import flixel.addons.ui.FlxUIInputText;
 import flixel.addons.ui.FlxUINumericStepper;
 import flixel.addons.ui.FlxUITabMenu;
@@ -34,7 +35,7 @@ typedef LevelObjectData = {
     name:String,
     x:Float,
     y:Float,
-    angle:Float
+    flipped:Bool
 }
 
 class EditorState extends FlappyState
@@ -45,15 +46,6 @@ class EditorState extends FlappyState
 
     var grpObjects:FlxTypedGroup<Object>;
     var tabMenu:FlxUITabMenu;
-
-    // Level data stuff
-    var levelData:LevelData = {
-        scrollSpeed: 4,
-        objects: []
-    }
-
-    var levelName:String = 'example-level';
-    var loadLevelName:String = '';
 
     // Other things
     var tabs:Array<{name:String, label:String}> = [
@@ -70,6 +62,16 @@ class EditorState extends FlappyState
     var gridSize:Int = FlappySettings.editorGridSize;
 
     var selectedObject:Object = null;
+
+    // Editor properties
+    var levelData:LevelData = {
+        scrollSpeed: 4,
+        objects: []
+    }
+
+    var levelName:String = 'example-level';
+    var loadLevelName:String = '';
+    var saveToDefault:Bool = false;
     
     override function create()
     {
@@ -171,13 +173,9 @@ class EditorState extends FlappyState
             }
     
             // Rotation
-            if (keys.ROTATE)
+            if (keys.FLIP)
             {
-                var angle:Float = 45;
-                if (FlxG.keys.pressed.SHIFT)
-                    angle = 15;
-    
-                editObject.setRotation(editObject.angle + angle);
+                editObject.flipped = !editObject.flipped;
             }
 
             // Keys
@@ -202,7 +200,7 @@ class EditorState extends FlappyState
                     }
                 }
                 else
-                    placeObject(editObject.x, editObject.y, editObject.objectName, editObject.angle);
+                    placeObject(editObject.x, editObject.y, editObject.objectName, editObject.flipped);
             }
         }
 
@@ -224,18 +222,18 @@ class EditorState extends FlappyState
         {
             var object:Object = new Object(item.x, item.y, item.name);
             object.editorObject = true;
-            object.setRotation(item.angle);
+            object.flipped = item.flipped;
             grpObjects.add(object);
         }
     }
 
-    function placeObject(x:Float = 0, y:Float = 0, name:String, angle:Float = 0)
+    function placeObject(x:Float = 0, y:Float = 0, name:String, flipped:Bool)
     {
         var canPlace:Bool = true;
 
         for (item in levelData.objects)
         {
-            if (item.x == x && item.y == y && item.name == name && item.angle == angle)
+            if (item.x == x && item.y == y && item.name == name && item.flipped == flipped)
             {
                 canPlace = false;
                 break;
@@ -251,7 +249,7 @@ class EditorState extends FlappyState
                 name: name,
                 x: x,
                 y: y,
-                angle: angle
+                flipped: flipped
             });
         }
 
@@ -313,10 +311,19 @@ class EditorState extends FlappyState
 
         var loadLevelNameText:FlxText = new FlxText(109, 23, 0, 'Load Level Name');
 
+        var saveToDefaultCheckbox:FlxUICheckBox = new FlxUICheckBox(15, 60, null, null, 'Save to Default (DEBUG)');
+        saveToDefaultCheckbox.name = 'saveToDefaultCheckbox';
+        saveToDefaultCheckbox.callback = function(){
+            saveToDefault = saveToDefaultCheckbox.checked;
+        }
+
         group.add(saveButton);
         group.add(loadButton);
         group.add(loadLevelNameInput);
         group.add(loadLevelNameText);
+        #if debug
+        group.add(saveToDefaultCheckbox);
+        #end
 
         tabMenu.addGroup(group);
     }
@@ -395,7 +402,10 @@ class EditorState extends FlappyState
     {
         var jsonString:String = Json.stringify(levelData, '\t');
 
-        var path:String = Paths.folder('data/custom-levels');
+        var path:String = Paths.folder('levels/custom');
+        if (saveToDefault)
+            path = Paths.folder('levels/default');
+
         var fileFolderPath:String = '$path/$levelName';
 
         #if sys
@@ -410,13 +420,24 @@ class EditorState extends FlappyState
 
     private function loadLevel(levelName:String)
     {
-        var path:String = Paths.folder('data/custom-levels');
+        var path:String = Paths.folder('levels/custom');
+        var levelsPath:String = Paths.folder('levels/default');
+
         var filePath:String = '$path/$levelName/level.json';
+        var fileLevelsPath:String = '$levelsPath/$levelName/level.json';
 
         #if sys
+        var foundPath:String = null;
+
         if (Paths.fileExists(filePath))
+            foundPath = filePath;
+
+        if (Paths.fileExists(fileLevelsPath))
+            foundPath = fileLevelsPath;
+
+        if (foundPath != null)
         {
-            var content:String = Paths.getText(filePath);
+            var content:String = Paths.getText(foundPath);
             levelData = Json.parse(content);
         }
         #end

@@ -36,6 +36,7 @@
 	<assets path="assets" exclude="*.ogg" if="html5" />
 	<assets path="assets" exclude="*.mp3" unless="html5" />
 
+	<!--Embeds the font directory-->
 	<assets path="assets/fonts" embed="true" />
 
 	<!-- _______________________________ Libraries ______________________________ -->

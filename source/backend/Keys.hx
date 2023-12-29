@@ -19,6 +19,11 @@ class Keys
     private var k_pause:String = 'k_pause';
     private var k_flap:String = 'k_flap';
 
+    /// Volume key strings
+    private var v_mute:String = 'v_mute';
+    private var v_up:String = 'v_up';
+    private var v_down:String = 'v_down';
+
     // Keys
     public var LEFT(get, default):Bool;
     public var RIGHT(get, default):Bool;
@@ -107,11 +112,32 @@ class Keys
                 bindKey(k_flip, [F]);
                 bindKey(k_pause, [P]);
                 bindKey(k_flap, [SPACE, ENTER]);
+
+                bindKey(v_mute, [NUMPADZERO]);
+                bindKey(v_up, [NUMPADPLUS]);
+                bindKey(v_down, [NUMPADMINUS]);
+        }
+    }
+
+    public function toggleVolumeKeys(toggle:Bool)
+    {
+        if (!toggle)
+        {
+            FlxG.sound.muteKeys = [];
+            FlxG.sound.volumeUpKeys = [];
+            FlxG.sound.volumeDownKeys = [];
+        }
+        else
+        {
+            FlxG.sound.muteKeys = keybinds.get(v_mute);
+            FlxG.sound.volumeUpKeys = keybinds.get(v_up);
+            FlxG.sound.volumeDownKeys = keybinds.get(v_down);
         }
     }
 
     public function new()
     {
         setScheme(Keys1);
+        toggleVolumeKeys(true);
     }
 }

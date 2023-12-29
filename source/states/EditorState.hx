@@ -2,6 +2,7 @@ package states;
 
 import backend.FlappySettings;
 import backend.FlappyState;
+import backend.FlappyTools;
 import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -146,8 +147,14 @@ class EditorState extends FlappyState
             }
         }
 
-        if (canDoStuff)
+        if (!canDoStuff)
+        {  
+            keys.toggleVolumeKeys(false);
+        }
+        else
         {
+            keys.toggleVolumeKeys(true);
+            
             // Move
             if (keys.LEFT || keys.RIGHT)
             {

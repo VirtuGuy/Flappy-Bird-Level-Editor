@@ -3,7 +3,6 @@ package backend;
 class FlappySettings
 {
     // Main game settings
-    public static var scrollSpeed:Float = 4;
     public static var menuScrollSpeed:Float = 2;
     public static var playerSkin:String = 'default';
 

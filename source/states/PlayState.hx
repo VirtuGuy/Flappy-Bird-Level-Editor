@@ -10,6 +10,7 @@ import objects.Background;
 import objects.Bird;
 import objects.CameraObject;
 import objects.Object;
+import states.EditorState.LevelData;
 import substates.GameOverSubstate;
 import substates.PauseSubstate;
 
@@ -23,6 +24,9 @@ class PlayState extends FlappyState
 	var camFollow:CameraObject;
 	var pauseButton:FlappyButton;
 
+	public static var levelData:LevelData;
+	var scrollSpeed:Float = 4;
+
 	public static var editorMode:Bool = false;
 	
 	override function create()
@@ -32,6 +36,8 @@ class PlayState extends FlappyState
 
 		grpObjects = new FlxTypedGroup<Object>();
 		bg.backObjects.add(grpObjects);
+
+		loadLevel();
 
 		bird = new Bird(50, 50);
 		bird.scrollFactor.set();
@@ -58,6 +64,25 @@ class PlayState extends FlappyState
 		camFollow.y -= 12;
 
 		super.create();
+	}
+
+	function loadLevel()
+	{
+		while (grpObjects.length > 0)
+		{
+			grpObjects.remove(grpObjects.members[0], true);
+		}
+
+		if (levelData == null) return;
+
+		scrollSpeed = levelData.scrollSpeed;
+
+		for (item in levelData.objects)
+		{
+			var object:Object = new Object(item.x, item.y, item.name);
+			object.flipped = item.flipped;
+			grpObjects.add(object);
+		}
 	}
 
 	function die(playHitSound:Bool = true)
@@ -94,7 +119,7 @@ class PlayState extends FlappyState
 	{
 		if (!bird.isDead)
 		{
-			camFollow.x += FlappySettings.scrollSpeed;
+			camFollow.x += scrollSpeed;
 
 			if (keys.FLAP || (FlxG.mouse.justPressed && !pauseButton.mouseOver))
 			{

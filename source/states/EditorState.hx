@@ -8,6 +8,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.ui.FlxUI;
 import flixel.addons.ui.FlxUICheckBox;
+import flixel.addons.ui.FlxUIDropDownMenu;
 import flixel.addons.ui.FlxUIInputText;
 import flixel.addons.ui.FlxUINumericStepper;
 import flixel.addons.ui.FlxUITabMenu;
@@ -57,6 +58,7 @@ class EditorState extends FlappyState
 
     var inputTexts:Array<FlxUIInputText> = [];
     var numericSteppers:Array<FlxUINumericStepper> = [];
+    var dropdowns:Array<FlxUIDropDownMenu> = [];
 
     var editObject:Object;
     var editCursor:FlxSprite;
@@ -73,6 +75,8 @@ class EditorState extends FlappyState
     var levelName:String = 'example-level';
     var loadLevelName:String = '';
     var saveToDefault:Bool = false;
+
+    var objectNames:Array<String> = [];
     
     override function create()
     {
@@ -81,6 +85,17 @@ class EditorState extends FlappyState
         hudCamera = new FlxCamera();
         hudCamera.bgColor.alpha = 0;
         FlxG.cameras.add(hudCamera, false);
+
+        var objectsPath:String = Paths.textFile('data', 'objectsList');
+        if (Paths.fileExists(objectsPath))
+        {
+            var content:String = Paths.getText(objectsPath);
+            var texts:Array<String> = content.split('\n');
+            for (text in texts)
+            {
+                objectNames.push(text.trim());
+            }
+        }
 
         bg = new Background();
         add(bg);
@@ -92,8 +107,10 @@ class EditorState extends FlappyState
         editCursor.makeGraphic(1, 1, FlxColor.fromRGB(255, 255, 255, 0));
         add(editCursor);
 
-        editObject = new Object(0, 0, 'pipe');
+        editObject = new Object(0, 0, 'pipe', true);
         editObject.alpha = 0.5;
+        @:privateAccess
+        editObject._lastAlpha = editObject.alpha;
         add(editObject);
 
         tabMenu = new FlxUITabMenu(null, tabs, true);
@@ -147,6 +164,15 @@ class EditorState extends FlappyState
             }
         }
 
+        for (dropdown in dropdowns)
+        {
+            if (dropdown.hasFocus)
+            {
+                canDoStuff = false;
+                break;
+            }
+        }
+
         if (!canDoStuff)
         {  
             keys.toggleVolumeKeys(false);
@@ -182,7 +208,8 @@ class EditorState extends FlappyState
             // Rotation
             if (keys.FLIP)
             {
-                editObject.flipped = !editObject.flipped;
+                if (editObject.canBeFlipped)
+                    editObject.flipped = !editObject.flipped;
             }
 
             // Keys
@@ -227,8 +254,7 @@ class EditorState extends FlappyState
 
         for (item in levelData.objects)
         {
-            var object:Object = new Object(item.x, item.y, item.name);
-            object.editorObject = true;
+            var object:Object = new Object(item.x, item.y, item.name, true);
             object.flipped = item.flipped;
             grpObjects.add(object);
         }
@@ -291,9 +317,16 @@ class EditorState extends FlappyState
             }
         }
 
-        object.selected = select;
+        if (object != null)
+            object.selected = select;
+        
         if (select)
+        {
             selectedObject = object;
+            updateObjectTab();
+            
+            tabMenu.selected_tab = 2;
+        }
         else
             selectedObject = null;
     }
@@ -318,7 +351,16 @@ class EditorState extends FlappyState
 
         var loadLevelNameText:FlxText = new FlxText(109, 23, 0, 'Load Level Name');
 
-        var saveToDefaultCheckbox:FlxUICheckBox = new FlxUICheckBox(15, 60, null, null, 'Save to Default (DEBUG)');
+        var objectNameItems = FlxUIDropDownMenu.makeStrIdLabelArray(objectNames);
+        var objectNameDropdown:FlxUIDropDownMenu = new FlxUIDropDownMenu(15, 60, objectNameItems, function(objectName:String){
+            editObject.objectName = objectName;
+        });
+        objectNameDropdown.selectedLabel = editObject.objectName;
+        dropdowns.push(objectNameDropdown);
+
+        var objectNameText:FlxText = new FlxText(140, 64, 0, 'Object Name');
+
+        var saveToDefaultCheckbox:FlxUICheckBox = new FlxUICheckBox(15, 85, null, null, 'Save to Default (DEBUG)');
         saveToDefaultCheckbox.name = 'saveToDefaultCheckbox';
         saveToDefaultCheckbox.callback = function(){
             saveToDefault = saveToDefaultCheckbox.checked;
@@ -331,6 +373,8 @@ class EditorState extends FlappyState
         #if debug
         group.add(saveToDefaultCheckbox);
         #end
+        group.add(objectNameDropdown);
+        group.add(objectNameText);
 
         tabMenu.addGroup(group);
     }
@@ -360,12 +404,77 @@ class EditorState extends FlappyState
         tabMenu.addGroup(group);
     }
 
+    var objectPosXStepper:FlxUINumericStepper;
+    var objectPosYStepper:FlxUINumericStepper;
+    var objectNameDropdown:FlxUIDropDownMenu;
+    var objectFlippedCheckbox:FlxUICheckBox;
+
     private function addObjectTab()
     {
         var group:FlxUI = new FlxUI(null, tabMenu);
         group.name = 'object';
+
+        objectPosXStepper  = new FlxUINumericStepper(15, 10, 5, 0, 0, 999999);
+        objectPosXStepper.name = 'objectPosXStepper';
+        numericSteppers.push(objectPosXStepper);
+
+        objectPosYStepper = new FlxUINumericStepper(15, 25, 5, 0, 0, 999999);
+        objectPosYStepper.name = 'objectPosYStepper';
+        numericSteppers.push(objectPosYStepper);
+
+        var objectPosText:FlxText = new FlxText(77, 17.5, 0, 'Position X/Y');
+
+        var objectNameItems = FlxUIDropDownMenu.makeStrIdLabelArray(objectNames);
+        objectNameDropdown = new FlxUIDropDownMenu(15, 45, objectNameItems, function(objectName:String){
+            if (selectedObject != null)
+            {
+                for (item in levelData.objects)
+                {
+                    if (item.x == selectedObject.x && item.y == selectedObject.y && item.flipped == selectedObject.flipped
+                        && item.name == selectedObject.objectName)
+                    {
+                        item.name = objectName;
+                        selectedObject.objectName = objectName;
+                        updateObjectTab();
+                    }
+                }
+            }
+        });
+        objectNameDropdown.selectedLabel = '';
+        dropdowns.push(objectNameDropdown);
+
+        var objectNameText:FlxText = new FlxText(140, 49, 0, 'Object Name');
+
+        objectFlippedCheckbox = new FlxUICheckBox(15, 70, null, null, 'Flipped?');
+        objectFlippedCheckbox.callback = function(){
+            if (selectedObject != null)
+                selectedObject.flipped = objectFlippedCheckbox.checked;
+        }
+
+        group.add(objectPosXStepper);
+        group.add(objectPosYStepper);
+        group.add(objectPosText);
+        group.add(objectFlippedCheckbox);
+        group.add(objectNameDropdown);
+        group.add(objectNameText);
         
         tabMenu.addGroup(group);
+    }
+
+    private function updateObjectTab()
+    {
+        if (selectedObject != null)
+        {
+            objectPosXStepper.value = selectedObject.x;
+            objectPosYStepper.value = selectedObject.y;
+            objectNameDropdown.selectedLabel = selectedObject.objectName;
+            objectFlippedCheckbox.checked = selectedObject.flipped;
+
+            if (selectedObject.canBeFlipped)
+                objectFlippedCheckbox.visible = true;
+            else
+                objectFlippedCheckbox.visible = false;
+        }
     }
 
     override function getEvent(id:String, sender:Dynamic, data:Dynamic, ?params:Array<Dynamic>)
@@ -392,6 +501,27 @@ class EditorState extends FlappyState
             {
                 case 'scrollSpeedStepper':
                     levelData.scrollSpeed = stepper.value;
+                case 'objectPosXStepper' | 'objectPosYStepper':
+                    if (selectedObject != null)
+                    {
+                        for (item in levelData.objects)
+                        {
+                            if (item.x == selectedObject.x && item.y == selectedObject.y && item.flipped == selectedObject.flipped
+                                && item.name == selectedObject.objectName)
+                            {
+                                if (name == 'objectPosXStepper')
+                                {
+                                    item.x = stepper.value;
+                                    selectedObject.x = item.x;
+                                }
+                                else
+                                {
+                                    item.y = stepper.value;
+                                    selectedObject.y = item.y;
+                                }
+                            }
+                        }
+                    }
             }
         }
     }
@@ -409,46 +539,31 @@ class EditorState extends FlappyState
     {
         var jsonString:String = Json.stringify(levelData, '\t');
 
-        var path:String = Paths.folder('levels/custom');
+        var path:String = 'custom';
         if (saveToDefault)
-            path = Paths.folder('levels/default');
-
-        var fileFolderPath:String = '$path/$levelName';
+            path = 'default';
 
         #if sys
-        if (!Paths.fileExists(path))
-            FileSystem.createDirectory(path);
-        if (!Paths.fileExists(fileFolderPath))
-            FileSystem.createDirectory(fileFolderPath);
+        if (!Paths.fileExists(Paths.levelsFolder(path, levelName)))
+            FileSystem.createDirectory(Paths.levelsFolder(path, levelName));
 
-        File.saveContent('$fileFolderPath/level.json', jsonString);
+        File.saveContent(Paths.levelFile(path, levelName), jsonString);
         #end
     }
 
     private function loadLevel(levelName:String)
     {
-        var path:String = Paths.folder('levels/custom');
-        var levelsPath:String = Paths.folder('levels/default');
-
-        var filePath:String = '$path/$levelName/level.json';
-        var fileLevelsPath:String = '$levelsPath/$levelName/level.json';
-
         #if sys
-        var foundPath:String = null;
+        var json:LevelData = FlappyTools.loadJSON(Paths.levelFile('custom', levelName));
+        if (json != null)
+            levelData = json;
 
-        if (Paths.fileExists(filePath))
-            foundPath = filePath;
-
-        if (Paths.fileExists(fileLevelsPath))
-            foundPath = fileLevelsPath;
-
-        if (foundPath != null)
-        {
-            var content:String = Paths.getText(foundPath);
-            levelData = Json.parse(content);
-        }
+        var json:LevelData = FlappyTools.loadJSON(Paths.levelFile('default', levelName));
+        if (json != null)
+            levelData = json;
         #end
 
+        setObjectSelection(selectedObject, false);
         updateObjects();
     }
 }

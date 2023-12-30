@@ -98,9 +98,29 @@ class Paths
         return 'assets/fonts/$key';
     }
 
-    public static function folder(folderName:String)
+    public static function levelsFolder(levelFolder:String = 'default', ?levelName:String)
     {
-        return 'assets/$folderName';
+        var additionalPath:String = '';
+
+        if (levelName != null)
+            additionalPath = '/$levelName';
+
+        return 'assets/levels/${levelFolder}${additionalPath}';
+    }
+
+    public static function levelFile(levelFolder:String = 'default', levelName:String)
+    {
+        return '${levelsFolder(levelFolder, levelName)}/level.json';
+    }
+
+    public static function objectJson(objectName:String)
+    {
+        return 'assets/data/objects/$objectName.json';
+    }
+
+    public static function textFile(folder:String = 'data', key:String)
+    {
+        return 'assets/$folder/$key.txt';
     }
 
     public static function fileExists(path:String)

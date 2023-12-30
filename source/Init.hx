@@ -98,6 +98,8 @@ class Init extends FlxState
 
         // Objects
         addImage('objects/pipe');
+        addImage('objects/point');
+        addImage('objects/end');
 
         // Other
         addImage('title');

@@ -2,6 +2,7 @@ package states;
 
 import backend.FlappySettings;
 import backend.FlappyState;
+import backend.FlappyTools;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.text.FlxText;
@@ -9,10 +10,10 @@ import flixel.util.FlxColor;
 import objects.Background;
 import objects.ButtonGroup;
 import objects.CameraObject;
+import states.EditorState.LevelData;
 
 class MenuState extends FlappyState
 {
-    public static var camPosX:Float = 0;
     var bg:Background;
 
     var messageBox:FlxSprite;
@@ -52,8 +53,9 @@ class MenuState extends FlappyState
 
     override function create()
     {
-        camPosX = 0;
         PlayState.editorMode = false;
+
+        FlappySettings.levelJson = FlappyTools.loadJSON(Paths.levelFile('custom', 'example-level'));
 
         bg = new Background();
         add(bg);
@@ -123,7 +125,6 @@ class MenuState extends FlappyState
         }
 
         camFollow.x += FlappySettings.menuScrollSpeed;
-        camPosX = camFollow.x;
 
         super.update(elapsed);
     }

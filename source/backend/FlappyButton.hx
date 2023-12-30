@@ -31,7 +31,8 @@ class FlappyButton extends FlxExtendedMouseSprite
         this.buttonName = buttonName;
 
         loadGraphic(Paths.imageFile('buttons/$buttonName'));
-        setGraphicSize(Std.int(width * 3));
+        
+        scale.set(3, 3);
         updateHitbox();
 
         scrollFactor.set();

@@ -315,17 +315,15 @@ class EditorState extends FlappyState
                 obj.selected = false;
                 break;
             }
-        }
-
-        if (object != null)
-            object.selected = select;
+        }  
         
-        if (select)
+        if (select && object != null)
         {
+            object.selected = select;
             selectedObject = object;
-            updateObjectTab();
             
             tabMenu.selected_tab = 2;
+            updateObjectTab();
         }
         else
             selectedObject = null;
@@ -379,18 +377,21 @@ class EditorState extends FlappyState
         tabMenu.addGroup(group);
     }
 
+    var levelNameInput:FlxUIInputText;
+    var scrollSpeedStepper:FlxUINumericStepper;
+
     private function addLevelTab()
     {
         var group:FlxUI = new FlxUI(null, tabMenu);
         group.name = 'level';
 
-        var levelNameInput:FlxUIInputText = new FlxUIInputText(15, 13, 100, levelName);
+        levelNameInput = new FlxUIInputText(15, 13, 100, levelName);
         levelNameInput.name = 'levelNameInput';
         inputTexts.push(levelNameInput);
 
         var levelNameText:FlxText = new FlxText(120, 14, 0, 'Level Name');
 
-        var scrollSpeedStepper:FlxUINumericStepper = new FlxUINumericStepper(15, 35, 1, levelData.scrollSpeed, 1);
+        scrollSpeedStepper = new FlxUINumericStepper(15, 35, 1, levelData.scrollSpeed, 1);
         scrollSpeedStepper.name = 'scrollSpeedStepper';
         numericSteppers.push(scrollSpeedStepper);
 
@@ -402,6 +403,12 @@ class EditorState extends FlappyState
         group.add(scrollSpeedText);
         
         tabMenu.addGroup(group);
+    }
+
+    private function updateLevelTab()
+    {
+        levelNameInput.text = levelName;
+        scrollSpeedStepper.value = levelData.scrollSpeed;
     }
 
     var objectPosXStepper:FlxUINumericStepper;
@@ -463,6 +470,8 @@ class EditorState extends FlappyState
 
     private function updateObjectTab()
     {
+        objectFlippedCheckbox.visible = false;
+
         if (selectedObject != null)
         {
             objectPosXStepper.value = selectedObject.x;
@@ -472,8 +481,6 @@ class EditorState extends FlappyState
 
             if (selectedObject.canBeFlipped)
                 objectFlippedCheckbox.visible = true;
-            else
-                objectFlippedCheckbox.visible = false;
         }
     }
 
@@ -553,17 +560,31 @@ class EditorState extends FlappyState
 
     private function loadLevel(levelName:String)
     {
+        var newJsonLoaded:Bool = false;
+
         #if sys
         var json:LevelData = FlappyTools.loadJSON(Paths.levelFile('custom', levelName));
         if (json != null)
+        {
             levelData = json;
+            newJsonLoaded = true;
+        }
 
         var json:LevelData = FlappyTools.loadJSON(Paths.levelFile('default', levelName));
         if (json != null)
+        {
             levelData = json;
+            newJsonLoaded = true;
+        }
         #end
 
-        setObjectSelection(selectedObject, false);
-        updateObjects();
+        if (newJsonLoaded)
+        {
+            this.levelName = levelName;
+
+            setObjectSelection(selectedObject, false);
+            updateObjects();
+            updateLevelTab();
+        }
     }
 }

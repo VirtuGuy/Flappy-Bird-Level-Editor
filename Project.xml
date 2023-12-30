@@ -39,6 +39,9 @@
 	<!--Embeds the font directory-->
 	<assets path="assets/fonts" embed="true" />
 
+	<!--Some stuff-->
+	<assets path="gameart/readme.txt" rename="readme.txt" />
+
 	<!-- _______________________________ Libraries ______________________________ -->
 
 	<haxelib name="flixel" />
@@ -87,4 +90,8 @@
 	<!-- _________________________________ Custom _______________________________ -->
 
 	<!--Place custom nodes like icons here (higher priority to override the HaxeFlixel icon)-->
+	<icon path="gameart/icon16.png" size="16" />
+	<icon path="gameart/icon32.png" size="32" />
+	<icon path="gameart/icon64.png" size="64" />
+	<icon path="gameart/icon.png" />
 </project>

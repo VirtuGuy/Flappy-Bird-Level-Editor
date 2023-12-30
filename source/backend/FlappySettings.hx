@@ -1,10 +1,13 @@
 package backend;
 
+import states.EditorState.LevelData;
+
 class FlappySettings
 {
     // Main game settings
     public static var menuScrollSpeed:Float = 2;
     public static var playerSkin:String = 'default';
+    public static var levelJson:LevelData = null;
 
     // Editor settings
     public static var editorScrollSpeed:Float = 8;

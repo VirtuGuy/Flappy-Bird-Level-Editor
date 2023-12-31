@@ -45,7 +45,7 @@ class PauseSubstate extends FlappySubstate
             close();
         });
 
-        grpButtons = new ButtonGroup(buttons, 0, buttonCallbacks);
+        grpButtons = new ButtonGroup(buttons, Vertical, 0, buttonCallbacks);
         add(grpButtons);
 
         grpButtons.setButtonClickSFX(0, false);

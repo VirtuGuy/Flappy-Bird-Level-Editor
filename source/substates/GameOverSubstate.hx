@@ -47,7 +47,7 @@ class GameOverSubstate extends FlappySubstate
         gameoverText.scrollFactor.set();
         add(gameoverText);
 
-        grpButtons = new ButtonGroup(buttons, 1, buttonCallbacks);
+        grpButtons = new ButtonGroup(buttons, Vertical, 1, buttonCallbacks);
         add(grpButtons);
 
         bg.alpha = 0;

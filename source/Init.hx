@@ -28,7 +28,7 @@ class Init extends FlxState
     public static var curVersion:String = '';
     public static var latestVersion:String = '';
     public static var showOutdated:Bool = false;
-    public static var message:String = '';
+    public static var messages:Array<String> = [];
 
     override function create()
     {
@@ -52,8 +52,10 @@ class Init extends FlxState
         // Message
         var messageHttp:Http = new Http(FlappySettings.messageLink);
         messageHttp.onData = function(data:String){
-            message = data.split('\n')[0].trim();
-            trace('MSG: ' + message);
+            for (msg in data.trim().split('\n'))
+            {
+                messages.push(msg.trim());
+            }
         }
         messageHttp.onError = function(error){
             trace('Error getting message (' + error + ')!');

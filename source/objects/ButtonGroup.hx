@@ -7,9 +7,16 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxSort;
 
+enum ButtonLayout
+{
+    Horizontal;
+    Vertical;
+}
+
 class ButtonGroup extends FlxTypedGroup<FlappyButton>
 {
     public var buttons:Array<String> = [];
+    public var buttonLayout:ButtonLayout = Vertical;
     public var fadeInDelay:Float = -1;
 
     public var clickCallbacks:Array<Void->Void> = [];
@@ -21,25 +28,52 @@ class ButtonGroup extends FlxTypedGroup<FlappyButton>
         return FlxSort.byY(FlxSort.ASCENDING, obj1, obj2);
     }
 
-    override public function new(buttons:Array<String>, fadeInDelay:Float = -1, ?clickCallbacks:Array<Void->Void>,
-        ?releaseCallbacks:Array<Void->Void>, ?hoverCallbacks:Array<Void->Void>)
+    override public function new(buttons:Array<String>, buttonLayout:ButtonLayout = Vertical, fadeInDelay:Float = -1,
+        ?clickCallbacks:Array<Void->Void>, ?releaseCallbacks:Array<Void->Void>, ?hoverCallbacks:Array<Void->Void>)
     {
         super();
 
         this.buttons = buttons;
+        this.buttonLayout = buttonLayout;
         this.fadeInDelay = fadeInDelay;
         this.clickCallbacks = clickCallbacks;
         this.releaseCallbacks = releaseCallbacks;
         this.hoverCallbacks = hoverCallbacks;
 
-        var spacing:Float = 47;
-		var top:Float = (FlxG.height - (spacing * (buttons.length))) / 2;
+        var spacingX:Float = 124;
+        var spacingY:Float = 47;
+        var right:Float = (FlxG.width - (spacingX * (buttons.length))) / 2;
+		var top:Float = (FlxG.height - (spacingY * (buttons.length))) / 2;
 
         for (i in 0...buttons.length)
         {
-            var button:FlappyButton = new FlappyButton(0, top + spacing * i, buttons[i]);
+            var x:Null<Float> = null;
+            var y:Null<Float> = null;
+
+            switch (buttonLayout)
+            {
+                case Vertical:
+                    x = null;
+                    y = top + spacingY * i;
+                case Horizontal:
+                    x = right + spacingX * i;
+                    y = null;
+            }
+
+            var realX:Float = 0;
+            var realY:Float = 0;
+
+            if (x != null)
+                realX = x;
+            if (y != null)
+                realY = y;
+
+            var button:FlappyButton = new FlappyButton(realX, realY, buttons[i]);
             button.ID = i;
-            button.screenCenter(X);
+            if (x == null)
+                button.screenCenter(X);
+            if (y == null)
+                button.screenCenter(Y);
             button.clickSound = true;
 
             if (clickCallbacks != null && clickCallbacks[i] != null)

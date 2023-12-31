@@ -19,6 +19,7 @@ import flixel.util.FlxCollision;
 import flixel.util.FlxColor;
 import haxe.Json;
 import objects.Background;
+import objects.ButtonGroup;
 import objects.CameraObject;
 import objects.Object;
 
@@ -29,6 +30,7 @@ import sys.io.File;
 #end
 
 typedef LevelData = {
+    levelName:String,
     scrollSpeed:Float,
     objects:Array<LevelObjectData>
 }
@@ -47,6 +49,7 @@ class EditorState extends FlappyState
     var hudCamera:FlxCamera;
 
     var grpObjects:FlxTypedGroup<Object>;
+    var grpLines:FlxTypedGroup<FlxSprite>;
     var tabMenu:FlxUITabMenu;
 
     // Other things
@@ -62,21 +65,45 @@ class EditorState extends FlappyState
 
     var editObject:Object;
     var editCursor:FlxSprite;
+    var instructionsTxt:FlxText;
+    var grpButtons:ButtonGroup;
+
+    var buttons:Array<String> = [
+        'exit',
+        'start'
+    ];
+
+    var buttonCallbacks:Array<Void->Void> = [
+        function(){
+            FlappyState.switchState(new MenuState());
+        }
+    ];
+
     var gridSize:Int = FlappySettings.editorGridSize;
 
     var selectedObject:Object = null;
 
     // Editor properties
     var levelData:LevelData = {
+        levelName: 'example-level',
         scrollSpeed: 4,
         objects: []
     }
 
-    var levelName:String = 'example-level';
     var loadLevelName:String = '';
     var saveToDefault:Bool = false;
 
     var objectNames:Array<String> = [];
+
+    override public function new(?levelData:LevelData)
+    {
+        super();
+
+        if (levelData != null)
+        {
+            this.levelData = levelData;
+        }
+    }
     
     override function create()
     {
@@ -85,6 +112,11 @@ class EditorState extends FlappyState
         hudCamera = new FlxCamera();
         hudCamera.bgColor.alpha = 0;
         FlxG.cameras.add(hudCamera, false);
+
+        buttonCallbacks.push(function(){
+            FlappySettings.levelJson = levelData;
+            FlappyState.switchState(new PlayState());
+        });
 
         var objectsPath:String = Paths.textFile('data', 'objectsList');
         if (Paths.fileExists(objectsPath))
@@ -99,6 +131,9 @@ class EditorState extends FlappyState
 
         bg = new Background();
         add(bg);
+
+        grpLines = new FlxTypedGroup<FlxSprite>();
+        bg.backObjects.add(grpLines);
 
         grpObjects = new FlxTypedGroup<Object>();
 		bg.backObjects.add(grpObjects);
@@ -119,15 +154,49 @@ class EditorState extends FlappyState
         tabMenu.scrollFactor.set();
         add(tabMenu);
 
+        instructionsTxt = new FlxText(0, 0, tabMenu.width + 32, '', 18);
+        instructionsTxt.setFormat(Paths.fontFile(Paths.fonts.get('default')), 18, FlxColor.WHITE, RIGHT, OUTLINE, FlxColor.BLACK);
+
+        instructionsTxt.text = 'Controls:'
+        + '\nA/D or LeFt/Right to move'
+        + '\nHold SHIFT to speed up moving'
+        + '\nHold CTRL to slow down moving'
+        + '\nScroll wheel to scroll'
+        + '\nLeFt click to place object'
+        + '\nRight click to delete object'
+        + '\nCTRL + LeFt click to select object'
+        + '\nT to toggle buttons'
+        + '\nX to hide instructions';
+
+        instructionsTxt.x = FlxG.width - instructionsTxt.width;
+        instructionsTxt.y = tabMenu.y - instructionsTxt.height - 18;
+
+        instructionsTxt.scrollFactor.set();
+        add(instructionsTxt);
+
+        grpButtons = new ButtonGroup(buttons, Horizontal, -1, buttonCallbacks);
+
+        for (button in grpButtons.members)
+        {
+            button.y = button.height / 2.5;
+            button.x -= button.width * 1.5;
+        }
+
+        add(grpButtons);
+
         addEditorTab();
         addLevelTab();
         addObjectTab();
+
+        loadStuff();
 
         camFollow = new CameraObject();
         camFollow.screenCenter();
 		camFollow.y -= 12;
 
         tabMenu.cameras = [hudCamera];
+        instructionsTxt.cameras = [hudCamera];
+        grpButtons.cameras = [hudCamera];
 
         super.create();
     }
@@ -189,14 +258,22 @@ class EditorState extends FlappyState
     
                 if (FlxG.keys.pressed.SHIFT)
                     speed *= 1.5;
+                else if (FlxG.keys.pressed.CONTROL)
+                    speed /= 1.5;
     
                 camFollow.x += posAdd * speed;
             }
-    
-            // Back
-            if (FlxG.keys.justPressed.ESCAPE)
+
+            // Hide instructions
+            if (FlxG.keys.justPressed.X && instructionsTxt.visible)
+                instructionsTxt.visible = false;
+
+            // Toggle buttons
+            if (FlxG.keys.justPressed.T)
             {
-                FlappyState.switchState(new MenuState());
+                for (button in grpButtons.members)
+                    button.visible = !button.visible;
+                grpButtons.visible = grpButtons.members[0].visible;
             }
     
             // Scroll
@@ -217,7 +294,8 @@ class EditorState extends FlappyState
             var addKey:Bool = FlxG.mouse.justPressed;
             var deleteKey:Bool = FlxG.mouse.justPressedRight;
 
-            if ((selectKey || addKey || deleteKey) && !FlxG.mouse.overlaps(tabMenu, hudCamera))
+            if ((selectKey || addKey || deleteKey) && !FlxG.mouse.overlaps(tabMenu, hudCamera)
+                && (!FlxG.mouse.overlaps(grpButtons, hudCamera) || !grpButtons.visible))
             {
                 if (deleteKey || selectKey)
                 {
@@ -257,6 +335,27 @@ class EditorState extends FlappyState
             var object:Object = new Object(item.x, item.y, item.name, true);
             object.flipped = item.flipped;
             grpObjects.add(object);
+        }
+
+        updateLines();
+    }
+
+    function updateLines()
+    {
+        while (grpLines.length > 0)
+        {
+            grpLines.remove(grpLines.members[0], true);
+        }
+
+        for (item in levelData.objects)
+        {
+            if (item.name == 'point' || item.name == 'end')
+            {
+                var line:FlxSprite = new FlxSprite(item.x, 0);
+                line.makeGraphic(2, FlxG.height + 50, FlxColor.fromRGB(255, 255, 255, 135));
+                line.screenCenter(Y);
+                grpLines.add(line);
+            }
         }
     }
 
@@ -349,16 +448,20 @@ class EditorState extends FlappyState
 
         var loadLevelNameText:FlxText = new FlxText(109, 23, 0, 'Load Level Name');
 
+        var clearButton:FlxButton = new FlxButton(15, 60, 'Clear Level', function(){
+            clearLevel();
+        });
+
         var objectNameItems = FlxUIDropDownMenu.makeStrIdLabelArray(objectNames);
-        var objectNameDropdown:FlxUIDropDownMenu = new FlxUIDropDownMenu(15, 60, objectNameItems, function(objectName:String){
+        var objectNameDropdown:FlxUIDropDownMenu = new FlxUIDropDownMenu(15, 85, objectNameItems, function(objectName:String){
             editObject.objectName = objectName;
         });
         objectNameDropdown.selectedLabel = editObject.objectName;
         dropdowns.push(objectNameDropdown);
 
-        var objectNameText:FlxText = new FlxText(140, 64, 0, 'Object Name');
+        var objectNameText:FlxText = new FlxText(140, 89, 0, 'Object Name');
 
-        var saveToDefaultCheckbox:FlxUICheckBox = new FlxUICheckBox(15, 85, null, null, 'Save to Default (DEBUG)');
+        var saveToDefaultCheckbox:FlxUICheckBox = new FlxUICheckBox(15, 110, null, null, 'Save to Default (DEBUG)');
         saveToDefaultCheckbox.name = 'saveToDefaultCheckbox';
         saveToDefaultCheckbox.callback = function(){
             saveToDefault = saveToDefaultCheckbox.checked;
@@ -368,7 +471,8 @@ class EditorState extends FlappyState
         group.add(loadButton);
         group.add(loadLevelNameInput);
         group.add(loadLevelNameText);
-        #if debug
+        group.add(clearButton);
+        #if !debug
         group.add(saveToDefaultCheckbox);
         #end
         group.add(objectNameDropdown);
@@ -385,7 +489,7 @@ class EditorState extends FlappyState
         var group:FlxUI = new FlxUI(null, tabMenu);
         group.name = 'level';
 
-        levelNameInput = new FlxUIInputText(15, 13, 100, levelName);
+        levelNameInput = new FlxUIInputText(15, 13, 100, levelData.levelName);
         levelNameInput.name = 'levelNameInput';
         inputTexts.push(levelNameInput);
 
@@ -407,7 +511,7 @@ class EditorState extends FlappyState
 
     private function updateLevelTab()
     {
-        levelNameInput.text = levelName;
+        levelNameInput.text = levelData.levelName;
         scrollSpeedStepper.value = levelData.scrollSpeed;
     }
 
@@ -437,12 +541,12 @@ class EditorState extends FlappyState
             {
                 for (item in levelData.objects)
                 {
-                    if (item.x == selectedObject.x && item.y == selectedObject.y && item.flipped == selectedObject.flipped
-                        && item.name == selectedObject.objectName)
+                    if (item.x == selectedObject.x && item.y == selectedObject.y && item.name == selectedObject.objectName)
                     {
                         item.name = objectName;
                         selectedObject.objectName = objectName;
                         updateObjectTab();
+                        updateLines();
                     }
                 }
             }
@@ -455,7 +559,18 @@ class EditorState extends FlappyState
         objectFlippedCheckbox = new FlxUICheckBox(15, 70, null, null, 'Flipped?');
         objectFlippedCheckbox.callback = function(){
             if (selectedObject != null)
-                selectedObject.flipped = objectFlippedCheckbox.checked;
+            {
+                for (item in levelData.objects)
+                {
+                    if (item.x == selectedObject.x && item.y == selectedObject.y && item.name == selectedObject.objectName)
+                    {
+                        item.flipped = objectFlippedCheckbox.checked;
+                        selectedObject.flipped = objectFlippedCheckbox.checked;
+                        updateObjectTab();
+                        updateLines();
+                    }
+                }
+            }
         }
 
         group.add(objectPosXStepper);
@@ -470,6 +585,7 @@ class EditorState extends FlappyState
 
     private function updateObjectTab()
     {
+        objectFlippedCheckbox.active = false;
         objectFlippedCheckbox.visible = false;
 
         if (selectedObject != null)
@@ -480,7 +596,10 @@ class EditorState extends FlappyState
             objectFlippedCheckbox.checked = selectedObject.flipped;
 
             if (selectedObject.canBeFlipped)
+            {
+                objectFlippedCheckbox.active = true;
                 objectFlippedCheckbox.visible = true;
+            }
         }
     }
 
@@ -495,8 +614,8 @@ class EditorState extends FlappyState
             {
                 case 'loadLevelInput':
                     loadLevelName = input.text;
-                case 'levelName':
-                    levelName = input.text;
+                case 'levelNameInput':
+                    levelData.levelName = input.text;
             }
         }
         else if (id == FlxUINumericStepper.CHANGE_EVENT && (sender is FlxUINumericStepper))
@@ -513,8 +632,7 @@ class EditorState extends FlappyState
                     {
                         for (item in levelData.objects)
                         {
-                            if (item.x == selectedObject.x && item.y == selectedObject.y && item.flipped == selectedObject.flipped
-                                && item.name == selectedObject.objectName)
+                            if (item.x == selectedObject.x && item.y == selectedObject.y && item.name == selectedObject.objectName)
                             {
                                 if (name == 'objectPosXStepper')
                                 {
@@ -526,9 +644,22 @@ class EditorState extends FlappyState
                                     item.y = stepper.value;
                                     selectedObject.y = item.y;
                                 }
+
+                                updateLines();
                             }
                         }
                     }
+            }
+        }
+        else if (id == FlxUITabMenu.CLICK_EVENT && (sender is FlxUITabMenu))
+        {
+            var tabMenu:FlxUITabMenu = cast sender;
+            var curTab:Int = tabMenu.selected_tab;
+
+            switch (curTab)
+            {
+                case 2:
+                    updateObjectTab();
             }
         }
     }
@@ -551,10 +682,10 @@ class EditorState extends FlappyState
             path = 'default';
 
         #if sys
-        if (!Paths.fileExists(Paths.levelsFolder(path, levelName)))
-            FileSystem.createDirectory(Paths.levelsFolder(path, levelName));
+        if (!Paths.fileExists(Paths.levelsFolder(path, levelData.levelName)))
+            FileSystem.createDirectory(Paths.levelsFolder(path, levelData.levelName));
 
-        File.saveContent(Paths.levelFile(path, levelName), jsonString);
+        File.saveContent(Paths.levelFile(path, levelData.levelName), jsonString);
         #end
     }
 
@@ -580,11 +711,20 @@ class EditorState extends FlappyState
 
         if (newJsonLoaded)
         {
-            this.levelName = levelName;
-
-            setObjectSelection(selectedObject, false);
-            updateObjects();
-            updateLevelTab();
+            loadStuff();
         }
+    }
+
+    function loadStuff()
+    {
+        setObjectSelection(selectedObject, false);
+        updateObjects();
+        updateLevelTab();
+    }
+
+    private function clearLevel()
+    {
+        levelData.objects = [];
+        updateObjects();
     }
 }

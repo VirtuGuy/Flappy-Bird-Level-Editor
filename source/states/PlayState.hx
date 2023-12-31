@@ -99,6 +99,12 @@ class PlayState extends FlappyState
 
 	function die(playHitSound:Bool = true)
 	{
+		if (editorMode)
+		{
+			editor();
+			return;
+		}
+
 		bird.killBird(playHitSound);
 		remove(pauseButton, true);
 		remove(pointsTxt, true);
@@ -143,8 +149,15 @@ class PlayState extends FlappyState
 
 	function checkSpecialObjects()
 	{
+		var removeList:Array<Object> = [];
+
 		for (object in grpObjects.members)
 		{
+			if (object.getScreenPosition().x < 0 - (object.width / 2))
+			{
+				removeList.push(object);
+			}
+
 			if (bird.x > object.getScreenPosition().x - (bird.width / 2))
 			{
 				switch (object.objectName)
@@ -156,6 +169,9 @@ class PlayState extends FlappyState
 				}
 			}
 		}
+
+		for (object in removeList)
+			grpObjects.remove(object, true);
 	}
 
 	function pause()
@@ -165,6 +181,11 @@ class PlayState extends FlappyState
 		openSubState(new PauseSubstate());
 
 		persistentUpdate = false;
+	}
+
+	function editor()
+	{
+		FlappyState.switchState(new EditorState(levelData));
 	}
 
 	override function update(elapsed:Float)
@@ -178,8 +199,11 @@ class PlayState extends FlappyState
 				bird.flap();
 			}
 
-			if (keys.PAUSE)
+			if (keys.PAUSE && !editorMode)
 				pause();
+
+			if (FlxG.keys.justPressed.ESCAPE && editorMode)
+				editor();
 		}
 
 		checkDeath();

@@ -5,6 +5,7 @@ import backend.FlappyState;
 import backend.FlappyTools;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import objects.Background;
@@ -95,11 +96,14 @@ class MenuState extends FlappyState
         messageBox.screenCenter(X);
         messageBox.scrollFactor.set();
 
-        messageText = new FlxText(0, messageBox.y, 0, Init.message, 24);
+        var message:String = FlxG.random.getObject(Init.messages);
+
+        messageText = new FlxText(0, messageBox.y, 0, message, 24);
         messageText.setFormat(Paths.fontFile(Paths.fonts.get('default')), 24, FlxColor.WHITE, RIGHT);
         messageText.scrollFactor.set();
+        messageText.x = -(FlxG.width + (messageText.width / 4));
 
-        if (Init.message != '')
+        if (message != '')
         {
             add(messageBox);
             add(messageText);
@@ -111,13 +115,13 @@ class MenuState extends FlappyState
 
         super.create();
 
-        grpButtons = new ButtonGroup(buttons, 0.5, buttonCallbacks);
+        grpButtons = new ButtonGroup(buttons, Vertical, 0.5, buttonCallbacks);
         add(grpButtons);
     }
 
     override function update(elapsed:Float)
     {
-        if (Init.message != '')
+        if (messageText.text != '')
         {
             messageText.x += 2;
             if (messageText.x > FlxG.width + (messageText.width / 4))

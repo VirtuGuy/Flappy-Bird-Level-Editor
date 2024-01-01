@@ -11,6 +11,7 @@ import flixel.addons.ui.FlxUICheckBox;
 import flixel.addons.ui.FlxUIDropDownMenu;
 import flixel.addons.ui.FlxUIInputText;
 import flixel.addons.ui.FlxUINumericStepper;
+import flixel.addons.ui.FlxUISlider;
 import flixel.addons.ui.FlxUITabMenu;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.text.FlxText;
@@ -39,7 +40,9 @@ typedef LevelObjectData = {
     name:String,
     x:Float,
     y:Float,
-    flipped:Bool
+    scale:Float,
+    flipped:Bool,
+    variables:Array<Array<Dynamic>>
 }
 
 class EditorState extends FlappyState
@@ -312,7 +315,7 @@ class EditorState extends FlappyState
                     }
                 }
                 else
-                    placeObject(editObject.x, editObject.y, editObject.objectName, editObject.flipped);
+                    placeObject(editObject.x, editObject.y, editObject.objectName, editObject.scaleMulti, editObject.flipped);
             }
         }
 
@@ -335,7 +338,9 @@ class EditorState extends FlappyState
         for (item in levelData.objects)
         {
             var object:Object = new Object(item.x, item.y, item.name, true);
+            object.scaleMulti = item.scale;
             object.flipped = item.flipped;
+            object.variables = item.variables;
             grpObjects.add(object);
         }
 
@@ -361,13 +366,13 @@ class EditorState extends FlappyState
         }
     }
 
-    function placeObject(x:Float = 0, y:Float = 0, name:String, flipped:Bool)
+    function placeObject(x:Float = 0, y:Float = 0, name:String, scale:Float, flipped:Bool)
     {
         var canPlace:Bool = true;
 
         for (item in levelData.objects)
         {
-            if (item.x == x && item.y == y && item.name == name && item.flipped == flipped)
+            if (item.x == x && item.y == y && item.name == name && item.scale == scale && item.flipped == flipped)
             {
                 canPlace = false;
                 break;
@@ -379,11 +384,23 @@ class EditorState extends FlappyState
             if (selectedObject != null)
                 setObjectSelection(selectedObject, false);
 
+            var variables:Array<Array<Dynamic>> = [];
+
+            if (Paths.fileExists(Paths.objectJson(name)))
+            {
+                var json:ObjectData = FlappyTools.loadJSON(Paths.objectJson(name));
+
+                if (json.variables != null)
+                    variables = json.variables;
+            }
+
             levelData.objects.push({
                 name: name,
                 x: x,
                 y: y,
-                flipped: flipped
+                scale: scale,
+                flipped: flipped,
+                variables: variables
             });
         }
 
@@ -425,10 +442,11 @@ class EditorState extends FlappyState
             selectedObject = object;
             
             tabMenu.selected_tab = 2;
-            updateObjectTab();
         }
         else
             selectedObject = null;
+
+        updateObjectTab();
     }
 
     // Editor tabs
@@ -522,6 +540,11 @@ class EditorState extends FlappyState
     var objectPosYStepper:FlxUINumericStepper;
     var objectNameDropdown:FlxUIDropDownMenu;
     var objectFlippedCheckbox:FlxUICheckBox;
+    var objectScaleStepper:FlxUINumericStepper;
+    var objectScaleText:FlxText;
+    var objectVarDropdown:FlxUIDropDownMenu;
+    var objectVarInput:FlxUIInputText;
+    var objectVarText:FlxText;
 
     private function addObjectTab()
     {
@@ -548,6 +571,19 @@ class EditorState extends FlappyState
                     {
                         item.name = objectName;
                         selectedObject.objectName = objectName;
+
+                        item.variables = [];
+
+                        if (Paths.fileExists(Paths.objectJson(item.name)))
+                        {
+                            var json:ObjectData = FlappyTools.loadJSON(Paths.objectJson(item.name));
+            
+                            if (json.variables != null)
+                                item.variables = json.variables;
+                        }
+
+                        selectedObject.variables = item.variables;
+
                         updateObjectTab();
                         updateLines();
                     }
@@ -576,10 +612,44 @@ class EditorState extends FlappyState
             }
         }
 
+        objectScaleStepper = new FlxUINumericStepper(15, 95, 0.1, 1, 0.1, 10, 2);
+        objectScaleStepper.name = 'objectScaleStepper';
+        numericSteppers.push(objectScaleStepper);
+
+        objectScaleText = new FlxText(77, 95, 0, 'Scale');
+
+        objectVarText = new FlxText(22, 120, 0, 'Variables');
+
+        var objectVarItems = FlxUIDropDownMenu.makeStrIdLabelArray(['no']);
+        objectVarDropdown = new FlxUIDropDownMenu(15, 135, objectVarItems, function(variable:String){
+            if (objectVarInput != null && selectedObject != null)
+            {
+                for (varr in selectedObject.variables)
+                {
+                    if (varr[0] == variable)
+                    {
+                        objectVarInput.text = Std.string(varr[1]);
+                    }
+                }
+            }
+        });
+
+        objectVarDropdown.selectedLabel = 'no';
+        dropdowns.push(objectVarDropdown);
+
+        objectVarInput = new FlxUIInputText(140, 138, 50, '');
+        objectVarInput.name = 'objectVarInput';
+        inputTexts.push(objectVarInput);
+
         group.add(objectPosXStepper);
         group.add(objectPosYStepper);
         group.add(objectPosText);
         group.add(objectFlippedCheckbox);
+        group.add(objectScaleStepper);
+        group.add(objectScaleText);
+        group.add(objectVarText);
+        group.add(objectVarDropdown);
+        group.add(objectVarInput);
         group.add(objectNameDropdown);
         group.add(objectNameText);
         
@@ -591,17 +661,69 @@ class EditorState extends FlappyState
         objectFlippedCheckbox.active = false;
         objectFlippedCheckbox.visible = false;
 
+        objectScaleStepper.active = false;
+        objectScaleStepper.visible = false;
+
+        objectScaleText.active = false;
+        objectScaleText.visible = false;
+
+        objectVarDropdown.active = false;
+        objectVarDropdown.visible = false;
+
+        objectVarInput.active = false;
+        objectVarInput.visible = false;
+
+        objectVarText.active = false;
+        objectVarText.visible = false;
+
         if (selectedObject != null)
         {
             objectPosXStepper.value = selectedObject.x;
             objectPosYStepper.value = selectedObject.y;
             objectNameDropdown.selectedLabel = selectedObject.objectName;
             objectFlippedCheckbox.checked = selectedObject.flipped;
+            objectScaleStepper.value = selectedObject.scaleMulti;
 
             if (selectedObject.canBeFlipped)
             {
                 objectFlippedCheckbox.active = true;
                 objectFlippedCheckbox.visible = true;
+            }
+
+            if (selectedObject.canBeScaled)
+            {
+                objectScaleStepper.active = true;
+                objectScaleStepper.visible = true;
+
+                objectScaleText.active = true;
+                objectScaleText.visible = true;
+            }
+
+            if (selectedObject.variables.length > 0)
+            {
+                objectVarDropdown.active = true;
+                objectVarDropdown.visible = true;
+
+                objectVarInput.active = true;
+                objectVarInput.visible = true;
+
+                objectVarText.active = true;
+                objectVarText.visible = true;
+
+                var items:Array<String> = [];
+                var values:Array<Dynamic> = [];
+
+                for (variable in selectedObject.variables)
+                {
+                    items.push(variable[0]);
+                    values.push(variable[1]);
+                }
+
+                var objectVarItems = FlxUIDropDownMenu.makeStrIdLabelArray(items);
+                objectVarDropdown.setData(objectVarItems);
+                objectVarDropdown.selectedLabel = items[0];
+
+                objectVarInput.text = values[0];
             }
         }
     }
@@ -619,6 +741,24 @@ class EditorState extends FlappyState
                     loadLevelName = input.text;
                 case 'levelNameInput':
                     levelData.levelName = input.text;
+                case 'objectVarInput':
+                    if (selectedObject != null && objectVarDropdown != null)
+                    {
+                        for (item in levelData.objects)
+                        {
+                            if (item.x == selectedObject.x && item.y == selectedObject.y && item.name == selectedObject.objectName)
+                            {
+                                for (i in 0...item.variables.length)
+                                {
+                                    if (item.variables[i][0] == objectVarDropdown.selectedLabel)
+                                    {
+                                        item.variables[i][1] = input.text;
+                                        selectedObject.variables[i][1] = input.text;
+                                    }
+                                }
+                            }
+                        }
+                    }
             }
         }
         else if (id == FlxUINumericStepper.CHANGE_EVENT && (sender is FlxUINumericStepper))
@@ -649,6 +789,18 @@ class EditorState extends FlappyState
                                 }
 
                                 updateLines();
+                            }
+                        }
+                    }
+                case 'objectScaleStepper':
+                    if (selectedObject != null)
+                    {
+                        for (item in levelData.objects)
+                        {
+                            if (item.x == selectedObject.x && item.y == selectedObject.y && item.name == selectedObject.objectName)
+                            {
+                                item.scale = stepper.value;
+                                selectedObject.scaleMulti = item.scale;
                             }
                         }
                     }

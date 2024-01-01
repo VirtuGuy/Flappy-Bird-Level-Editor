@@ -1,5 +1,6 @@
 {
     "canBeFlipped": false,
     "canCollide": false,
-    "invisible": true
+    "invisible": true,
+    "canBeScaled": false
 }

@@ -58,7 +58,7 @@ class MenuState extends FlappyState
     {
         PlayState.editorMode = false;
 
-        FlappySettings.levelJson = FlappyTools.loadJSON(Paths.levelFile('custom', 'example-level'));
+        FlappySettings.levelJson = FlappyTools.loadJSON(Paths.levelFile('custom', 'testlevel'));
 
         bg = new Background();
         add(bg);

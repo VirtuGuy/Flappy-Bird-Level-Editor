@@ -133,7 +133,9 @@ class PlayState extends FlappyState
 			add += startCamPosX;
 
 			var object:Object = new Object(item.x + add, item.y, item.name);
+			object.scaleMulti = item.scale;
 			object.flipped = item.flipped;
+			object.variables = item.variables;
 			grpObjects.add(object);
 		}
 	}
@@ -214,12 +216,24 @@ class PlayState extends FlappyState
 
 			if (bird.x > object.getScreenPosition().x - (bird.width / 2))
 			{
+				if (object.variables.length > 0)
+				{
+					for (i in 0...object.variables.length)
+					{	
+						var varr:Array<Dynamic> = object.variables[i];
+
+						switch (varr[0])
+						{
+							case 'points':
+								point(Std.int(varr[1]));
+						}
+					}
+				}
+
 				switch (object.objectName)
 				{
 					case 'point':
-						point(1);
-						grpObjects.remove(object, true);
-						break;
+						removeList.push(object);
 				}
 			}
 		}

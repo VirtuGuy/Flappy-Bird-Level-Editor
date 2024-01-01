@@ -1,5 +1,9 @@
 {
     "canBeFlipped": false,
     "canCollide": false,
-    "invisible": true
+    "invisible": true,
+    "canBeScaled": false,
+    "variables": [
+        ["points", 1]
+    ]
 }

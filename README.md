@@ -1,5 +1,10 @@
 # Flappy Bird Level Editor
- This is a HaxeFlixel project I made where it's Flappy Bird, but with a level editor. I've already made something exactly like this on Scratch, which got over 180,000 views. For a while now, I've been wanting to recreate that project outside of Scratch and here it is! Releases will be available along with an Itch.io page for the project. The project is obviously open source and it uses the MIT license, so you can basically just do whatever with it. I hope you enjoy the project, I'm working very hard on it.
+## Ever wanted to make your own Flappy Bird level?
+ Well now you can!
+
+ This game is a recreation of the famous Flappy Bird game that released on the app store in 2013, except that it has a level editor.
+
+ This game is actually a remake of the Flappy Bird level editor I made on Scratch. The project did so good with it getting over 180 thousand views. Due to Scratch being pretty limited, I decided to remake my project in something else... HaxeFlixel.
 
 # Credits
 * [AbsurdCoolMan (it's a me!)](https://github.com/AbsurdCoolMan). The being who invented a project this cool like this.

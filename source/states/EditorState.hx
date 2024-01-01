@@ -320,6 +320,8 @@ class EditorState extends FlappyState
 
         if (camFollow.x < FlxG.width / 2)
             camFollow.x = FlxG.width / 2;
+
+        MenuState.camPosX = camFollow.x;
     }
 
     // Object stuff
@@ -394,15 +396,16 @@ class EditorState extends FlappyState
         {
             if (item.x == x && item.y == y && item.name == name)
             {
-                if (selectedObject != null)
-                    setObjectSelection(selectedObject, false);
-
                 levelData.objects.remove(item);
                 break;
             }
         }
 
+        if (selectedObject != null)
+            setObjectSelection(selectedObject, false);
+
         updateObjects();
+        updateObjectTab();
     }
 
     function setObjectSelection(object:Object, select:Bool = true)
@@ -472,7 +475,7 @@ class EditorState extends FlappyState
         group.add(loadLevelNameInput);
         group.add(loadLevelNameText);
         group.add(clearButton);
-        #if !debug
+        #if debug
         group.add(saveToDefaultCheckbox);
         #end
         group.add(objectNameDropdown);
@@ -495,7 +498,7 @@ class EditorState extends FlappyState
 
         var levelNameText:FlxText = new FlxText(120, 14, 0, 'Level Name');
 
-        scrollSpeedStepper = new FlxUINumericStepper(15, 35, 1, levelData.scrollSpeed, 1);
+        scrollSpeedStepper = new FlxUINumericStepper(15, 35, 1, levelData.scrollSpeed, 1, 99);
         scrollSpeedStepper.name = 'scrollSpeedStepper';
         numericSteppers.push(scrollSpeedStepper);
 

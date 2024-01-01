@@ -9,6 +9,7 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.text.FlxText;
 import flixel.util.FlxCollision;
 import flixel.util.FlxColor;
+import flixel.util.FlxTimer;
 import objects.Background;
 import objects.Bird;
 import objects.CameraObject;
@@ -30,12 +31,20 @@ class PlayState extends FlappyState
 
 	var scrollSpeed:Float = 4;
 	var points:Int = 0;
+	var startCamPosX:Float = 0;
 
 	public static var editorMode:Bool = false;
 	public static var levelData:LevelData;
+
+	public var started:Bool = false;
 	
 	override function create()
 	{
+		if (editorMode)
+			MenuState.camPosX = 0;
+
+		startCamPosX = MenuState.camPosX;
+
 		bg = new Background();
         add(bg);
 
@@ -48,25 +57,53 @@ class PlayState extends FlappyState
 		bird.scrollFactor.set();
 		bg.backObjects.add(bird);
 
-		pauseButton = new FlappyButton(0, 0, 'pause');
+		var buttonName:String = 'pause';
+		if (editorMode)
+			buttonName = 'exit';
+
+		var testButton:FlappyButton = new FlappyButton(0, 0, 'pause');
+
+		pauseButton = new FlappyButton(0, 0, buttonName);
 		pauseButton.scale.set(2, 2);
 		pauseButton.updateHitbox();
-		pauseButton.x = pauseButton.width / 2;
-		pauseButton.y = pauseButton.height / 2;
-		pauseButton.onClicked = pause;
-		
-		if (!editorMode)
-			add(pauseButton);
+		pauseButton.x = testButton.width / 2;
+		pauseButton.y = testButton.height / 2;
+		if (editorMode)
+			pauseButton.onClicked = editor;
+		else
+			pauseButton.onClicked = pause;
+		pauseButton.visible = false;
+		pauseButton.active = false;
+		add(pauseButton);
 
 		pointsTxt = new FlxText(pauseButton.x, pauseButton.y + 32, 0, '', 24);
 		pointsTxt.setFormat(Paths.fontFile(Paths.fonts.get('default')), 24, FlxColor.WHITE, LEFT, OUTLINE, FlxColor.BLACK);
 		pointsTxt.borderSize = 2;
 		pointsTxt.scrollFactor.set();
+		pointsTxt.visible = false;
+		pointsTxt.active = false;
 		add(pointsTxt);
 
 		camFollow = new CameraObject();
-        camFollow.screenCenter();
+		camFollow.screenCenter();
+        camFollow.x = MenuState.camPosX;
 		camFollow.y -= 12;
+
+		new FlxTimer().start(1, function(_){
+			var getReady:FlxSprite = new FlxSprite();
+			getReady.loadGraphic(Paths.imageFile('getReady'));
+			getReady.setGraphicSize(Std.int(getReady.width * 3));
+			getReady.scrollFactor.set();
+			getReady.screenCenter();
+			add(getReady);
+
+			fadeObject(getReady, true);
+
+			new FlxTimer().start(2, function(_){
+				fadeObject(getReady, false);
+				start();
+			});
+		});
 
 		super.create();
 	}
@@ -89,7 +126,11 @@ class PlayState extends FlappyState
 			var add:Float = 0;
 
 			if (levelData != null)
+			{
 				add = 225 * levelData.scrollSpeed;
+			}
+
+			add += startCamPosX;
 
 			var object:Object = new Object(item.x + add, item.y, item.name);
 			object.flipped = item.flipped;
@@ -114,6 +155,19 @@ class PlayState extends FlappyState
 	{
 		points += amount;
 		FlxG.sound.play(Paths.soundFile(Paths.sounds.get('point')));
+	}
+
+	function start()
+	{
+		pointsTxt.active = true;
+		pointsTxt.visible = true;
+
+		pauseButton.active = true;
+		pauseButton.visible = true;
+
+		bird.startMoving = true;
+
+		started = true;
 	}
 
 	function checkDeath()
@@ -193,17 +247,21 @@ class PlayState extends FlappyState
 		if (!bird.isDead)
 		{
 			camFollow.x += scrollSpeed;
+			MenuState.camPosX = camFollow.x;
 
-			if (keys.FLAP || (FlxG.mouse.justPressed && !pauseButton.mouseOver))
+			if (started)
 			{
-				bird.flap();
+				if (keys.FLAP || (FlxG.mouse.justPressed && !pauseButton.mouseOver))
+				{
+					bird.flap();
+				}
+	
+				if (keys.PAUSE && !editorMode)
+					pause();
+	
+				if (keys.BACK && editorMode)
+					editor();
 			}
-
-			if (keys.PAUSE && !editorMode)
-				pause();
-
-			if (FlxG.keys.justPressed.ESCAPE && editorMode)
-				editor();
 		}
 
 		checkDeath();
@@ -216,7 +274,7 @@ class PlayState extends FlappyState
 		if (bird.isDead && bird.isSinking && bird.y > FlxG.height - bg.ground.height + 15)
 		{
 			persistentUpdate = false;
-			openSubState(new GameOverSubstate());
+			openSubState(new GameOverSubstate(points));
 		}
 	}
 

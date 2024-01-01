@@ -5,13 +5,11 @@ import backend.FlappyState;
 import backend.FlappyTools;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import objects.Background;
 import objects.ButtonGroup;
 import objects.CameraObject;
-import states.EditorState.LevelData;
 
 class MenuState extends FlappyState
 {
@@ -39,13 +37,17 @@ class MenuState extends FlappyState
         function() {
             FlappyState.switchState(new EditorState());
         },
-        function() {},
+        function() {
+            FlappyState.switchState(new OptionsState());
+        },
         #if desktop
         function() {
-            Sys.exit(0);
+            FlappyState.switchState(new ExitState());
         }
         #end
     ];
+
+    public static var camPosX:Float = 0;
 
     override public function new()
     {
@@ -101,7 +103,7 @@ class MenuState extends FlappyState
         messageText = new FlxText(0, messageBox.y, 0, message, 24);
         messageText.setFormat(Paths.fontFile(Paths.fonts.get('default')), 24, FlxColor.WHITE, RIGHT);
         messageText.scrollFactor.set();
-        messageText.x = -(FlxG.width + (messageText.width / 4));
+        messageText.x = (FlxG.width + (messageText.width / 4));
 
         if (message != '')
         {
@@ -111,6 +113,7 @@ class MenuState extends FlappyState
 
         camFollow = new CameraObject();
         camFollow.screenCenter();
+        camFollow.x = camPosX;
         camFollow.y -= 12;
 
         super.create();
@@ -123,12 +126,13 @@ class MenuState extends FlappyState
     {
         if (messageText.text != '')
         {
-            messageText.x += 2;
-            if (messageText.x > FlxG.width + (messageText.width / 4))
+            messageText.x -= 2;
+            if (messageText.x < -(FlxG.width + (messageText.width / 4)))
                 messageText.x = -messageText.x;
         }
 
         camFollow.x += FlappySettings.menuScrollSpeed;
+        camPosX = camFollow.x;
 
         super.update(elapsed);
     }

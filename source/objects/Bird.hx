@@ -16,6 +16,7 @@ class Bird extends FlxSprite
 
     public var isDead:Bool = false;
     public var isSinking:Bool = false;
+    public var startMoving(default, set):Bool = true;
 
     override public function new(x:Float = 0, y:Float = 0)
     {
@@ -25,26 +26,33 @@ class Bird extends FlxSprite
 
         animation.add('idle', [0], 8);
         animation.add('flap', [1, 0, 2], 8, false);
-        animation.play('idle');
+
+        this.startMoving = false;
     }
 
     override function update(elapsed:Float)
     {
-        if (!isSinking)
+        if (!isSinking && startMoving)
             velocity.y += gravity;
 
         if (animation.curAnim != null)
         {
             if (animation.curAnim.name == 'flap' && animation.curAnim.finished)
             {
-                animation.play('idle');
+                if (startMoving)
+                    animation.play('idle');
+                else
+                    animation.play('flap', true);
             }
         }
 
-        if (!isSinking)
-            angle = (velocity.y / 100) * 5;
-        else
-            angle += sinkSpeed / 20;
+        if (startMoving)
+        {
+            if (!isSinking)
+                angle = (velocity.y / 100) * 5;
+            else
+                angle += sinkSpeed / 20;
+        }
 
         super.update(elapsed);
     }
@@ -79,9 +87,27 @@ class Bird extends FlxSprite
 
     private function set_playerSkin(value:String):String
     {
+        this.playerSkin = value;
+
         loadGraphic(Paths.imageFile('$playerSkinDir/$value'), true, 17, 12);
         setGraphicSize(Std.int(width * 2));
         updateHitbox();
+
+        return value;
+    }
+
+    private function set_startMoving(value:Bool):Bool
+    {
+        this.startMoving = value;
+
+        if (value)
+        {
+            animation.play('idle');
+        }
+        else
+        {
+            animation.play('flap', true);
+        }
 
         return value;
     }

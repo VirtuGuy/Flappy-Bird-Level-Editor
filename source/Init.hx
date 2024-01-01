@@ -87,6 +87,8 @@ class Init extends FlxState
 
         // Player skins
         addImage('playerSkins/default');
+        addImage('playerSkins/blue');
+        addImage('playerSkins/green');
 
         // Buttons
         addImage('buttons/start');
@@ -105,7 +107,9 @@ class Init extends FlxState
 
         // Other
         addImage('title');
+        addImage('getReady');
         addImage('gameover');
+        addImage('uiBox');
 
         // Sounds
         addSound(Paths.sounds.get('wing'), false);

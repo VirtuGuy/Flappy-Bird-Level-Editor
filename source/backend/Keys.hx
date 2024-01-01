@@ -17,6 +17,7 @@ class Keys
     private var k_right:String = 'k_right';
     private var k_flip:String = 'k_flip';
     private var k_pause:String = 'k_pause';
+    private var k_back:String = 'k_back';
     private var k_flap:String = 'k_flap';
 
     /// Volume key strings
@@ -33,6 +34,7 @@ class Keys
     public var RIGHT_R(get, default):Bool;
     public var FLIP(get, default):Bool;
     public var PAUSE(get, default):Bool;
+    public var BACK(get, default):Bool;
     public var FLAP(get, default):Bool;
 
     // Key functions
@@ -76,6 +78,11 @@ class Keys
         return keyJustPressed(k_pause);
     }
 
+    private function get_BACK():Bool
+    {
+        return keyJustPressed(k_back);
+    }
+
     private function get_FLAP():Bool
     {
         return keyJustPressed(k_flap);
@@ -111,6 +118,7 @@ class Keys
                 bindKey(k_right, [D, FlxKey.RIGHT]);
                 bindKey(k_flip, [F]);
                 bindKey(k_pause, [P]);
+                bindKey(k_back, [ESCAPE, BACKSPACE]);
                 bindKey(k_flap, [SPACE, ENTER]);
 
                 bindKey(v_mute, [NUMPADZERO]);

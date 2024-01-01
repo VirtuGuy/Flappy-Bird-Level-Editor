@@ -1,8 +1,8 @@
 package;
 
+import flash.media.Sound;
 import flixel.graphics.FlxGraphic;
 import openfl.display.BitmapData;
-import openfl.media.Sound;
 import openfl.utils.Assets as OpenFlAssets;
 #if sys
 import sys.FileSystem;
@@ -63,7 +63,11 @@ class Paths
         }
         else
         {
+            #if sys
+            var bitmap:BitmapData = BitmapData.fromFile(path);
+            #else
             var bitmap:BitmapData = OpenFlAssets.getBitmapData(path);
+            #end
 
             graphic = FlxGraphic.fromBitmapData(bitmap, false, path);
             graphic.persist = true;
@@ -86,7 +90,12 @@ class Paths
         }
         else
         {
+            #if sys
+            sound = Sound.fromFile(path);
+            #else
             sound = OpenFlAssets.getSound(path);
+            #end
+
             soundCache.set(path, sound);
         }
 

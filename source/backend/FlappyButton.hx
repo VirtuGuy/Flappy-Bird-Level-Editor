@@ -40,15 +40,20 @@ class FlappyButton extends FlxExtendedMouseSprite
 
     override function update(elapsed:Float)
     {
-        if (mouseOver)
-            hover();
+        if (alpha >= 0.5)
+        {
+            if (mouseOver)
+                hover();
+            else
+                hoverEnd();
+    
+            if (isPressed)
+                clicked();
+            else
+                released();
+        }
         else
             hoverEnd();
-
-        if (isPressed)
-            clicked();
-        else
-            released();
 
         super.update(elapsed);
     }

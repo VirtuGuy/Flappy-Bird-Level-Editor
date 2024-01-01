@@ -5,18 +5,15 @@ import backend.FlappySettings;
 import backend.FlappyState;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import objects.Background;
 import objects.CameraObject;
 
-class OptionsState extends FlappyState
+class LevelSelectionState extends FlappyState
 {
     var bg:Background;
     var camFollow:CameraObject;
-
-    var grpButtons:FlxTypedGroup<FlappyButton>;
 
     override public function new()
     {
@@ -36,16 +33,13 @@ class OptionsState extends FlappyState
         boxBG.screenCenter();
         add(boxBG);
 
-        var titleText:FlxText = new FlxText(0, 0, 0, 'Options', 24);
+        var titleText:FlxText = new FlxText(0, 0, 0, 'Level Selection', 24);
         titleText.setFormat(Paths.fontFile(Paths.fonts.get('default')), 32, FlxColor.WHITE, CENTER, OUTLINE, FlxColor.BLACK);
         titleText.borderSize = 2;
         titleText.scrollFactor.set();
         titleText.screenCenter(X);
         titleText.y = titleText.height - 20;
         add(titleText);
-
-        grpButtons = new FlxTypedGroup<FlappyButton>();
-        add(grpButtons);
 
         var backButton:FlappyButton = new FlappyButton(0, 0, 'back');
         backButton.clickSound = true;

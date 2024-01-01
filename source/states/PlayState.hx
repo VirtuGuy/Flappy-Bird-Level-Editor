@@ -7,6 +7,8 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.text.FlxText;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import flixel.util.FlxCollision;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
@@ -15,6 +17,7 @@ import objects.Bird;
 import objects.CameraObject;
 import objects.Object;
 import states.EditorState.LevelData;
+import substates.CompleteSubstate;
 import substates.GameOverSubstate;
 import substates.PauseSubstate;
 
@@ -37,6 +40,8 @@ class PlayState extends FlappyState
 	public static var levelData:LevelData;
 
 	public var started:Bool = false;
+	public var ending:Bool = false;
+	public var birdSpeedUp:Bool = false;
 	
 	override function create()
 	{
@@ -172,8 +177,43 @@ class PlayState extends FlappyState
 		started = true;
 	}
 
+	function end()
+	{
+		if (editorMode)
+		{
+			editor();
+			return;
+		}
+
+		pointsTxt.active = false;
+		pointsTxt.visible = false;
+
+		pauseButton.active = false;
+		pauseButton.visible = false;
+
+		bird.startMoving = false;
+
+		ending = true;
+
+		FlxTween.tween(bird, {y: (FlxG.height / 2) - (bird.height * 2), angle: 0}, 0.4, {ease: FlxEase.quadInOut});
+
+		for (object in grpObjects.members)
+		{
+			FlxTween.tween(object, {alpha: 0}, 0.2, {ease: FlxEase.quadInOut, onComplete: function(_){
+				object.active = false;
+			}});
+		}
+
+		new FlxTimer().start(2, function(_){
+			birdSpeedUp = true;
+		});
+	}
+
 	function checkDeath()
 	{
+		if (!started || ending)
+			return;
+
 		var grounded:Bool = bird.overlaps(bg.ground);
 
 		if (!bird.isDead)
@@ -205,6 +245,9 @@ class PlayState extends FlappyState
 
 	function checkSpecialObjects()
 	{
+		if (!started || ending)
+			return;
+
 		var removeList:Array<Object> = [];
 
 		for (object in grpObjects.members)
@@ -234,6 +277,9 @@ class PlayState extends FlappyState
 				{
 					case 'point':
 						removeList.push(object);
+					case 'end':
+						removeList.push(object);
+						end();
 				}
 			}
 		}
@@ -258,12 +304,12 @@ class PlayState extends FlappyState
 
 	override function update(elapsed:Float)
 	{
-		if (!bird.isDead)
+		if (!bird.isDead && !(ending && birdSpeedUp))
 		{
 			camFollow.x += scrollSpeed;
 			MenuState.camPosX = camFollow.x;
 
-			if (started)
+			if (started && !ending)
 			{
 				if (keys.FLAP || (FlxG.mouse.justPressed && !pauseButton.mouseOver))
 				{
@@ -278,6 +324,11 @@ class PlayState extends FlappyState
 			}
 		}
 
+		if (birdSpeedUp && ending)
+		{
+			bird.velocity.x += 25;
+		}
+
 		checkDeath();
 		checkSpecialObjects();
 
@@ -289,6 +340,12 @@ class PlayState extends FlappyState
 		{
 			persistentUpdate = false;
 			openSubState(new GameOverSubstate(points));
+		}
+
+		if (ending && bird.x > FlxG.width + bird.width)
+		{
+			persistentUpdate = false;
+			openSubState(new CompleteSubstate(points));
 		}
 	}
 

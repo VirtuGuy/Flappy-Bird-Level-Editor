@@ -107,6 +107,7 @@ class Bird extends FlxSprite
         else
         {
             animation.play('flap', true);
+            velocity.y = 0;
         }
 
         return value;

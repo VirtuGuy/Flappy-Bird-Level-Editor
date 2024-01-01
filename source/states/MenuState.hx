@@ -32,7 +32,7 @@ class MenuState extends FlappyState
 
     var buttonCallbacks:Array<Void->Void> = [
         function() {
-            FlappyState.switchState(new PlayState());
+            FlappyState.switchState(new LevelSelectionState());
         },
         function() {
             FlappyState.switchState(new EditorState());
@@ -57,8 +57,6 @@ class MenuState extends FlappyState
     override function create()
     {
         PlayState.editorMode = false;
-
-        FlappySettings.levelJson = FlappyTools.loadJSON(Paths.levelFile('custom', 'testlevel'));
 
         bg = new Background();
         add(bg);

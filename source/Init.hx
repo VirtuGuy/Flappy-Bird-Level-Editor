@@ -1,7 +1,7 @@
 package;
 
+import backend.FlappyData;
 import backend.FlappySettings;
-import backend.FlappyTools;
 import flixel.FlxG;
 import flixel.FlxState;
 import flixel.text.FlxText;
@@ -33,6 +33,9 @@ class Init extends FlxState
     override function create()
     {
         FlxG.mouse.useSystemCursor = true;
+
+        FlappyData.init();
+        FlappyData.load();
 
         // Version
         curVersion = 'v' + Application.current.meta.get('version');
@@ -109,6 +112,7 @@ class Init extends FlxState
         addImage('title');
         addImage('getReady');
         addImage('gameover');
+        addImage('gameComplete');
         addImage('uiBox');
 
         // Sounds

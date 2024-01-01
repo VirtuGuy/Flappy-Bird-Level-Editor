@@ -1,7 +1,9 @@
 package backend;
 
 import flixel.FlxG;
+import flixel.util.FlxSave;
 import haxe.Json;
+import lime.app.Application;
 
 class FlappyTools
 {
@@ -28,5 +30,18 @@ class FlappyTools
         }
 
         return json;
+    }
+
+    @:access(flixel.util.FlxSave.validate)
+    public static function savePath():String
+    {
+        var path:String = '';
+
+        var company:String = Application.current.meta.get('company');
+        var file:String = Application.current.meta.get('file');
+
+        path = '$company/${FlxSave.validate(file)}';
+
+        return path;
     }
 }

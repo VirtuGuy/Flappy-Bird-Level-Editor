@@ -52,6 +52,14 @@ class FlappyState extends FlxUIState
 			object.alpha = 0;
 		}
 
+		FlxTween.cancelTweensOf(object);
+
+		if (object is FlappyButton && !fadeIn)
+		{
+			var button:FlappyButton = cast object;
+			button.active = false;
+		}
+
 		FlxTween.tween(object, {alpha: alpha}, fadeDuration, {ease: FlxEase.quadInOut});
 		FlxTween.tween(object, {y: pos}, fadeDuration, {ease: FlxEase.quadOut});
 	}

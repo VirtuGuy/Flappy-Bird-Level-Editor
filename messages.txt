@@ -1,5 +1,10 @@
 Make sure to try the editor
 Check out the premade levels
-Objects with lines are triggered by Flying past them.
+Objects with lines mean that they are triggered by going past them.
 Open source Forever HOORAY!!
 Check out my YouTube: AbsurdCoolMan
+Some objects have variables that can be changed.
+Flappy Bird released 10 years ago on May 24, 2013.
+There is no object limit! GO CRAZY!!
+Big thanks to Dong Nguyen for making Flappy Bird.
+Pls help me I'm running out of ideas for messages that could appear here AHHH!!

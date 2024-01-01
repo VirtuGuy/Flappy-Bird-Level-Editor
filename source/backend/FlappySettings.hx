@@ -16,5 +16,5 @@ class FlappySettings
     public static var httpPrefix:String = 'https://raw.githubusercontent.com/AbsurdCoolMan/Flappy-Bird-Level-Editor/main/';
     public static var verCheckLink:String = '${httpPrefix}gameVersion.txt';
     public static var messageLink:String = '${httpPrefix}messages.txt';
-    public static var githubLink:String = 'https://github.com/AbsurdCoolMan/Flappy-Bird-Level-Editor';
+    public static var gameLink:String = 'https://absurdcoolman.itch.io/fble';
 }

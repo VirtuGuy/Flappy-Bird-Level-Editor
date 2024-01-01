@@ -22,7 +22,7 @@ class OutdatedState extends FlappyState
         text.text = 'This version of the game is outdated!'
         + '\n\nYou are using version ' + Init.curVersion
         + ', while the latest is ' + Init.latestVersion
-        + '\n\nPress SPACE to open GitHub, or press ESCAPE to continue';
+        + '\n\nPress SPACE to open the game\'s Itch.io page, or press ESCAPE to continue';
 
         text.screenCenter();
         add(text);
@@ -33,7 +33,7 @@ class OutdatedState extends FlappyState
     override function update(elapsed:Float)
     {
         if (FlxG.keys.justPressed.SPACE)
-            FlappyTools.openURL(FlappySettings.githubLink);
+            FlappyTools.openURL(FlappySettings.gameLink);
         else if (FlxG.keys.justPressed.ESCAPE)
         {
             FlxG.sound.play(Paths.soundFile(Paths.sounds.get('swooshing')));

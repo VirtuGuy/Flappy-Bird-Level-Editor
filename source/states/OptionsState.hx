@@ -5,6 +5,7 @@ import backend.FlappySettings;
 import backend.FlappyState;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.group.FlxGroup.FlxTypedGroup;
 import objects.Background;
 import objects.CameraObject;
 
@@ -12,6 +13,8 @@ class OptionsState extends FlappyState
 {
     var bg:Background;
     var camFollow:CameraObject;
+
+    var grpButtons:FlxTypedGroup<FlappyButton>;
 
     override public function new()
     {
@@ -30,6 +33,9 @@ class OptionsState extends FlappyState
         optionBox.scrollFactor.set();
         optionBox.screenCenter();
         add(optionBox);
+
+        grpButtons = new FlxTypedGroup<FlappyButton>();
+        add(grpButtons);
 
         var backButton:FlappyButton = new FlappyButton(0, 0, 'back');
         backButton.clickSound = true;

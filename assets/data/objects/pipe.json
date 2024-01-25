@@ -2,5 +2,6 @@
     "canBeFlipped": true,
     "canCollide": true,
     "invisible": false,
-    "canBeScaled": true
+    "canBeScaled": true,
+    "triggerMode": 1
 }

@@ -20,15 +20,6 @@ class PauseSubstate extends FlappySubstate
         'menu'
     ];
 
-    var buttonCallbacks:Array<Void->Void> = [
-        function() {
-            FlappyState.switchState(FlxG.state);
-        },
-        function() {
-            FlappyState.switchState(new MenuState());
-        }
-    ];
-
     override public function new()
     {
         super();
@@ -40,12 +31,17 @@ class PauseSubstate extends FlappySubstate
         bg.alpha = 0;
         add(bg);
 
-        // Had to insert it cuz it was getting errors
-        buttonCallbacks.insert(0, function(){
+        grpButtons = new ButtonGroup(buttons, Vertical, 0);
+        grpButtons.members[0].onClicked = function(){
             close();
-        });
+        }
+        grpButtons.members[1].onClicked = function(){
+            FlappyState.switchState(FlxG.state);
+        }
+        grpButtons.members[2].onClicked = function(){
+            FlappyState.switchState(new MenuState());
+        }
 
-        grpButtons = new ButtonGroup(buttons, Vertical, 0, buttonCallbacks);
         add(grpButtons);
 
         grpButtons.setButtonClickSFX(0, false);

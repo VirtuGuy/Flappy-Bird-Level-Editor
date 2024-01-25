@@ -3,6 +3,7 @@
     "canCollide": false,
     "invisible": true,
     "canBeScaled": false,
+    "triggerMode": 0,
     "variables": [
         ["points", 1]
     ]

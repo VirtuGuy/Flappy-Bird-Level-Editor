@@ -2,7 +2,6 @@ package states;
 
 import backend.FlappySettings;
 import backend.FlappyState;
-import backend.FlappyTools;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.text.FlxText;
@@ -27,23 +26,6 @@ class MenuState extends FlappyState
         'options',
         #if desktop
         'exit'
-        #end
-    ];
-
-    var buttonCallbacks:Array<Void->Void> = [
-        function() {
-            FlappyState.switchState(new LevelSelectionState());
-        },
-        function() {
-            FlappyState.switchState(new EditorState());
-        },
-        function() {
-            FlappyState.switchState(new OptionsState());
-        },
-        #if desktop
-        function() {
-            FlappyState.switchState(new ExitState());
-        }
         #end
     ];
 
@@ -82,7 +64,7 @@ class MenuState extends FlappyState
 
         versionTxt.text = 'Made by AbsurdCoolMan'
         + '\nFlappy Bird by Dong Nguyen'
-        + '\n' + Init.curVersion;
+        + '\n${Init.curVersion}';
 
         versionTxt.y = FlxG.height - (versionTxt.height - 16);
 
@@ -99,7 +81,7 @@ class MenuState extends FlappyState
         var message:String = FlxG.random.getObject(Init.messages);
 
         messageText = new FlxText(0, messageBox.y, 0, message, 24);
-        messageText.setFormat(Paths.fontFile(Paths.fonts.get('default')), 24, FlxColor.WHITE, RIGHT);
+        messageText.setFormat(Paths.fontFile(Paths.fonts.get('default')), 24, FlxColor.WHITE, LEFT);
         messageText.scrollFactor.set();
         messageText.x = (FlxG.width + (messageText.width / 4));
 
@@ -116,7 +98,22 @@ class MenuState extends FlappyState
 
         super.create();
 
-        grpButtons = new ButtonGroup(buttons, Vertical, 0.5, buttonCallbacks);
+        grpButtons = new ButtonGroup(buttons, Vertical, 0.5);
+        grpButtons.members[0].onClicked = function(){
+            FlappyState.switchState(new LevelSelectionState());
+        }
+        grpButtons.members[1].onClicked = function(){
+            FlappyState.switchState(new EditorState());
+        }
+        grpButtons.members[2].onClicked = function(){
+            FlappyState.switchState(new OptionsState());
+        }
+        #if desktop
+        grpButtons.members[3].onClicked = function(){
+            FlappyState.switchState(new ExitState());
+        }
+        #end
+
         add(grpButtons);
     }
 
@@ -125,7 +122,7 @@ class MenuState extends FlappyState
         if (messageText.text != '')
         {
             messageText.x -= 2;
-            if (messageText.x < -(FlxG.width + (messageText.width / 4)))
+            if (messageText.x < -(FlxG.width + messageText.width))
                 messageText.x = -messageText.x;
         }
 

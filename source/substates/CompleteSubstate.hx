@@ -19,15 +19,6 @@ class CompleteSubstate extends FlappySubstate
         'restart',
         'menu'
     ];
-
-    var buttonCallbacks:Array<Void->Void> = [
-        function(){
-            FlappyState.switchState(FlxG.state);
-        },
-        function(){
-            FlappyState.switchState(new MenuState());
-        }
-    ];
     
     override public function new(points:Int)
     {
@@ -39,7 +30,14 @@ class CompleteSubstate extends FlappySubstate
         bg.scrollFactor.set();
         add(bg);
 
-        grpButtons = new ButtonGroup(buttons, Vertical, 1.5, buttonCallbacks);
+        grpButtons = new ButtonGroup(buttons, Vertical, 1.5);
+        grpButtons.members[0].onClicked = function(){
+            FlappyState.switchState(FlxG.state);
+        }
+        grpButtons.members[1].onClicked = function(){
+            FlappyState.switchState(new MenuState());
+        }
+
         add(grpButtons);
 
         var gameCompleteText:FlxSprite = new FlxSprite();

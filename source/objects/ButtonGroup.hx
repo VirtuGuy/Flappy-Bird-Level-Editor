@@ -19,26 +19,18 @@ class ButtonGroup extends FlxTypedGroup<FlappyButton>
     public var buttonLayout:ButtonLayout = Vertical;
     public var fadeInDelay:Float = -1;
 
-    public var clickCallbacks:Array<Void->Void> = [];
-    public var releaseCallbacks:Array<Void->Void> = [];
-    public var hoverCallbacks:Array<Void->Void> = [];
-
     function sortStuff(obj1:FlappyButton, obj2:FlappyButton):Int
     {
         return FlxSort.byY(FlxSort.ASCENDING, obj1, obj2);
     }
 
-    override public function new(buttons:Array<String>, buttonLayout:ButtonLayout = Vertical, fadeInDelay:Float = -1,
-        ?clickCallbacks:Array<Void->Void>, ?releaseCallbacks:Array<Void->Void>, ?hoverCallbacks:Array<Void->Void>)
+    override public function new(buttons:Array<String>, buttonLayout:ButtonLayout = Vertical, fadeInDelay:Float = -1)
     {
         super();
 
         this.buttons = buttons;
         this.buttonLayout = buttonLayout;
         this.fadeInDelay = fadeInDelay;
-        this.clickCallbacks = clickCallbacks;
-        this.releaseCallbacks = releaseCallbacks;
-        this.hoverCallbacks = hoverCallbacks;
 
         var spacingX:Float = 124;
         var spacingY:Float = 47;
@@ -75,15 +67,6 @@ class ButtonGroup extends FlxTypedGroup<FlappyButton>
             if (y == null)
                 button.screenCenter(Y);
             button.clickSound = true;
-
-            if (clickCallbacks != null && clickCallbacks[i] != null)
-                button.onClicked = clickCallbacks[i];
-
-            if (releaseCallbacks != null && releaseCallbacks[i] != null)
-                button.onReleased = releaseCallbacks[i];
-
-            if (hoverCallbacks != null && hoverCallbacks[i] != null)
-                button.onHover = hoverCallbacks[i];
 
             add(button);
         }

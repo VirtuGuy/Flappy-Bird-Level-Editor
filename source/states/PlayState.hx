@@ -209,6 +209,34 @@ class PlayState extends FlappyState
 		});
 	}
 
+	function triggerObject(object:Object)
+	{
+		if (object.alreadyTriggered)
+			return;
+
+		object.alreadyTriggered = true;
+
+		if (object.variables.length > 0)
+		{
+			for (i in 0...object.variables.length)
+			{	
+				var varr:Array<Dynamic> = object.variables[i];
+
+				switch (varr[0])
+				{
+					case 'points':
+						point(Std.int(varr[1]));
+				}
+			}
+		}
+
+		if (object.canCollide)
+		{
+			trace('died to ${object.objectName}');
+			die(true);
+		}
+	}
+
 	function checkDeath()
 	{
 		if (!started || ending)
@@ -221,18 +249,6 @@ class PlayState extends FlappyState
 			if (bird.y < 0 - bird.height)
 			{
 				die(true);
-			}
-
-			for (object in grpObjects.members)
-			{
-				if (object.canCollide)
-				{
-					if (FlxCollision.pixelPerfectCheck(object, bird, 0))
-					{
-						die(true);
-						break;
-					}
-				}
 			}
 		}
 
@@ -257,30 +273,24 @@ class PlayState extends FlappyState
 				removeList.push(object);
 			}
 
-			if (bird.x > object.getScreenPosition().x - (bird.width / 2))
+			switch (object.triggerMode)
 			{
-				if (object.variables.length > 0)
-				{
-					for (i in 0...object.variables.length)
-					{	
-						var varr:Array<Dynamic> = object.variables[i];
-
-						switch (varr[0])
-						{
-							case 'points':
-								point(Std.int(varr[1]));
-						}
+				case 1:
+					if (FlxCollision.pixelPerfectCheck(object, bird, 0))
+					{
+						triggerObject(object);
 					}
-				}
+				default:
+					if (bird.x > object.getScreenPosition().x - (bird.width / 2))
+					{
+						switch (object.objectName)
+						{
+							case 'end':
+								end();
+						}
 
-				switch (object.objectName)
-				{
-					case 'point':
-						removeList.push(object);
-					case 'end':
-						removeList.push(object);
-						end();
-				}
+						triggerObject(object);
+					}
 			}
 		}
 

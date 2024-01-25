@@ -8,6 +8,7 @@ typedef ObjectData = {
     canCollide:Null<Bool>,
     invisible:Null<Bool>,
     canBeScaled:Null<Bool>,
+    triggerMode:Null<Int>,
     variables:Null<Array<Array<Dynamic>>>
 }
 
@@ -23,11 +24,13 @@ class Object extends FlxSprite
     public var canCollide:Bool = true;
     public var invisible(default, set):Bool = false;
     public var canBeScaled:Bool = true;
+    public var triggerMode:Int = 0;
+    public var variables:Array<Array<Dynamic>> = [];
 
     private var _lastAlpha:Float = 1;
 
     public var scaleMulti(default, set):Float = -1;
-    public var variables:Array<Array<Dynamic>> = [];
+    public var alreadyTriggered:Bool = false;
 
     override public function new(x:Float = 0, y:Float = 0, objectName:String = 'pipe', ?editorObject:Bool = false)
     {
@@ -75,9 +78,14 @@ class Object extends FlxSprite
                 canBeScaled = json.canBeScaled;
             else
                 canBeScaled = true;
+
+            if (json.triggerMode != null)
+                triggerMode = json.triggerMode;
+            else
+                triggerMode = 0;
         }
 
-        loadGraphic(Paths.imageFile('objects/' + value));
+        loadGraphic(Paths.imageFile('objects/$value'));
         updateHitbox();
 
         if (flipped && !canBeFlipped)

@@ -20,8 +20,8 @@ class OutdatedState extends FlappyState
         text.setFormat(Paths.fontFile(Paths.fonts.get('default')), 24, FlxColor.WHITE, CENTER);
 
         text.text = 'This version of the game is outdated!'
-        + '\n\nYou are using version ' + Init.curVersion
-        + ', while the latest is ' + Init.latestVersion
+        + '\n\nYou are using version ${Init.curVersion}'
+        + ', while the latest is ${Init.latestVersion}'
         + '\n\nPress SPACE to open the game\'s Itch.io page, or press ESCAPE to continue';
 
         text.screenCenter();

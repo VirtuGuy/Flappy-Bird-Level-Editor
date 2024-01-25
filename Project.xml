@@ -57,6 +57,8 @@
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
+	<!--<haxedef name="SHOW_FPS" />-->
+
 	<!--Enable the Flixel core recording system-->
 	<!--<haxedef name="FLX_RECORD" />-->
 

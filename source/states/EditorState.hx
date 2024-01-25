@@ -11,7 +11,6 @@ import flixel.addons.ui.FlxUICheckBox;
 import flixel.addons.ui.FlxUIDropDownMenu;
 import flixel.addons.ui.FlxUIInputText;
 import flixel.addons.ui.FlxUINumericStepper;
-import flixel.addons.ui.FlxUISlider;
 import flixel.addons.ui.FlxUITabMenu;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.text.FlxText;
@@ -76,12 +75,6 @@ class EditorState extends FlappyState
         'start'
     ];
 
-    var buttonCallbacks:Array<Void->Void> = [
-        function(){
-            FlappyState.switchState(new MenuState());
-        }
-    ];
-
     var gridSize:Int = FlappySettings.editorGridSize;
 
     var selectedObject:Object = null;
@@ -115,11 +108,6 @@ class EditorState extends FlappyState
         hudCamera = new FlxCamera();
         hudCamera.bgColor.alpha = 0;
         FlxG.cameras.add(hudCamera, false);
-
-        buttonCallbacks.push(function(){
-            FlappySettings.levelJson = levelData;
-            FlappyState.switchState(new PlayState());
-        });
 
         var objectsPath:String = Paths.textFile('data', 'objectsList');
         if (Paths.fileExists(objectsPath))
@@ -157,8 +145,8 @@ class EditorState extends FlappyState
         tabMenu.scrollFactor.set();
         add(tabMenu);
 
-        instructionsTxt = new FlxText(0, 0, tabMenu.width + 32, '', 18);
-        instructionsTxt.setFormat(Paths.fontFile(Paths.fonts.get('default')), 18, FlxColor.WHITE, RIGHT, OUTLINE, FlxColor.BLACK);
+        instructionsTxt = new FlxText(0, 0, tabMenu.width + 32, '', 16);
+        instructionsTxt.setFormat(Paths.fontFile(Paths.fonts.get('default')), 16, FlxColor.WHITE, RIGHT, OUTLINE, FlxColor.BLACK);
 
         instructionsTxt.text = 'Controls:'
         + '\nA/D or LeFt/Right to move'
@@ -168,16 +156,24 @@ class EditorState extends FlappyState
         + '\nLeFt click to place object'
         + '\nRight click to delete object'
         + '\nCTRL + LeFt click to select object'
+        + '\nF to Flip object'
         + '\nT to toggle buttons'
         + '\nX to hide instructions';
 
         instructionsTxt.x = FlxG.width - instructionsTxt.width;
-        instructionsTxt.y = tabMenu.y - instructionsTxt.height - 18;
+        instructionsTxt.y = tabMenu.y - instructionsTxt.height - 16;
 
         instructionsTxt.scrollFactor.set();
         add(instructionsTxt);
 
-        grpButtons = new ButtonGroup(buttons, Horizontal, -1, buttonCallbacks);
+        grpButtons = new ButtonGroup(buttons, Horizontal, -1);
+        grpButtons.members[0].onClicked = function(){
+            FlappyState.switchState(new MenuState());
+        }
+        grpButtons.members[1].onClicked = function(){
+            FlappySettings.levelJson = levelData;
+            FlappyState.switchState(new PlayState());   
+        }
 
         for (button in grpButtons.members)
         {

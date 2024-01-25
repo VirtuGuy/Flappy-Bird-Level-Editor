@@ -20,15 +20,6 @@ class GameOverSubstate extends FlappySubstate
         'menu'
     ];
 
-    var buttonCallbacks:Array<Void->Void> = [
-        function(){
-            FlappyState.switchState(FlxG.state);
-        },
-        function(){
-            FlappyState.switchState(new MenuState());
-        }
-    ];
-
     override public function new(points:Int)
     {
         super();
@@ -48,7 +39,14 @@ class GameOverSubstate extends FlappySubstate
         gameoverText.scrollFactor.set();
         add(gameoverText);
 
-        grpButtons = new ButtonGroup(buttons, Vertical, 1.5, buttonCallbacks);
+        grpButtons = new ButtonGroup(buttons, Vertical, 1.5);
+        grpButtons.members[0].onClicked = function(){
+            FlappyState.switchState(FlxG.state);
+        }
+        grpButtons.members[1].onClicked = function(){
+            FlappyState.switchState(new MenuState());
+        }
+
         add(grpButtons);
 
         var finalScoreText:FlxText = new FlxText(0, 0, 0, 'Final Score: $points', 32);

@@ -38,17 +38,17 @@ class Init extends FlxState
         FlappyData.load();
 
         // Version
-        curVersion = 'v' + Application.current.meta.get('version');
+        curVersion = 'v${Application.current.meta.get('version')}';
 
         var verHttp:Http = new Http(FlappySettings.verCheckLink);
         verHttp.onData = function(data:String){
-            latestVersion = data.split('\n')[0].trim();
+            latestVersion = 'v${data.split('\n')[0].trim()}';
 
             if (curVersion != latestVersion)
                 showOutdated = true;
         }
         verHttp.onError = function(error){
-            trace('Error getting version (' + error + ')!');
+            trace('Error getting version ($error)!');
         }
         verHttp.request();
 
@@ -61,7 +61,7 @@ class Init extends FlxState
             }
         }
         messageHttp.onError = function(error){
-            trace('Error getting message (' + error + ')!');
+            trace('Error getting message ($error)!');
         }
         messageHttp.request();
 

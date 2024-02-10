@@ -3,10 +3,10 @@ package states;
 import backend.FlappyButton;
 import backend.FlappySettings;
 import backend.FlappyState;
+import backend.FlappyText;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxCollision;
@@ -30,7 +30,7 @@ class PlayState extends FlappyState
 
 	var camFollow:CameraObject;
 	var pauseButton:FlappyButton;
-	var pointsTxt:FlxText;
+	var pointsTxt:FlappyText;
 
 	var scrollSpeed:Float = 4;
 	var points:Int = 0;
@@ -81,10 +81,7 @@ class PlayState extends FlappyState
 		pauseButton.active = false;
 		add(pauseButton);
 
-		pointsTxt = new FlxText(pauseButton.x, pauseButton.y + 32, 0, '', 24);
-		pointsTxt.setFormat(Paths.fontFile(Paths.fonts.get('default')), 24, FlxColor.WHITE, LEFT, OUTLINE, FlxColor.BLACK);
-		pointsTxt.borderSize = 2;
-		pointsTxt.scrollFactor.set();
+		pointsTxt = new FlappyText(pauseButton.x, pauseButton.y + 32, 0, '', 24);
 		pointsTxt.visible = false;
 		pointsTxt.active = false;
 		add(pointsTxt);
@@ -161,7 +158,7 @@ class PlayState extends FlappyState
 	function point(amount:Int = 1)
 	{
 		points += amount;
-		FlxG.sound.play(Paths.soundFile(Paths.sounds.get('point')));
+		FlxG.sound.play(Paths.soundFile(Paths.getSound('point')));
 	}
 
 	function start()

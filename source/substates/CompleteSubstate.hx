@@ -2,9 +2,9 @@ package substates;
 
 import backend.FlappyState;
 import backend.FlappySubstate;
+import backend.FlappyText;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
@@ -49,12 +49,9 @@ class CompleteSubstate extends FlappySubstate
         gameCompleteText.scrollFactor.set();
         add(gameCompleteText);
 
-        var finalScoreText:FlxText = new FlxText(0, 0, 0, 'Final Score: $points', 32);
-        finalScoreText.setFormat(Paths.fontFile(Paths.fonts.get('default')), 32, FlxColor.WHITE, CENTER, OUTLINE, FlxColor.BLACK);
-        finalScoreText.borderSize = 2;
+        var finalScoreText:FlappyText = new FlappyText(0, 0, 0, 'Final Score: $points', 32, CENTER);
         finalScoreText.screenCenter(X);
         finalScoreText.y = FlxG.height - (finalScoreText.height + 35);
-        finalScoreText.scrollFactor.set();
         add(finalScoreText);
 
         bg.alpha = 0;

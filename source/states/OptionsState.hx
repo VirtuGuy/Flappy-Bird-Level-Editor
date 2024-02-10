@@ -3,10 +3,10 @@ package states;
 import backend.FlappyButton;
 import backend.FlappySettings;
 import backend.FlappyState;
+import backend.FlappyText;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import objects.Background;
 import objects.CameraObject;
@@ -36,10 +36,7 @@ class OptionsState extends FlappyState
         boxBG.screenCenter();
         add(boxBG);
 
-        var titleText:FlxText = new FlxText(0, 0, 0, 'Options', 24);
-        titleText.setFormat(Paths.fontFile(Paths.fonts.get('default')), 32, FlxColor.WHITE, CENTER, OUTLINE, FlxColor.BLACK);
-        titleText.borderSize = 2;
-        titleText.scrollFactor.set();
+        var titleText:FlappyText = new FlappyText(0, 0, 0, 'Options', 32, CENTER);
         titleText.screenCenter(X);
         titleText.y = titleText.height - 20;
         add(titleText);
@@ -54,7 +51,7 @@ class OptionsState extends FlappyState
         add(backButton);
 
         backButton.onClicked = function(){
-            FlxG.sound.play(Paths.soundFile(Paths.sounds.get('swooshing')));
+            FlxG.sound.play(Paths.soundFile(Paths.getSound('swooshing')));
             FlappyState.switchState(new MenuState());
         }
 

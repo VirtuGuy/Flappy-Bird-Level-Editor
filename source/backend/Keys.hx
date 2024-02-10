@@ -15,6 +15,8 @@ class Keys
     // Key strings
     private var k_left:String = 'k_left';
     private var k_right:String = 'k_right';
+    private var k_up:String = 'k_up';
+    private var k_down:String = 'k_down';
     private var k_flip:String = 'k_flip';
     private var k_pause:String = 'k_pause';
     private var k_back:String = 'k_back';
@@ -32,6 +34,12 @@ class Keys
     public var RIGHT_P(get, default):Bool;
     public var LEFT_R(get, default):Bool;
     public var RIGHT_R(get, default):Bool;
+    public var UP(get, default):Bool;
+    public var DOWN(get, default):Bool;
+    public var UP_P(get, default):Bool;
+    public var DOWN_P(get, default):Bool;
+    public var UP_R(get, default):Bool;
+    public var DOWN_R(get, default):Bool;
     public var FLIP(get, default):Bool;
     public var PAUSE(get, default):Bool;
     public var BACK(get, default):Bool;
@@ -66,6 +74,36 @@ class Keys
     private function get_RIGHT_R():Bool
     {
         return keyJustReleased(k_right);
+    }
+
+    private function get_UP():Bool
+    {
+        return keyPressed(k_up);
+    }
+
+    private function get_DOWN():Bool
+    {
+        return keyPressed(k_down);
+    }
+
+    private function get_UP_P():Bool
+    {
+        return keyJustPressed(k_up);
+    }
+
+    private function get_DOWN_P():Bool
+    {
+        return keyJustPressed(k_down);
+    }
+
+    private function get_UP_R():Bool
+    {
+        return keyJustReleased(k_up);
+    }
+
+    private function get_DOWN_R():Bool
+    {
+        return keyJustReleased(k_down);
     }
 
     private function get_FLIP():Bool
@@ -116,9 +154,12 @@ class Keys
             case Keys1:
                 bindKey(k_left, [A, FlxKey.LEFT]);
                 bindKey(k_right, [D, FlxKey.RIGHT]);
-                bindKey(k_flip, [F]);
+                bindKey(k_up, [A, FlxKey.UP]);
+                bindKey(k_down, [D, FlxKey.DOWN]);
                 bindKey(k_pause, [P]);
                 bindKey(k_back, [ESCAPE, BACKSPACE]);
+
+                bindKey(k_flip, [F]);
                 bindKey(k_flap, [SPACE, ENTER]);
 
                 bindKey(v_mute, [NUMPADZERO]);

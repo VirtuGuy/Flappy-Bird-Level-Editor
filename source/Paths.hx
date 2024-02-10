@@ -18,12 +18,8 @@ class Paths
     public static var imageCache:Map<String, FlxGraphic> = [];
     public static var soundCache:Map<String, Sound> = [];
 
-    // Textures and sounds (in case of a path change)
-    public static var textures:Map<String, String> = [
-        "bgSky" => 'background/Sky',
-        "bgGround" => 'background/Ground'
-    ];
-
+    // Textures and sounds (in case if the paths have multiple uses)
+    public static var textures:Map<String, String> = [];
     public static var sounds:Map<String, String> = [
         "wing" => 'sfx_wing',
         "hit" => 'sfx_hit',
@@ -31,7 +27,6 @@ class Paths
         "swooshing" => 'sfx_swooshing',
         "die" => 'sfx_die'
     ];
-
     public static var fonts:Map<String, String> = [
         "default" => '04B.TTF',
     ];
@@ -191,5 +186,36 @@ class Paths
                 OpenFlAssets.cache.removeSound(key);
             }
         }
+    }
+
+    // Key value getting functions
+    public static function getTexture(key:String):String
+    {
+        var value:String = '';
+        
+        if (textures.exists(key))
+            value = textures.get(key);
+
+        return value;
+    }
+
+    public static function getSound(key:String):String
+    {
+        var value:String = '';
+        
+        if (sounds.exists(key))
+            value = sounds.get(key);
+
+        return value;
+    }
+
+    public static function getFont(key:String):String
+    {
+        var value:String = '';
+        
+        if (fonts.exists(key))
+            value = fonts.get(key);
+
+        return value;
     }
 }

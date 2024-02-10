@@ -64,13 +64,13 @@ class Bird extends FlxSprite
         animation.play('flap', true);
         velocity.y = -flapHeight;
         
-        FlxG.sound.play(Paths.soundFile(Paths.sounds.get('wing'), false));
+        FlxG.sound.play(Paths.soundFile(Paths.getSound('wing'), false));
     }
 
     public function killBird(playHitSound:Bool = true)
     {
         if (playHitSound && !isDead)
-            FlxG.sound.play(Paths.soundFile(Paths.sounds.get('hit'), false));
+            FlxG.sound.play(Paths.soundFile(Paths.getSound('hit'), false));
 
         isDead = true;
     }
@@ -79,7 +79,7 @@ class Bird extends FlxSprite
     {
         if (isSinking) return;
 
-        FlxG.sound.play(Paths.soundFile(Paths.sounds.get('die'), false));
+        FlxG.sound.play(Paths.soundFile(Paths.getSound('die'), false));
         velocity.y = sinkSpeed;
 
         isSinking = true;

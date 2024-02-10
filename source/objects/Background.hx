@@ -16,19 +16,19 @@ class Background extends FlxGroup
     {
         super();
 
-        sky = new FlxBackdrop(Paths.imageFile(Paths.textures.get('bgSky')), X, 0, 0);
+        sky = new FlxBackdrop(Paths.imageFile('background/Sky'), X, 0, 0);
         sky.setGraphicSize(Std.int(sky.width * 2));
         sky.updateHitbox();
-        sky.scrollFactor.set(0.3, 0.3);
+        sky.scrollFactor.set(0.3, 0);
         add(sky);
 
         backObjects = new FlxTypedGroup<FlxBasic>();
         add(backObjects);
 
-        ground = new FlxBackdrop(Paths.imageFile(Paths.textures.get('bgGround')), X, 0, 0);
+        ground = new FlxBackdrop(Paths.imageFile('background/Ground'), X, 0, 0);
         ground.setGraphicSize(Std.int(ground.width * 2));
         ground.updateHitbox();
-        ground.scrollFactor.set(0.7, 0.7);
+        ground.scrollFactor.set(0.7, 0);
         add(ground);
 
         sky.y = FlxG.height - sky.height;

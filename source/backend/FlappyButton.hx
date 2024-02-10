@@ -66,7 +66,7 @@ class FlappyButton extends FlxExtendedMouseSprite
         if (justClicked) return;
 
         if (clickSound)
-            FlxG.sound.play(Paths.soundFile(Paths.sounds.get('swooshing'), false));
+            FlxG.sound.play(Paths.soundFile(Paths.getSound('swooshing'), false));
 
         if (onClicked != null)
             onClicked();

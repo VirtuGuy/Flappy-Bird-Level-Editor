@@ -2,10 +2,9 @@ package states;
 
 import backend.FlappySettings;
 import backend.FlappyState;
+import backend.FlappyText;
 import backend.FlappyTools;
 import flixel.FlxG;
-import flixel.text.FlxText;
-import flixel.util.FlxColor;
 
 class OutdatedState extends FlappyState
 {
@@ -16,14 +15,11 @@ class OutdatedState extends FlappyState
 
     override function create()
     {
-        var text:FlxText = new FlxText(0, 0, FlxG.width - 50, '', 24);
-        text.setFormat(Paths.fontFile(Paths.fonts.get('default')), 24, FlxColor.WHITE, CENTER);
-
+        var text:FlappyText = new FlappyText(0, 0, FlxG.width - 50, '', 24, CENTER);
         text.text = 'This version of the game is outdated!'
         + '\n\nYou are using version ${Init.curVersion}'
         + ', while the latest is ${Init.latestVersion}'
         + '\n\nPress SPACE to open the game\'s Itch.io page, or press ESCAPE to continue';
-
         text.screenCenter();
         add(text);
 
@@ -36,7 +32,7 @@ class OutdatedState extends FlappyState
             FlappyTools.openURL(FlappySettings.gameLink);
         else if (FlxG.keys.justPressed.ESCAPE)
         {
-            FlxG.sound.play(Paths.soundFile(Paths.sounds.get('swooshing')));
+            FlxG.sound.play(Paths.soundFile(Paths.getSound('swooshing')));
             FlappyState.switchState(new IntroState());
         }
 

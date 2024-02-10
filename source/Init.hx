@@ -2,9 +2,9 @@ package;
 
 import backend.FlappyData;
 import backend.FlappySettings;
+import backend.FlappyText;
 import flixel.FlxG;
 import flixel.FlxState;
-import flixel.text.FlxText;
 import flixel.ui.FlxBar;
 import flixel.util.FlxColor;
 import haxe.Http;
@@ -65,8 +65,7 @@ class Init extends FlxState
         }
         messageHttp.request();
 
-        var text:FlxText = new FlxText(0, 0, 0, 'Loading...', 32);
-        text.setFormat(Paths.fontFile(Paths.fonts.get('default')), 32, FlxColor.WHITE, CENTER);
+        var text:FlappyText = new FlappyText(0, 0, 0, 'Loading...', 32, CENTER);
         text.screenCenter();
         add(text);
 
@@ -85,8 +84,8 @@ class Init extends FlxState
         Paths.dumpCache();
 
         // BG
-        addImage(Paths.textures.get('bgSky'));
-        addImage(Paths.textures.get('bgGround'));
+        addImage('background/Sky');
+        addImage('background/Ground');
 
         // Player skins
         addImage('playerSkins/default');
@@ -114,13 +113,14 @@ class Init extends FlxState
         addImage('gameover');
         addImage('gameComplete');
         addImage('uiBox');
+        addImage('arrow');
 
         // Sounds
-        addSound(Paths.sounds.get('wing'), false);
-        addSound(Paths.sounds.get('hit'), false);
-        addSound(Paths.sounds.get('point'), false);
-        addSound(Paths.sounds.get('swooshing'), false);
-        addSound(Paths.sounds.get('die'), false);
+        addSound(Paths.getSound('wing'), false);
+        addSound(Paths.getSound('hit'), false);
+        addSound(Paths.getSound('point'), false);
+        addSound(Paths.getSound('swooshing'), false);
+        addSound(Paths.getSound('die'), false);
 
         for (image in images)
         {

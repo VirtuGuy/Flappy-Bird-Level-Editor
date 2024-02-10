@@ -1,9 +1,8 @@
 package states;
 
 import backend.FlappyState;
+import backend.FlappyText;
 import flixel.FlxG;
-import flixel.text.FlxText;
-import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 
 class IntroState extends FlappyState
@@ -17,13 +16,11 @@ class IntroState extends FlappyState
 
     override function create()
     {
-        var introTxt:FlxText = new FlxText(0, 0, 0, 'AbsurdCoolMan\nMade with HaxeFlixel', 32);
-        introTxt.setFormat(Paths.fontFile(Paths.fonts.get('default')), 32, FlxColor.WHITE, CENTER);
-        introTxt.scrollFactor.set();
+        var introTxt:FlappyText = new FlappyText(0, 0, 0, 'AbsurdCoolMan\nMade with HaxeFlixel', 32, CENTER);
         introTxt.screenCenter();
         add(introTxt);
 
-        FlxG.sound.play(Paths.soundFile(Paths.sounds.get('point'), false));
+        FlxG.sound.play(Paths.soundFile(Paths.getSound('point'), false));
 
         new FlxTimer().start(0.1, function(_){
             canSkip = true;
@@ -48,7 +45,7 @@ class IntroState extends FlappyState
 
         canSkip = false;
 
-        FlxG.sound.play(Paths.soundFile(Paths.sounds.get('swooshing'), false));
+        FlxG.sound.play(Paths.soundFile(Paths.getSound('swooshing'), false));
         FlappyState.switchState(new MenuState());
     }
 }

@@ -38,57 +38,63 @@ class FlappyState extends FlxUIState
 
 	public function fadeObject(object:FlxSprite, fadeIn:Bool = true)
 	{
-		var pos:Float = object.y;
-		var alpha:Float = 0;
-
-		if (fadeIn)
+		if (object is FlxSprite)
 		{
-			if (object.tweened)
+			var pos:Float = object.y;
+			var alpha:Float = 0;
+
+			if (fadeIn)
 			{
-				object.x = object.tweenX;
-				object.y = object.tweenY;
-				object.alpha = object.tweenAlpha;
+				if (object.tweened)
+				{
+					object.x = object.tweenX;
+					object.y = object.tweenY;
+					object.alpha = object.tweenAlpha;
+				}
+
+				alpha = object.alpha;
+				pos = object.y;
+				
+				object.y -= 20;
+				object.alpha = 0;
+			}
+			else
+			{
+				alpha = 0;
+				pos -= 20;
+				object.tweenX = object.x;
+				object.tweenY = object.y;
+				object.tweenAlpha = object.alpha;
 			}
 
-			alpha = object.alpha;
-			pos = object.y;
-			
-			object.y -= 20;
-			object.alpha = 0;
+			FlxTween.cancelTweensOf(object);
+
+			if (object is FlappyButton)
+			{
+				var button:FlappyButton = cast object;
+				button.active = fadeIn;
+			}
+
+			object.tweened = true;
+
+			FlxTween.tween(object, {alpha: alpha}, fadeDuration, {ease: FlxEase.quadInOut});
+			FlxTween.tween(object, {y: pos}, fadeDuration, {ease: FlxEase.quadOut});
 		}
-		else
-		{
-			alpha = 0;
-			pos -= 20;
-			object.tweenX = object.x;
-			object.tweenY = object.y;
-			object.tweenAlpha = object.alpha;
-		}
-
-		FlxTween.cancelTweensOf(object);
-
-		if (object is FlappyButton)
-		{
-			var button:FlappyButton = cast object;
-			button.active = fadeIn;
-		}
-
-		object.tweened = true;
-
-		FlxTween.tween(object, {alpha: alpha}, fadeDuration, {ease: FlxEase.quadInOut});
-		FlxTween.tween(object, {y: pos}, fadeDuration, {ease: FlxEase.quadOut});
 	}
 
 	public function fadeGroup(group:Dynamic, fadeIn:Bool = true)
 	{
-		var group:FlxGroup = cast group;
-
-		for (item in group.members)
+		if (group is FlxGroup)
 		{
-			if (item is FlxSprite)
+			var group:FlxGroup = cast group;
+
+			for (item in group.members)
 			{
-				var object:FlxSprite = cast item;
-				fadeObject(object, fadeIn);
+				if (item is FlxSprite)
+				{
+					var object:FlxSprite = cast item;
+					fadeObject(object, fadeIn);
+				}
 			}
 		}
 	}

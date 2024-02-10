@@ -2,6 +2,7 @@ package states;
 
 import backend.FlappySettings;
 import backend.FlappyState;
+import backend.FlappyText;
 import backend.FlappyTools;
 import flixel.FlxCamera;
 import flixel.FlxG;
@@ -67,7 +68,7 @@ class EditorState extends FlappyState
 
     var editObject:Object;
     var editCursor:FlxSprite;
-    var instructionsTxt:FlxText;
+    var instructionsTxt:FlappyText;
     var grpButtons:ButtonGroup;
 
     var buttons:Array<String> = [
@@ -145,9 +146,7 @@ class EditorState extends FlappyState
         tabMenu.scrollFactor.set();
         add(tabMenu);
 
-        instructionsTxt = new FlxText(0, 0, tabMenu.width + 32, '', 16);
-        instructionsTxt.setFormat(Paths.fontFile(Paths.fonts.get('default')), 16, FlxColor.WHITE, RIGHT, OUTLINE, FlxColor.BLACK);
-
+        instructionsTxt = new FlappyText(0, 0, tabMenu.width + 32, '', 16, RIGHT);
         instructionsTxt.text = 'Controls:'
         + '\nA/D or LeFt/Right to move'
         + '\nHold SHIFT to speed up moving'
@@ -162,8 +161,6 @@ class EditorState extends FlappyState
 
         instructionsTxt.x = FlxG.width - instructionsTxt.width;
         instructionsTxt.y = tabMenu.y - instructionsTxt.height - 16;
-
-        instructionsTxt.scrollFactor.set();
         add(instructionsTxt);
 
         grpButtons = new ButtonGroup(buttons, Horizontal, -1);

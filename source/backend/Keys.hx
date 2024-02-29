@@ -19,6 +19,7 @@ class Keys
     private var k_down:String = 'k_down';
     private var k_flip:String = 'k_flip';
     private var k_pause:String = 'k_pause';
+    private var k_accept:String = 'k_accept';
     private var k_back:String = 'k_back';
     private var k_flap:String = 'k_flap';
 
@@ -42,6 +43,7 @@ class Keys
     public var DOWN_R(get, default):Bool;
     public var FLIP(get, default):Bool;
     public var PAUSE(get, default):Bool;
+    public var ACCEPT(get, default):Bool;
     public var BACK(get, default):Bool;
     public var FLAP(get, default):Bool;
 
@@ -116,6 +118,11 @@ class Keys
         return keyJustPressed(k_pause);
     }
 
+    private function get_ACCEPT():Bool
+    {
+        return keyJustPressed(k_accept);
+    }
+
     private function get_BACK():Bool
     {
         return keyJustPressed(k_back);
@@ -157,6 +164,7 @@ class Keys
                 bindKey(k_up, [A, FlxKey.UP]);
                 bindKey(k_down, [D, FlxKey.DOWN]);
                 bindKey(k_pause, [P]);
+                bindKey(k_accept, [SPACE, ENTER]);
                 bindKey(k_back, [ESCAPE, BACKSPACE]);
 
                 bindKey(k_flip, [F]);

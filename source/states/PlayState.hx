@@ -87,9 +87,6 @@ class PlayState extends FlappyState
 		add(pointsTxt);
 
 		camFollow = new CameraObject();
-		camFollow.screenCenter();
-        camFollow.x = MenuState.camPosX;
-		camFollow.y -= 12;
 
 		new FlxTimer().start(1, function(_){
 			var getReady:FlxSprite = new FlxSprite();

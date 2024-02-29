@@ -4,6 +4,7 @@ import backend.FlappyButton;
 import backend.FlappySettings;
 import backend.FlappyState;
 import backend.FlappyText;
+import backend.FlappyTools;
 import flixel.FlxG;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import objects.Background;
@@ -23,13 +24,8 @@ class LevelSelectionState extends FlappyState
     var titleText:FlappyText;
     var backButton:FlappyButton;
 
-    var grpLevels:FlxTypedGroup<FlappyText>;
-
     var defaultLevels:Array<String> = [];
     var customLevels:Array<String> = [];
-
-    var curSelected:Int = 0;
-    var curRow:Int = 0;
 
     override public function new()
     {
@@ -68,12 +64,6 @@ class LevelSelectionState extends FlappyState
             'example-level',
             'swag',
             'cool',
-            'amazing',
-            'swag',
-            'cool',
-            'amazing',
-            'swag',
-            'cool',
             'amazing'
         ];
 
@@ -89,9 +79,6 @@ class LevelSelectionState extends FlappyState
         }
 
         camFollow = new CameraObject();
-        camFollow.screenCenter();
-        camFollow.x = MenuState.camPosX;
-        camFollow.y -= 12;
 
         super.create();
     }

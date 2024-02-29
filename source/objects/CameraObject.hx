@@ -2,12 +2,19 @@ package objects;
 
 import flixel.FlxG;
 import flixel.FlxObject;
+import states.MenuState;
 
 class CameraObject extends FlxObject
 {
-    override public function new(x:Float = 0, y:Float = 0)
+    override public function new(posToMenuPos:Bool = true)
     {
-        super(x, y, 50, 50);
+        super(0, 0, 50, 50);
+
+        // Positions the camera
+        screenCenter();
+        if (posToMenuPos)
+            x = MenuState.camPosX;
+        y -= 12;
 
         FlxG.camera.follow(this, LOCKON, 1);
     }

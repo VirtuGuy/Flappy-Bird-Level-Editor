@@ -56,9 +56,6 @@ class OptionsState extends FlappyState
         }
 
         camFollow = new CameraObject();
-        camFollow.screenCenter();
-        camFollow.x = MenuState.camPosX;
-        camFollow.y -= 12;
 
         super.create();
     }

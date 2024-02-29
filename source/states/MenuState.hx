@@ -82,9 +82,6 @@ class MenuState extends FlappyState
         }
 
         camFollow = new CameraObject();
-        camFollow.screenCenter();
-        camFollow.x = camPosX;
-        camFollow.y -= 12;
 
         super.create();
 

@@ -186,9 +186,7 @@ class EditorState extends FlappyState
 
         loadStuff();
 
-        camFollow = new CameraObject();
-        camFollow.screenCenter();
-		camFollow.y -= 12;
+        camFollow = new CameraObject(false);
 
         tabMenu.cameras = [hudCamera];
         instructionsTxt.cameras = [hudCamera];

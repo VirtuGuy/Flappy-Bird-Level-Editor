@@ -17,7 +17,7 @@
  * Open source content using the MIT license.
 
 # Credits
-* [AbsurdCoolMan (it's a me!)](https://github.com/AbsurdCoolMan). The being who invented a project this cool like this.
+* [VirtuGuy (it's a me!)](https://github.com/VirtuGuy). The being who invented a project this cool like this.
 * [Dong Nguyen](https://twitter.com/dongatory). He made Flappy Bird.
 
 # Compiling

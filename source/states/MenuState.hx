@@ -59,7 +59,7 @@ class MenuState extends FlappyState
 
         var versionTxt:FlappyText = new FlappyText(2, 0, 0, '', 18);
         versionTxt.borderSize = 1.2;
-        versionTxt.text = 'Made by AbsurdCoolMan'
+        versionTxt.text = 'Made by VirtuGuy'
         + '\nFlappy Bird by Dong Nguyen'
         + '\n${Init.curVersion}';
         versionTxt.y = FlxG.height - versionTxt.height;

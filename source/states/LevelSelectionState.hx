@@ -4,9 +4,7 @@ import backend.FlappyButton;
 import backend.FlappySettings;
 import backend.FlappyState;
 import backend.FlappyText;
-import backend.FlappyTools;
 import flixel.FlxG;
-import flixel.group.FlxGroup.FlxTypedGroup;
 import objects.Background;
 import objects.CameraObject;
 
@@ -14,7 +12,6 @@ using StringTools;
 #if sys
 import sys.FileSystem;
 #end
-
 
 class LevelSelectionState extends FlappyState
 {

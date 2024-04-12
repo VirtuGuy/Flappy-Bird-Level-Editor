@@ -13,8 +13,8 @@ class FlappySettings
     public static var editorScrollSpeed:Float = 8;
     public static var editorGridSize:Int = 16;
 
-    public static var httpPrefix:String = 'https://raw.githubusercontent.com/AbsurdCoolMan/Flappy-Bird-Level-Editor/main/';
+    public static var httpPrefix:String = 'https://raw.githubusercontent.com/VirtuGuy/Flappy-Bird-Level-Editor/main/';
     public static var verCheckLink:String = '${httpPrefix}gameVersion.txt';
     public static var messageLink:String = '${httpPrefix}messages.txt';
-    public static var gameLink:String = 'https://absurdcoolman.itch.io/fble';
+    public static var gameLink:String = 'https://virtuguy.itch.io/fble';
 }

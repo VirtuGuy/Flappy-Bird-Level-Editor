@@ -16,7 +16,7 @@ class IntroState extends FlappyState
 
     override function create()
     {
-        var introTxt:FlappyText = new FlappyText(0, 0, 0, 'AbsurdCoolMan\nMade with HaxeFlixel', 32, CENTER);
+        var introTxt:FlappyText = new FlappyText(0, 0, 0, 'VirtuGuy\nMade with HaxeFlixel', 32, CENTER);
         introTxt.screenCenter();
         add(introTxt);
 

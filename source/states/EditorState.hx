@@ -151,7 +151,6 @@ class EditorState extends FlappyState
         + '\nA/D or LeFt/Right to move'
         + '\nHold SHIFT to speed up moving'
         + '\nHold CTRL to slow down moving'
-        + '\nScroll wheel to scroll'
         + '\nLeFt click to place object'
         + '\nRight click to delete object'
         + '\nCTRL + LeFt click to select object'
@@ -269,13 +268,6 @@ class EditorState extends FlappyState
                 for (button in grpButtons.members)
                     button.visible = !button.visible;
                 grpButtons.visible = grpButtons.members[0].visible;
-            }
-    
-            // Scroll
-            if (FlxG.mouse.wheel != 0)
-            {
-                camFollow.x += -(FlxG.mouse.wheel * FlappySettings.editorScrollSpeed * 2 * 10);
-                updateObjects();
             }
     
             // Rotation

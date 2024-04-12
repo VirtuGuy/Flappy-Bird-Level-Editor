@@ -5,6 +5,7 @@ import flixel.FlxSprite;
 import flixel.addons.ui.interfaces.IFlxUIClickable;
 import flixel.addons.ui.interfaces.IFlxUIWidget;
 import flixel.addons.ui.interfaces.IHasParams;
+import flixel.math.FlxMath;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 import flixel.util.FlxDestroyUtil;
@@ -443,6 +444,7 @@ class FlxUIDropDownMenu extends FlxUIGroup implements IFlxUIWidget implements IF
 		var item:FlxUIButton = list[i];
 		selectSomething(item.name, item.label.text);
 		showList(false);
+
 		if (callback != null)
 		{
 			callback(item.name);

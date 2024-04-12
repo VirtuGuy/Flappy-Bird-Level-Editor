@@ -26,7 +26,105 @@ import openfl.geom.Rectangle;
 using flixel.util.FlxColorTransformUtil;
 
 /**
- * A modified `FlxSprite` made by me, so that I could fix the fading stuff
+ * The core building blocks of all Flixel games. With helpful tools for animation, movement and
+ * features for the needs of most games.
+ * 
+ * It is pretty common place to extend `FlxSprite` for your own game's needs; for example a `SpaceShip`
+ * class may extend `FlxSprite` but could have additional variables for the game like `shieldStrength`
+ * or `shieldPower`.
+ * 
+ * - [Handbook - FlxSprite](https://haxeflixel.com/documentation/flxsprite/)
+ * 
+ * ## Collision and Motion
+ * Flixel handles many aspects of collision and physics motions for you. This is all defined in the
+ * base class: [FlxObject](https://api.haxeflixel.com/flixel/FlxObject.html), check there for things
+ * like: `x`, `y`, `width`, `height`, `velocity`, `acceleration`, `maxVelocity`, `drag`, `angle`,
+ * and `angularVelocity`. All of these affect the movement and orientation of the sprite as well
+ * as [FlxG.collide](https://api.haxeflixel.com/flixel/FlxG.html#collide) and
+ * [FlxG.overlap](https://api.haxeflixel.com/flixel/FlxG.html#overlap)
+ * 
+ * ## Graphics
+ * `FlxSprites` are just `FlxObjects` with the ability to show graphics. There are various ways to do this.
+ * ### `loadGraphic()`
+ * [Snippets - Loading Sprites](https://snippets.haxeflixel.com/sprites/loading-sprites/)
+ * The easiest way to use a single image for your FlxSprite. Using the OpenFL asset system defined
+ * in the project xml file you simply have to define a path to your image and the compiler will do
+ * the rest.
+ * ```haxe
+ * var player = new FlxSprite();
+ * player.loadGraphic("assets/player.png");
+ * add(player);
+ * ```
+ * 
+ * ####Animations
+ * [Snippets - Animations](https://snippets.haxeflixel.com/sprites/animation/)
+ * When loading a graphic for a `FlxSprite`, you can specify is as an animated graphic. Then, using
+ * animation, you can setup animations and play them.
+ * ```haxe
+ *  // sprite's graphic will be loaded from 'path/to/image.png' and is set to allow animations.
+ * sprite.loadGraphic('path/to/image/png', true);
+ * 
+ * // add an animation named 'run' to sprite, using the specified frames
+ * sprite.animation.add('run', [0, 1, 2, 1]);
+ * 
+ * // play the 'run' animation
+ * sprite.animation.play('run');
+ * ```
+ * 
+ * ### `makeGraphic()`
+ * [Snippets - Loading Sprites](https://snippets.haxeflixel.com/sprites/making-sprites/)
+ * This method is a handy way to make a simple color fill to quickly test a feature or have the basic shape.
+ * ```haxe
+ * var whiteSquare = new FlxSprite();
+ * whiteSquare.makeGraphic(200, 200, FlxColor.WHITE);
+ * add(whiteSquare);
+ * ```
+ * ## Properties
+ * ### Position: x, y
+ * ```haxe
+ * whiteSquare.x = 100;
+ * whiteSquare.y = 300;
+ * ```
+ * 
+ * ### Size: width, height
+ * Automatically set in loadGraphic() or makeGraphic(), changing this will only affect the hitbox
+ * of this sprite, use scale to change the graphic's size.
+ * ```haxe
+ * // get
+ * var getWidth = whiteSquare.width;
+ * 
+ * // set
+ * whiteSquare.width = 100;
+ * whiteSquare.height = 100;
+ * ```
+ * 
+ * ### Scale
+ * [Snippets - Scale](https://snippets.haxeflixel.com/sprites/scale/)
+ * (FlxPoint) Change the size of your sprite's graphic. NOTE: The hitbox is not automatically
+ * adjusted, use updateHitbox() for that.
+ * ```haxe
+ * // twice as big
+ * whiteSquare.scale.set(2, 2);
+ * 
+ * // 50%
+ * whiteSquare.scale.set(0.5, 0.5);
+ * ```
+ * 
+ * ### Offset
+ * (FlxPoint) Controls the position of the sprite's hitbox. Likely needs to be adjusted after changing a sprite's width, height or scale.
+ * ```haxe
+ * whiteSquare.offset.set(50, 50);
+ * ```
+ * 
+ * ### Origin
+ * (FlxPoint) Rotation axis. Default: center.
+ * 
+ * WARNING: If you change this, the visuals and the collisions will likely be pretty out-of-sync if you do any rotation.
+ * ```haxe
+ * // rotate from top-left corner instead of center
+ * whiteSquare.origin.set(0, 0);
+ * ```
+ * 
  */
 class FlxSprite extends FlxObject
 {
@@ -181,16 +279,12 @@ class FlxSprite extends FlxObject
 	public var clipRect(default, set):FlxRect;
 
 	/**
-	 * GLSL shader for this sprite. Only works with OpenFL Next or WebGL.
-	 * Avoid changing it frequently as this is a costly operation.
+	 * GLSL shader for this sprite. Avoid changing it frequently as this is a costly operation.
 	 * @since 4.1.0
 	 */
-	#if openfl_legacy
-	@:noCompletion
-	#end
 	public var shader:FlxShader;
 
-    // FBLE variables
+	// FBLE variables
     public var tweenX:Float = 0;
     public var tweenY:Float = 0;
 	public var tweenAlpha:Float = 0;
@@ -683,6 +777,16 @@ class FlxSprite extends FlxObject
 	{
 		if (_frame == null)
 			loadGraphic("flixel/images/logo/default.png");
+		else if (graphic != null && graphic.isDestroyed)
+		{
+			// switch graphic but log and preserve size
+			final width = this.width;
+			final height = this.height;
+			FlxG.log.error('Cannot render a destroyed graphic, the placeholder image will be used instead');
+			loadGraphic("flixel/images/logo/default.png");
+			this.width = width;
+			this.height = height;
+		}
 	}
 
 	/**

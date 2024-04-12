@@ -256,6 +256,7 @@ class EditorState extends FlappyState
                     speed /= 1.5;
     
                 camFollow.x += posAdd * speed;
+                updateObjects();
             }
 
             // Hide instructions
@@ -274,6 +275,7 @@ class EditorState extends FlappyState
             if (FlxG.mouse.wheel != 0)
             {
                 camFollow.x += -(FlxG.mouse.wheel * FlappySettings.editorScrollSpeed * 2 * 10);
+                updateObjects();
             }
     
             // Rotation
@@ -332,7 +334,8 @@ class EditorState extends FlappyState
             object.scaleMulti = item.scale;
             object.flipped = item.flipped;
             object.variables = item.variables;
-            grpObjects.add(object);
+            if (object.isOnScreen())
+                grpObjects.add(object);
         }
 
         updateLines();

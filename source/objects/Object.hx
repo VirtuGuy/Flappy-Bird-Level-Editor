@@ -1,6 +1,7 @@
 package objects;
 
 import backend.FlappyTools;
+import flixel.FlxG;
 import flixel.FlxSprite;
 
 typedef ObjectData = {

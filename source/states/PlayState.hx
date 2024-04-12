@@ -27,6 +27,7 @@ class PlayState extends FlappyState
 	var bird:Bird;
 
 	var grpObjects:FlxTypedGroup<Object>;
+	var objects:Array<Object> = [];
 
 	var camFollow:CameraObject;
 	var pauseButton:FlappyButton;
@@ -135,7 +136,7 @@ class PlayState extends FlappyState
 			object.scaleMulti = item.scale;
 			object.flipped = item.flipped;
 			object.variables = item.variables;
-			grpObjects.add(object);
+			objects.push(object);
 		}
 	}
 
@@ -306,6 +307,23 @@ class PlayState extends FlappyState
 		FlappyState.switchState(new EditorState(levelData));
 	}
 
+	function checkObjects()
+	{
+		var removedObjects:Array<Object> = [];
+
+		for (object in objects)
+		{
+			if (object.isOnScreen())
+			{
+				grpObjects.add(object);
+				removedObjects.push(object);
+			}
+		}
+
+		for (object in removedObjects)
+			objects.remove(object);
+	}
+
 	override function update(elapsed:Float)
 	{
 		if (!bird.isDead && !(ending && birdSpeedUp))
@@ -333,6 +351,7 @@ class PlayState extends FlappyState
 			bird.velocity.x += 25;
 		}
 
+		checkObjects();
 		checkDeath();
 		checkSpecialObjects();
 

@@ -3,14 +3,13 @@ package backend;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
-import flixel.addons.ui.FlxUIState;
 import flixel.group.FlxGroup;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
 import objects.Background;
 
-class FlappyState extends FlxUIState
+class FlappyState extends FlxState
 {
 	private var keys:Keys;
 

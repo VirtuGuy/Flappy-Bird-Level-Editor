@@ -4,7 +4,7 @@
 
  This game is a recreation of the famous Flappy Bird game that released on the app store in 2013, except that it has a level editor.
 
- This game is actually a remake of the Flappy Bird level editor I made on Scratch. The project did so good with it getting over 180 thousand views. Due to Scratch being pretty limited, I decided to remake my project in something else... HaxeFlixel.
+ This game is actually a remake of the Flappy Bird level editor I made on Scratch. The project did so good with it getting over 200,000 views. Due to Scratch being pretty limited, I decided to remake my project in something else... HaxeFlixel.
 
 # The game's features
  Not satisfied yet? How about I list the features the game has in store.

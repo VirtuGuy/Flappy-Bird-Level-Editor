@@ -197,10 +197,9 @@ class EditorState extends FlappyState
     override function update(elapsed:Float)
     {
         // Positioning
-        editCursor.x = FlxG.mouse.x;
-        editCursor.y = FlxG.mouse.y;
-        editObject.x = Math.floor(editCursor.x / gridSize) * gridSize;
-        editObject.y = Math.floor(editCursor.y / gridSize) * gridSize;
+        editCursor.setPosition(FlxG.mouse.x, FlxG.mouse.y);
+        editObject.setPosition(Math.floor(editCursor.x / gridSize) * gridSize,
+            Math.floor(editCursor.y / gridSize) * gridSize);
 
         // Focus check
         var canDoStuff:Bool = true;

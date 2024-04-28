@@ -17,6 +17,9 @@ class FlappyState extends FlxUIState
 	public var doFadeInTransition:Bool = false;
 	public var doFadeOutTransition:Bool = false;
 	public var fadeDuration:Float = 0.5;
+	private var fadeBlacklist:Array<Class<Dynamic>> = [
+		Background
+	];
 
 	override public function new(doFadeInTransition:Bool = false, doFadeOutTransition:Bool = false)
 	{
@@ -108,7 +111,7 @@ class FlappyState extends FlxUIState
 				var object:FlxSprite = cast object;
 				fadeObject(object, fadeIn);
 			}
-			else if (object is FlxGroup && !(object is Background))
+			else if (object is FlxGroup && !fadeBlacklist.contains(Type.getClass(object)))
 			{
 				var group:FlxGroup = cast object;
 				fadeGroup(group, fadeIn);

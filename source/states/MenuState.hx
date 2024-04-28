@@ -65,21 +65,23 @@ class MenuState extends FlappyState
         versionTxt.y = FlxG.height - versionTxt.height;
         add(versionTxt);
 
+        #if MESSAGES
         messageBox = new FlxSprite();
         messageBox.makeGraphic(FlxG.width, 25, FlxColor.fromRGBFloat(0, 0, 0, 0.8));
         messageBox.screenCenter(X);
         messageBox.scrollFactor.set();
 
-        var message:String = FlxG.random.getObject(Init.messages);
+        var message:Null<String> = FlxG.random.getObject(Init.messages);
         messageText = new FlappyText(0, messageBox.y, 0, message, 24);
         messageText.borderColor = FlxColor.TRANSPARENT;
         messageText.x = (FlxG.width + (messageText.width / 4));
 
-        if (message != '')
+        if (message != null && message != '')
         {
             add(messageBox);
             add(messageText);
         }
+        #end
 
         camFollow = new CameraObject();
 

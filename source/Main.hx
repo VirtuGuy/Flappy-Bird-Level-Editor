@@ -15,7 +15,7 @@ class Main extends Sprite
 		addChild(new FlxGame(640, 480, Init, 60, 60, true, false));
 
 		fpsCounter = new FPS(5, 5, 0xFFFFFF);
-		#if SHOW_FPS
+		#if (SHOW_FPS && !mobile)
 		addChild(fpsCounter);
 		#end
 	}

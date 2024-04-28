@@ -158,36 +158,6 @@ class Paths
         return content;
     }
 
-    public static function dumpCache()
-    {
-        for (key in imageCache.keys())
-        {
-            var graphic:FlxGraphic = imageCache.get(key);
-
-            if (graphic != null)
-            {
-                imageCache.remove(key);
-
-                OpenFlAssets.cache.removeBitmapData(key);
-
-                graphic.persist = false;
-                graphic.destroyOnNoUse = true;
-                graphic.destroy();
-            }
-        }
-
-        for (key in soundCache.keys())
-        {
-            var sound:Sound = soundCache.get(key);
-
-            if (sound != null)
-            {
-                soundCache.remove(key);
-                OpenFlAssets.cache.removeSound(key);
-            }
-        }
-    }
-
     // Key value getting functions
     public static function getTexture(key:String):String
     {

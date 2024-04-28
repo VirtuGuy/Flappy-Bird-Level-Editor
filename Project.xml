@@ -4,7 +4,7 @@
 
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Flappy Bird Level Editor" file="FBLE" packageName="com.virtuguy.FBLE" package="com.virtuguy.FBLE" main="Main" version="0.0.1" company="virtuguy" />
+	<app title="Flappy Bird Level Editor" file="FBLE" package="com.virtuguy.FBLE" main="Main" version="0.0.1" company="virtuguy" />
 
 	<!--The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file
 		or you can set the actual size of your file manually at "FlxPreloaderBase-onUpdate-bytesTotal"-->
@@ -32,9 +32,9 @@
 	<set name="BUILD_DIR" value="export" />
 	<source path="source" />
 
-	<!--Excludes sound extensions for desktop and html5-->
-	<assets path="assets" exclude="*.ogg" if="html5" />
-	<assets path="assets" exclude="*.mp3" unless="html5" />
+	<!--Excludes sound extensions for desktop and web-->
+	<assets path="assets" exclude="*.ogg" if="web" />
+	<assets path="assets" exclude="*.mp3" unless="web" />
 
 	<!--Embeds the font directory-->
 	<assets path="assets/fonts" embed="true" />
@@ -56,6 +56,9 @@
 	<!--<haxelib name="nape-haxe4" />-->
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
+
+	<haxedef name="CHECK_FOR_UPDATES" />
+	<haxedef name="MESSAGES" />
 
 	<!--<haxedef name="SHOW_FPS" />-->
 

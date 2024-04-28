@@ -2,6 +2,7 @@ package backend;
 
 import flixel.FlxG;
 import flixel.util.FlxSave;
+import haxe.Http;
 import haxe.Json;
 import lime.app.Application;
 
@@ -43,5 +44,18 @@ class FlappyTools
         path = '$company/${FlxSave.validate(file)}';
 
         return path;
+    }
+
+    public static function httpRequest(url:String, onData:(data:String)->Void,
+        ?onError:(error:String)->Void)
+    {
+        var http:Http = new Http(url);
+        http.onData = onData;
+        http.onError = function(error:String){
+            trace('HTTP request error ($error)!');
+            if (onError != null)
+                onError(error);
+        }
+        http.request();
     }
 }

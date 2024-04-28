@@ -3,11 +3,11 @@ package;
 import backend.FlappyData;
 import backend.FlappySettings;
 import backend.FlappyText;
+import backend.FlappyTools;
 import flixel.FlxG;
 import flixel.FlxState;
 import flixel.ui.FlxBar;
 import flixel.util.FlxColor;
-import haxe.Http;
 import lime.app.Application;
 import states.IntroState;
 import states.OutdatedState;
@@ -26,9 +26,13 @@ class Init extends FlxState
     var sounds:Array<Dynamic> = [];
     
     public static var curVersion:String = '';
+    #if CHECK_FOR_UPDATES
     public static var latestVersion:String = '';
     public static var showOutdated:Bool = false;
+    #end
+    #if MESSAGES
     public static var messages:Array<String> = [];
+    #end
 
     override function create()
     {
@@ -38,32 +42,24 @@ class Init extends FlxState
         FlappyData.load();
 
         // Version
+        #if CHECK_FOR_UPDATES
         curVersion = 'v${Application.current.meta.get('version')}';
-
-        var verHttp:Http = new Http(FlappySettings.verCheckLink);
-        verHttp.onData = function(data:String){
+        FlappyTools.httpRequest(FlappySettings.verCheckLink, function(data:String){
             latestVersion = 'v${data.split('\n')[0].trim()}';
-
             if (curVersion != latestVersion)
                 showOutdated = true;
-        }
-        verHttp.onError = function(error){
-            trace('Error getting version ($error)!');
-        }
-        verHttp.request();
+        });
+        #end
 
         // Message
-        var messageHttp:Http = new Http(FlappySettings.messageLink);
-        messageHttp.onData = function(data:String){
+        #if MESSAGES
+        FlappyTools.httpRequest(FlappySettings.messageLink, function(data:String){
             for (msg in data.trim().split('\n'))
             {
                 messages.push(msg.trim());
             }
-        }
-        messageHttp.onError = function(error){
-            trace('Error getting message ($error)!');
-        }
-        messageHttp.request();
+        });
+        #end
 
         var text:FlappyText = new FlappyText(0, 0, 0, 'Loading...', 32, CENTER);
         text.screenCenter();
@@ -81,8 +77,6 @@ class Init extends FlxState
 
     function startCaching()
     {
-        Paths.dumpCache();
-
         // BG
         addImage('background/Sky');
         addImage('background/Ground');

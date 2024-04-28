@@ -5,6 +5,8 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 
+using StringTools;
+
 class FlappyText extends FlxText
 {
     public var defaultX:Float = 0;
@@ -15,6 +17,9 @@ class FlappyText extends FlxText
     {
         super(x, y, fieldWidth, text, size);
         defaultX = this.x;
+
+        // Lowercase F looks bad in the font
+        text = text.replace('f', 'F');
 
         setFormat(Paths.fontFile(Paths.getFont('default')), size, FlxColor.WHITE, alignment, OUTLINE, FlxColor.BLACK);
         borderSize = 2;

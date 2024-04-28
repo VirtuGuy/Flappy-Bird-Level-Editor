@@ -38,7 +38,6 @@ class Init extends FlxState
     {
         FlxG.mouse.useSystemCursor = true;
 
-        FlappyData.init();
         FlappyData.load();
 
         // Version

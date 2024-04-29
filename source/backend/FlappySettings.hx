@@ -10,7 +10,7 @@ class FlappySettings
     public static var levelJson:LevelData = null;
 
     // Editor settings
-    public static var editorScrollSpeed:Float = 8;
+    public static var editorScrollSpeed:Float = 6;
     public static var editorGridSize:Int = 16;
 
     public static var httpPrefix:String = 'https://raw.githubusercontent.com/VirtuGuy/Flappy-Bird-Level-Editor/main/';

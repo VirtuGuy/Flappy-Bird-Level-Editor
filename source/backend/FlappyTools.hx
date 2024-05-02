@@ -1,8 +1,16 @@
 package backend;
 
 import flixel.FlxG;
+import flixel.util.FlxColor;
 import haxe.Http;
 import haxe.Json;
+import lime.graphics.Image;
+
+using StringTools;
+#if sys
+import sys.FileSystem;
+import sys.io.File;
+#end
 
 class FlappyTools
 {
@@ -19,7 +27,7 @@ class FlappyTools
     {
         var json:Dynamic = null;
 
-        if (Paths.fileExists(path))
+        if (Paths.pathExists(path))
         {
             var content:String = Paths.getText(path);
             json = Json.parse(content);
@@ -40,4 +48,21 @@ class FlappyTools
         }
         http.request();
     }
+
+    #if SCREENSHOTS
+    public static function takeScreenshot()
+    {
+        FlxG.sound.play(Paths.soundFile('sfx_screenshot'));
+
+        var date:String = Date.now().toString();
+        date = date.replace(' ', '-').replace(':', '-');
+
+        var screenshotName:String = 'Screenshot ($date)';
+        var windowPixels:Image = FlxG.stage.window.readPixels();
+        File.saveBytes(Paths.screenshotFile(screenshotName, false), windowPixels.encode());
+
+        // Does the flash after (just in case)
+        FlxG.camera.flash(FlxColor.WHITE, 0.2);
+    }
+    #end
 }

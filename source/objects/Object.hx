@@ -55,7 +55,7 @@ class Object extends FlxSprite
     {
         this.objectName = value;
 
-        if (Paths.fileExists(Paths.objectJson(objectName)))
+        if (Paths.pathExists(Paths.objectJson(objectName)))
         {
             var json:ObjectData = FlappyTools.loadJSON(Paths.objectJson(objectName));
             

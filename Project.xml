@@ -27,6 +27,13 @@
 	<!--Mobile-specific-->
 	<window if="mobile" orientation="landscape" fullscreen="true" width="0" height="0" />
 
+	<!-- ______________________________ FBLE Haxedefines _____________________________ -->
+
+	<haxedef name="CHECK_FOR_UPDATES" />
+	<haxedef name="MESSAGES" />
+	<haxedef name="SCREENSHOTS" if="desktop" />
+	<!--<haxedef name="SHOW_FPS" />-->
+
 	<!-- _____________________________ Path Settings ____________________________ -->
 
 	<set name="BUILD_DIR" value="export" />
@@ -56,11 +63,6 @@
 	<!--<haxelib name="nape-haxe4" />-->
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
-
-	<haxedef name="CHECK_FOR_UPDATES" />
-	<haxedef name="MESSAGES" />
-
-	<!--<haxedef name="SHOW_FPS" />-->
 
 	<!--Enable the Flixel core recording system-->
 	<!--<haxedef name="FLX_RECORD" />-->

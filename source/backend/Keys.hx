@@ -22,6 +22,7 @@ class Keys
     private var k_accept:String = 'k_accept';
     private var k_back:String = 'k_back';
     private var k_flap:String = 'k_flap';
+    private var k_screenshot:String = 'k_screenshot';
 
     /// Volume key strings
     private var v_mute:String = 'v_mute';
@@ -46,6 +47,7 @@ class Keys
     public var ACCEPT(get, default):Bool;
     public var BACK(get, default):Bool;
     public var FLAP(get, default):Bool;
+    public var SCREENSHOT(get, default):Bool;
 
     // Key functions
     private function get_LEFT():Bool
@@ -133,6 +135,11 @@ class Keys
         return keyJustPressed(k_flap);
     }
 
+    private function get_SCREENSHOT():Bool
+    {
+        return keyJustPressed(k_screenshot);
+    }
+
     // Other stuff
     private function keyJustPressed(keyName:String):Bool
     {
@@ -169,6 +176,7 @@ class Keys
 
                 bindKey(k_flip, [F]);
                 bindKey(k_flap, [SPACE, ENTER]);
+                bindKey(k_screenshot, [F3]);
 
                 bindKey(v_mute, [NUMPADZERO]);
                 bindKey(v_up, [NUMPADPLUS]);

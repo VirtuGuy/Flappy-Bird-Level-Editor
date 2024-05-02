@@ -111,7 +111,7 @@ class EditorState extends FlappyState
         FlxG.cameras.add(hudCamera, false);
 
         var objectsPath:String = Paths.textFile('data', 'objectsList');
-        if (Paths.fileExists(objectsPath))
+        if (Paths.pathExists(objectsPath))
         {
             var content:String = Paths.getText(objectsPath);
             var texts:Array<String> = content.split('\n');
@@ -371,7 +371,7 @@ class EditorState extends FlappyState
 
             var variables:Array<Array<Dynamic>> = [];
 
-            if (Paths.fileExists(Paths.objectJson(name)))
+            if (Paths.pathExists(Paths.objectJson(name)))
             {
                 var json:ObjectData = FlappyTools.loadJSON(Paths.objectJson(name));
 
@@ -559,7 +559,7 @@ class EditorState extends FlappyState
 
                         item.variables = [];
 
-                        if (Paths.fileExists(Paths.objectJson(item.name)))
+                        if (Paths.pathExists(Paths.objectJson(item.name)))
                         {
                             var json:ObjectData = FlappyTools.loadJSON(Paths.objectJson(item.name));
             
@@ -822,7 +822,7 @@ class EditorState extends FlappyState
             path = 'default';
 
         #if sys
-        if (!Paths.fileExists(Paths.levelsFolder(path, levelData.levelName)))
+        if (!Paths.pathExists(Paths.levelsFolder(path, levelData.levelName)))
             FileSystem.createDirectory(Paths.levelsFolder(path, levelData.levelName));
 
         File.saveContent(Paths.levelFile(path, levelData.levelName), jsonString);

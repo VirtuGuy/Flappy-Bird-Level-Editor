@@ -49,8 +49,17 @@ class Paths
     // Files
     public static function imageFile(key:String):FlxGraphic
     {
+        return image(imagePath(key));
+    }
+
+    public static function soundFile(key:String, isMusic:Bool = false):Sound
+    {
+        return sound(soundPath(key, isMusic));
+    }
+
+    public static function image(path:String):FlxGraphic
+    {
         var graphic:FlxGraphic = null;
-        var path:String = imagePath(key);
 
         if (imageCache.exists(path))
         {
@@ -74,10 +83,9 @@ class Paths
         return graphic;
     }
 
-    public static function soundFile(key:String, isMusic:Bool = false):Sound
+    public static function sound(path:String):Sound
     {
         var sound:Sound = null;
-        var path:String = soundPath(key, isMusic);
 
         if (soundCache.exists(path))
         {
@@ -127,7 +135,25 @@ class Paths
         return 'assets/$folder/$key.txt';
     }
 
-    public static function fileExists(path:String)
+    #if SCREENSHOTS
+    public static function screenshotsFolder():String
+    {
+        if (!pathExists('screenshots'))
+            FileSystem.createDirectory('screenshots');
+        return 'screenshots';
+    }
+
+    public static function screenshotFile(key:String, getScreenshot:Bool = true):Any
+    {
+        var path:String = '${screenshotsFolder()}/$key.$imageExt';
+        if (getScreenshot)
+            return image(path);
+        else
+            return path;
+    }
+    #end
+
+    public static function pathExists(path:String)
     {
         var exists:Bool = false;
 
@@ -146,7 +172,7 @@ class Paths
     {
         var content:String = "";
 
-        if (fileExists(path))
+        if (pathExists(path))
         {
             #if sys
             content = File.getContent(path);

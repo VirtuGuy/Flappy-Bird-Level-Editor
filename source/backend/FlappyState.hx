@@ -9,6 +9,9 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
 import objects.Background;
+import states.ExitState;
+import states.IntroState;
+import states.OutdatedState;
 
 class FlappyState extends FlxUIState
 {
@@ -20,6 +23,14 @@ class FlappyState extends FlxUIState
 	private var fadeBlacklist:Array<Class<Dynamic>> = [
 		Background
 	];
+
+	#if SCREENSHOTS
+	private var screenshotBlacklist:Array<Class<FlappyState>> = [
+		IntroState,
+		OutdatedState,
+		ExitState
+	];
+	#end
 
 	override public function new(doFadeInTransition:Bool = false, doFadeOutTransition:Bool = false)
 	{
@@ -37,6 +48,17 @@ class FlappyState extends FlxUIState
 
 		if (this.doFadeInTransition)
 			fadeObjects(true);
+	}
+
+	override public function update(elapsed:Float)
+	{
+		#if SCREENSHOTS
+		var state:FlappyState = cast FlxG.state;
+		if (keys.SCREENSHOT && !screenshotBlacklist.contains(Type.getClass(state)))
+			FlappyTools.takeScreenshot();
+		#end
+
+		super.update(elapsed);
 	}
 
 	public function fadeObject(object:FlxSprite, fadeIn:Bool = true)

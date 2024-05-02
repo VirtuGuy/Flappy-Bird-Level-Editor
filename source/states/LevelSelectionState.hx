@@ -42,7 +42,7 @@ class LevelSelectionState extends FlappyState
         #if sys
         for (folder in FileSystem.readDirectory(Paths.levelsFolder('default')))
         {
-            if (Paths.fileExists(Paths.levelFile('default', folder)))
+            if (Paths.pathExists(Paths.levelFile('default', folder)))
             {
                 defaultLevels.push(folder);
             }
@@ -50,7 +50,7 @@ class LevelSelectionState extends FlappyState
 
         for (folder in FileSystem.readDirectory(Paths.levelsFolder('custom')))
         {
-            if (Paths.fileExists(Paths.levelFile('custom', folder)))
+            if (Paths.pathExists(Paths.levelFile('custom', folder)))
             {
                 customLevels.push(folder);
             }

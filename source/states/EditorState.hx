@@ -530,6 +530,7 @@ class EditorState extends FlappyState
     var objectVarDropdown:FlxUIDropDownMenu;
     var objectVarInput:FlxUIInputText;
     var objectVarText:FlxText;
+    var objectDeselectButton:FlxButton;
 
     private function addObjectTab()
     {
@@ -626,6 +627,12 @@ class EditorState extends FlappyState
         objectVarInput.name = 'objectVarInput';
         inputTexts.push(objectVarInput);
 
+        objectDeselectButton = new FlxButton(160, 200, 'Deselect', function(){
+            selectedObject = null;
+            updateObjects();
+            updateObjectTab();
+        });
+
         group.add(objectPosXStepper);
         group.add(objectPosYStepper);
         group.add(objectPosText);
@@ -637,6 +644,7 @@ class EditorState extends FlappyState
         group.add(objectVarInput);
         group.add(objectNameDropdown);
         group.add(objectNameText);
+        group.add(objectDeselectButton);
         
         tabMenu.addGroup(group);
     }
@@ -661,6 +669,9 @@ class EditorState extends FlappyState
         objectVarText.active = false;
         objectVarText.visible = false;
 
+        objectDeselectButton.active = false;
+        objectDeselectButton.visible = false;
+
         if (selectedObject != null)
         {
             objectPosXStepper.value = selectedObject.x;
@@ -668,6 +679,9 @@ class EditorState extends FlappyState
             objectNameDropdown.selectedLabel = selectedObject.objectName;
             objectFlippedCheckbox.checked = selectedObject.flipped;
             objectScaleStepper.value = selectedObject.scaleMulti;
+
+            objectDeselectButton.active = true;
+            objectDeselectButton.visible = true;
 
             if (selectedObject.canBeFlipped)
             {

@@ -6,6 +6,7 @@ import backend.FlappyState;
 import backend.FlappyText;
 import flixel.FlxG;
 import objects.Background;
+import objects.ButtonGroup;
 import objects.CameraObject;
 
 using StringTools;
@@ -21,8 +22,12 @@ class LevelSelectionState extends FlappyState
     var titleText:FlappyText;
     var backButton:FlappyButton;
 
-    var defaultLevels:Array<String> = [];
-    var customLevels:Array<String> = [];
+    var buttons:Array<String> = [
+        'levels',
+        'custom',
+        'infinite'
+    ];
+    var grpButtons:ButtonGroup;
 
     override public function new()
     {
@@ -39,31 +44,6 @@ class LevelSelectionState extends FlappyState
         titleText.y = titleText.height - 20;
         add(titleText);
 
-        #if sys
-        for (folder in FileSystem.readDirectory(Paths.levelsFolder('default')))
-        {
-            if (Paths.pathExists(Paths.levelFile('default', folder)))
-            {
-                defaultLevels.push(folder);
-            }
-        }
-
-        for (folder in FileSystem.readDirectory(Paths.levelsFolder('custom')))
-        {
-            if (Paths.pathExists(Paths.levelFile('custom', folder)))
-            {
-                customLevels.push(folder);
-            }
-        }
-        #end
-
-        defaultLevels = [
-            'example-level',
-            'swag',
-            'cool',
-            'amazing'
-        ];
-
         backButton = new FlappyButton(0, 0, 'back');
         backButton.clickSound = true;
         backButton.screenCenter(X);
@@ -71,13 +51,15 @@ class LevelSelectionState extends FlappyState
         add(backButton);
 
         backButton.onClicked = function(){
-            FlxG.sound.play(Paths.soundFile(Paths.getSound('swooshing')));
             FlappyState.switchState(new MenuState());
         }
 
         camFollow = new CameraObject();
 
         super.create();
+
+        grpButtons = new ButtonGroup(buttons, Vertical, 0.5);
+        add(grpButtons);
     }
 
     override function update(elapsed:Float)

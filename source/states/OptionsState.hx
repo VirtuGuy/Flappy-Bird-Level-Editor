@@ -51,7 +51,6 @@ class OptionsState extends FlappyState
         add(backButton);
 
         backButton.onClicked = function(){
-            FlxG.sound.play(Paths.soundFile(Paths.getSound('swooshing')));
             FlappyState.switchState(new MenuState());
         }
 

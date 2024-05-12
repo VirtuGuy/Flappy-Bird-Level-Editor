@@ -1,6 +1,7 @@
 package backend;
 
 import flixel.FlxG;
+import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.addons.ui.FlxUIState;
@@ -139,6 +140,20 @@ class FlappyState extends FlxUIState
 				fadeGroup(group, fadeIn);
 			}
 		}
+	}
+
+	public function toggleSprite(sprite:FlxObject, toggle:Bool = true, keepVisibility:Bool = false)
+	{
+		if (!keepVisibility)
+			sprite.visible = toggle;
+		sprite.active = toggle;
+	}
+
+	public function toggleSprites(sprites:Array<FlxObject>, toggle:Bool = true,
+		keepVisibility:Bool = false)
+	{
+		for (sprite in sprites)
+			toggleSprite(sprite, toggle, keepVisibility);
 	}
 
 	public function stateSwitching(nextState:FlxState)

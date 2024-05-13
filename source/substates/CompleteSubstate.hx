@@ -10,11 +10,11 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import objects.ButtonGroup;
 import states.MenuState;
+import states.PlayState;
 
 class CompleteSubstate extends FlappySubstate
 {
     var grpButtons:ButtonGroup;
-
     var buttons:Array<String> = [
         'restart',
         'menu'
@@ -35,6 +35,7 @@ class CompleteSubstate extends FlappySubstate
             FlappyState.switchState(FlxG.state);
         }
         grpButtons.members[1].onClicked = function(){
+            PlayState.infiniteMode = false;
             FlappyState.switchState(new MenuState());
         }
 

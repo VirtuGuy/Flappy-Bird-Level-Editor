@@ -9,11 +9,11 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import objects.ButtonGroup;
 import states.MenuState;
+import states.PlayState;
 
 class PauseSubstate extends FlappySubstate
 {
     var grpButtons:ButtonGroup;
-
     var buttons:Array<String> = [
         'resume',
         'restart',
@@ -39,11 +39,11 @@ class PauseSubstate extends FlappySubstate
             FlappyState.switchState(FlxG.state);
         }
         grpButtons.members[2].onClicked = function(){
+            PlayState.infiniteMode = false;
             FlappyState.switchState(new MenuState());
         }
 
         add(grpButtons);
-
         grpButtons.setButtonClickSFX(0, false);
 
         FlxTween.tween(bg, {alpha: 0.65}, 0.4, {ease: FlxEase.quadInOut});

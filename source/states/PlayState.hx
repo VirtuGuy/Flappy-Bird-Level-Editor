@@ -24,6 +24,7 @@ import substates.PauseSubstate;
 class PlayState extends FlappyState
 {
 	public static var editorMode:Bool = false;
+	public static var infiniteMode:Bool = false;
 	public static var levelData:LevelData;
 
 	public var started:Bool = false;
@@ -40,6 +41,7 @@ class PlayState extends FlappyState
 	var points:Int = 0;
 	var scrollSpeed:Float = 4;
 	var startCamPosX:Float = 0;
+	var infiniteLevelX:Float = 0;
 	
 	override function create()
 	{
@@ -59,7 +61,10 @@ class PlayState extends FlappyState
 		bird.scrollFactor.set();
 		bg.backObjects.add(bird);
 
-		loadLevel();
+		if (!infiniteMode)
+			loadLevel();
+		else
+			generateInfiniteSection();
 		addUI();
 		getReady();
 
@@ -118,17 +123,45 @@ class PlayState extends FlappyState
 		if (levelData != null)
 		{
 			scrollSpeed = levelData.scrollSpeed;
-
 			for (item in levelData.objects)
 			{
-				var add:Float = 0;
-				if (levelData != null)
-					add = 225 * levelData.scrollSpeed + startCamPosX;
-
+				var add:Float = 225 * scrollSpeed + startCamPosX;
 				var object:Object = new Object(item.x + add, item.y, item.name);
 				object.scaleMulti = item.scale;
 				object.flipped = item.flipped;
 				object.variables = item.variables;
+				objects.push(object);
+			}
+		}
+	}
+
+	function generateInfiniteSection(size:Int = 5)
+	{
+		for (_ in 0...size)
+		{
+			infiniteLevelX += 200;
+			var y:Float = 0;
+			for (i in 0...3)
+			{
+				var objectName:String = 'pipe';
+				var flipped:Bool = false;
+				switch (i)
+				{
+					case 0:
+						y = FlxG.random.int(100, 200);
+						flipped = true;
+					case 1:
+						objectName = 'point';
+						y += 50;
+					case 2:
+						y += FlxG.random.int(50, 100);
+				}
+
+				var add:Float = 255 * scrollSpeed + startCamPosX;
+				var object:Object = new Object(infiniteLevelX + add, y, objectName);
+				object.flipped = flipped;
+				if (i == 1)
+					object.variables.push(['points', 1]);
 				objects.push(object);
 			}
 		}
@@ -260,7 +293,11 @@ class PlayState extends FlappyState
 			grpObjects.forEach(function(obj:Object){
 				// Despawn the object if it goes off-screen again
 				if (!obj.isOnScreen())
+				{
 					removedObjects.push(obj);
+					if (infiniteMode)
+						generateInfiniteSection(1);
+				}
 
 				// Triggers the object with the different trigger modes
 				switch (obj.triggerMode)

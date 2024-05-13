@@ -58,6 +58,10 @@ class LevelSelectionState extends FlappyState
         super.create();
 
         grpButtons = new ButtonGroup(buttons, Vertical, 0.5);
+        grpButtons.members[2].onClicked = function(){
+            PlayState.infiniteMode = true;
+            FlappyState.switchState(new PlayState());
+        }
         add(grpButtons);
     }
 

@@ -16,15 +16,6 @@ using StringTools;
 
 class Init extends FlxState
 {
-    var loadedFiles:Int = 0;
-    var totalFiles:Int = 0;
-    var percentageBar:FlxBar;
-
-    private var percent:Float = 0;
-
-    var images:Array<String> = [];
-    var sounds:Array<Dynamic> = [];
-    
     public static var curVersion:String = '';
     #if CHECK_FOR_UPDATES
     public static var latestVersion:String = '';
@@ -33,6 +24,14 @@ class Init extends FlxState
     #if MESSAGES
     public static var messages:Array<String> = [];
     #end
+
+    private var percent:Float = 0;
+
+    var loadedFiles:Int = 0;
+    var totalFiles:Int = 0;
+    var percentageBar:FlxBar;
+    var images:Array<String> = [];
+    var sounds:Array<Dynamic> = [];
 
     override function create()
     {
@@ -54,9 +53,7 @@ class Init extends FlxState
         #if MESSAGES
         FlappyTools.httpRequest(FlappySettings.messageLink, function(data:String){
             for (msg in data.trim().split('\n'))
-            {
                 messages.push(msg.trim());
-            }
         });
         #end
 
@@ -167,7 +164,6 @@ class Init extends FlxState
         super.update(elapsed);
 
         percent = loadedFiles / totalFiles;
-
         if (percent >= 1)
         {
             boot();

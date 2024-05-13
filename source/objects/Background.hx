@@ -9,7 +9,6 @@ class Background extends FlxGroup
 {
     public var sky:FlxBackdrop;
     public var ground:FlxBackdrop;
-
     public var backObjects:FlxTypedGroup<FlxBasic>;
 
     override public function new()

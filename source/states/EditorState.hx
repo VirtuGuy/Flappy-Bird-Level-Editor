@@ -50,7 +50,6 @@ class EditorState extends FlappyState
     var bg:Background;
     var camFollow:CameraObject;
     var hudCamera:FlxCamera;
-
     var grpObjects:FlxTypedGroup<Object>;
     var grpLines:FlxTypedGroup<FlxSprite>;
     var tabMenu:FlxUITabMenu;
@@ -65,7 +64,6 @@ class EditorState extends FlappyState
     var inputTexts:Array<FlxUIInputText> = [];
     var numericSteppers:Array<FlxUINumericStepper> = [];
     var dropdowns:Array<FlxUIDropDownMenu> = [];
-
     var editObject:Object;
     var editCursor:FlxSprite;
     var instructionsTxt:FlappyText;
@@ -77,7 +75,6 @@ class EditorState extends FlappyState
     ];
 
     var gridSize:Int = FlappySettings.editorGridSize;
-
     var selectedObject:Object = null;
 
     // Editor properties
@@ -89,7 +86,6 @@ class EditorState extends FlappyState
 
     var loadLevelName:String = '';
     var saveToDefault:Bool = false;
-
     var objectNames:Array<String> = [];
 
     override public function new(?levelData:LevelData)
@@ -116,9 +112,7 @@ class EditorState extends FlappyState
             var content:String = Paths.getText(objectsPath);
             var texts:Array<String> = content.split('\n');
             for (text in texts)
-            {
                 objectNames.push(text.trim());
-            }
         }
 
         bg = new Background();
@@ -235,9 +229,7 @@ class EditorState extends FlappyState
         }
 
         if (!canDoStuff)
-        {  
             keys.toggleVolumeKeys(false);
-        }
         else
         {
             keys.toggleVolumeKeys(true);
@@ -315,9 +307,7 @@ class EditorState extends FlappyState
     function updateObjects()
     {
         while (grpObjects.length > 0)
-        {
             grpObjects.remove(grpObjects.members[0], true);
-        }
 
         for (item in levelData.objects)
         {
@@ -327,6 +317,13 @@ class EditorState extends FlappyState
             object.variables = item.variables;
             if (object.isOnScreen())
                 grpObjects.add(object);
+            if (selectedObject != null)
+            {
+                if (selectedObject.x == object.x && selectedObject.y == object.y &&
+                    selectedObject.objectName == object.objectName &&
+                    selectedObject.flipped == object.flipped)
+                    setObjectSelection(object);
+            }
         }
 
         updateLines();
@@ -335,9 +332,7 @@ class EditorState extends FlappyState
     function updateLines()
     {
         while (grpLines.length > 0)
-        {
             grpLines.remove(grpLines.members[0], true);
-        }
 
         for (item in levelData.objects)
         {
@@ -346,7 +341,8 @@ class EditorState extends FlappyState
                 var line:FlxSprite = new FlxSprite(item.x, 0);
                 line.makeGraphic(2, FlxG.height + 50, FlxColor.fromRGB(255, 255, 255, 135));
                 line.screenCenter(Y);
-                grpLines.add(line);
+                if (line.isOnScreen())
+                    grpLines.add(line);
             }
         }
     }
@@ -370,11 +366,9 @@ class EditorState extends FlappyState
                 setObjectSelection(selectedObject, false);
 
             var variables:Array<Array<Dynamic>> = [];
-
             if (Paths.pathExists(Paths.objectJson(name)))
             {
                 var json:ObjectData = FlappyTools.loadJSON(Paths.objectJson(name));
-
                 if (json.variables != null)
                     variables = json.variables;
             }
@@ -425,7 +419,6 @@ class EditorState extends FlappyState
         {
             object.selected = select;
             selectedObject = object;
-            
             tabMenu.selected_tab = 2;
         }
         else
@@ -556,14 +549,12 @@ class EditorState extends FlappyState
                     if (item.x == selectedObject.x && item.y == selectedObject.y && item.name == selectedObject.objectName)
                     {
                         item.name = objectName;
-                        selectedObject.objectName = objectName;
-
                         item.variables = [];
+                        selectedObject.objectName = objectName;
 
                         if (Paths.pathExists(Paths.objectJson(item.name)))
                         {
                             var json:ObjectData = FlappyTools.loadJSON(Paths.objectJson(item.name));
-            
                             if (json.variables != null)
                                 item.variables = json.variables;
                         }
@@ -651,26 +642,8 @@ class EditorState extends FlappyState
 
     private function updateObjectTab()
     {
-        objectFlippedCheckbox.active = false;
-        objectFlippedCheckbox.visible = false;
-
-        objectScaleStepper.active = false;
-        objectScaleStepper.visible = false;
-
-        objectScaleText.active = false;
-        objectScaleText.visible = false;
-
-        objectVarDropdown.active = false;
-        objectVarDropdown.visible = false;
-
-        objectVarInput.active = false;
-        objectVarInput.visible = false;
-
-        objectVarText.active = false;
-        objectVarText.visible = false;
-
-        objectDeselectButton.active = false;
-        objectDeselectButton.visible = false;
+        toggleSprites([objectFlippedCheckbox, objectScaleStepper, objectScaleText,
+            objectVarDropdown, objectVarInput, objectVarText, objectDeselectButton], false);
 
         if (selectedObject != null)
         {
@@ -680,38 +653,19 @@ class EditorState extends FlappyState
             objectFlippedCheckbox.checked = selectedObject.flipped;
             objectScaleStepper.value = selectedObject.scaleMulti;
 
-            objectDeselectButton.active = true;
-            objectDeselectButton.visible = true;
+            toggleSprite(objectDeselectButton);
 
             if (selectedObject.canBeFlipped)
-            {
-                objectFlippedCheckbox.active = true;
-                objectFlippedCheckbox.visible = true;
-            }
-
+                toggleSprite(objectFlippedCheckbox);
             if (selectedObject.canBeScaled)
-            {
-                objectScaleStepper.active = true;
-                objectScaleStepper.visible = true;
-
-                objectScaleText.active = true;
-                objectScaleText.visible = true;
-            }
+                toggleSprites([objectScaleStepper, objectScaleText]);
 
             if (selectedObject.variables.length > 0)
             {
-                objectVarDropdown.active = true;
-                objectVarDropdown.visible = true;
-
-                objectVarInput.active = true;
-                objectVarInput.visible = true;
-
-                objectVarText.active = true;
-                objectVarText.visible = true;
+                toggleSprites([objectVarDropdown, objectVarInput, objectVarText]);
 
                 var items:Array<String> = [];
                 var values:Array<Dynamic> = [];
-
                 for (variable in selectedObject.variables)
                 {
                     items.push(variable[0]);
@@ -721,7 +675,6 @@ class EditorState extends FlappyState
                 var objectVarItems = FlxUIDropDownMenu.makeStrIdLabelArray(items);
                 objectVarDropdown.setData(objectVarItems);
                 objectVarDropdown.selectedLabel = items[0];
-
                 objectVarInput.text = values[0];
             }
         }
@@ -864,9 +817,7 @@ class EditorState extends FlappyState
         #end
 
         if (newJsonLoaded)
-        {
             loadStuff();
-        }
     }
 
     function loadStuff()

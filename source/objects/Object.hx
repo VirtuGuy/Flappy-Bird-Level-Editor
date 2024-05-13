@@ -17,25 +17,22 @@ class Object extends FlxSprite
     public var objectName(default, set):String = '';
     public var selected(default, set):Bool = false;
     public var flipped(default, set):Bool = false;
-
     public var editorObject:Bool = false;
-
     public var canBeFlipped:Bool = true;
     public var canCollide:Bool = true;
     public var invisible(default, set):Bool = false;
     public var canBeScaled:Bool = true;
     public var triggerMode:Int = 0;
     public var variables:Array<Array<Dynamic>> = [];
-
-    private var _lastAlpha:Float = 1;
-
     public var scaleMulti(default, set):Float = -1;
     public var alreadyTriggered:Bool = false;
 
-    override public function new(x:Float = 0, y:Float = 0, objectName:String = 'pipe', ?editorObject:Bool = false)
+    private var _lastAlpha:Float = 1;
+
+    override public function new(x:Float = 0, y:Float = 0, objectName:String = 'pipe',
+        ?editorObject:Bool = false)
     {
         super(x, y);
-
         this.editorObject = editorObject;
         this.objectName = objectName;
         this.scaleMulti = 1;

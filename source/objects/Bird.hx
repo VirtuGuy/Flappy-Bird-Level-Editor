@@ -9,25 +9,22 @@ class Bird extends FlxSprite
     public var gravity:Float = 20;
     public var flapHeight:Float = 300;
     public var sinkSpeed:Float = 12;
-
+    public var isDead:Bool = false;
+    public var isSinking:Bool = false;
+    public var startMoving(default, set):Bool = true;
     public var playerSkin(default, set):String = '';
 
     private var playerSkinDir:String = 'playerSkins';
 
-    public var isDead:Bool = false;
-    public var isSinking:Bool = false;
-    public var startMoving(default, set):Bool = true;
-
     override public function new(x:Float = 0, y:Float = 0)
     {
         super(x, y);
-
         this.playerSkin = FlappySettings.playerSkin;
+        this.startMoving = false;
 
         animation.add('idle', [0], 8);
         animation.add('flap', [1, 0, 2], 8, false);
-
-        this.startMoving = false;
+        animation.play('flap');
     }
 
     override function update(elapsed:Float)
@@ -59,30 +56,31 @@ class Bird extends FlxSprite
 
     public function flap()
     {
-        if (isDead) return;
-
-        animation.play('flap', true);
-        velocity.y = -flapHeight;
-        
-        FlxG.sound.play(Paths.soundFile(Paths.getSound('wing'), false));
+        if (!isDead)
+        {
+            animation.play('flap', true);
+            velocity.y = -flapHeight;
+            
+            FlxG.sound.play(Paths.soundFile(Paths.getSound('wing'), false));
+        }
     }
 
     public function killBird(playHitSound:Bool = true)
     {
         if (playHitSound && !isDead)
             FlxG.sound.play(Paths.soundFile(Paths.getSound('hit'), false));
-
         isDead = true;
     }
 
     public function sink()
     {
-        if (isSinking) return;
+        if (!isSinking)
+        {
+            FlxG.sound.play(Paths.soundFile(Paths.getSound('die'), false));
+            velocity.y = sinkSpeed;
 
-        FlxG.sound.play(Paths.soundFile(Paths.getSound('die'), false));
-        velocity.y = sinkSpeed;
-
-        isSinking = true;
+            isSinking = true;
+        }
     }
 
     private function set_playerSkin(value:String):String
@@ -101,9 +99,7 @@ class Bird extends FlxSprite
         this.startMoving = value;
 
         if (value)
-        {
             animation.play('idle');
-        }
         else
         {
             animation.play('flap', true);

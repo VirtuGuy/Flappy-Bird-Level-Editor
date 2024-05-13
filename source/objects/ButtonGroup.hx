@@ -24,10 +24,10 @@ class ButtonGroup extends FlxTypedGroup<FlappyButton>
         return FlxSort.byY(FlxSort.ASCENDING, obj1, obj2);
     }
 
-    override public function new(buttons:Array<String>, buttonLayout:ButtonLayout = Vertical, fadeInDelay:Float = -1)
+    override public function new(buttons:Array<String>, buttonLayout:ButtonLayout = Vertical,
+        fadeInDelay:Float = -1)
     {
         super();
-
         this.buttons = buttons;
         this.buttonLayout = buttonLayout;
         this.fadeInDelay = fadeInDelay;
@@ -81,7 +81,8 @@ class ButtonGroup extends FlxTypedGroup<FlappyButton>
                 button.y -= 10;
                 button.alpha = 0;
 
-                FlxTween.tween(button, {alpha: 1, y: button.y + 10}, 0.5, {startDelay: delay, ease: FlxEase.quadInOut});
+                FlxTween.tween(button, {alpha: 1, y: button.y + 10}, 0.5, {startDelay: delay,
+                    ease: FlxEase.quadInOut});
             }
         }
     }

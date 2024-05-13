@@ -8,8 +8,7 @@ class FlappySubstate extends FlxUISubState
 
     override public function new()
     {
-        keys = new Keys();
-        
         super();
+        keys = new Keys();
     }
 }

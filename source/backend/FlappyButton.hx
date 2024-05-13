@@ -6,13 +6,10 @@ import flixel.util.FlxColor;
 
 class FlappyButton extends FlxExtendedMouseSprite
 {
+    // Button properties
     public var buttonName:String = '';
     public var clickSound:Bool = false;
-
-    private var justClicked:Bool = false;
-    private var justReleased:Bool = false;
-    private var justHovered:Bool = false;
-    private var justHoverEnded:Bool = false;
+    public var disabled:Bool = false;
 
     // Callbacks
     public var onClicked:Void->Void;
@@ -21,26 +18,30 @@ class FlappyButton extends FlxExtendedMouseSprite
     public var onHoverEnd:Void->Void;
 
     // Brightnesses
+    public var defaultBrightness:Float = 1;
     public var hoverBrightness:Float = 0.9;
     public var clickBrightness:Float = 0.6;
+    public var disabledBrightness:Float = 0.4;
+
+    private var justClicked:Bool = false;
+    private var justReleased:Bool = false;
+    private var justHovered:Bool = false;
+    private var justHoverEnded:Bool = false;
 
     override public function new(x:Float = 0, y:Float = 0, buttonName:String = '')
     {
         super(x, y);
-
         this.buttonName = buttonName;
 
         loadGraphic(Paths.imageFile('buttons/$buttonName'));
-        
-        scale.set(3, 3);
+        setGraphicSize(Std.int(width * 3));
         updateHitbox();
-
         scrollFactor.set();
     }
 
     override function update(elapsed:Float)
     {
-        if (alpha >= 0.5)
+        if (alpha >= 0.5 && !disabled)
         {
             if (mouseOver)
                 hover();
@@ -101,7 +102,10 @@ class FlappyButton extends FlxExtendedMouseSprite
     public function hoverEnd()
     {
         justHovered = false;
-        setBrightness(1);
+        if (!disabled)
+            setBrightness(defaultBrightness);
+        else
+            setBrightness(disabledBrightness);
 
         if (justHoverEnded) return;
 

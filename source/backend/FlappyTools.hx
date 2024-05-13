@@ -8,7 +8,6 @@ import lime.graphics.Image;
 
 using StringTools;
 #if sys
-import sys.FileSystem;
 import sys.io.File;
 #end
 

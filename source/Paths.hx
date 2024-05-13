@@ -42,7 +42,6 @@ class Paths
         var folder:String = 'sounds';
         if (isMusic)
             folder = 'music';
-
         return 'assets/$folder/$key.$soundExt';
     }
 
@@ -60,7 +59,6 @@ class Paths
     public static function image(path:String):FlxGraphic
     {
         var graphic:FlxGraphic = null;
-
         if (imageCache.exists(path))
         {
             graphic = imageCache.get(path);
@@ -79,14 +77,12 @@ class Paths
 
             imageCache.set(path, graphic);
         }
-
         return graphic;
     }
 
     public static function sound(path:String):Sound
     {
         var sound:Sound = null;
-
         if (soundCache.exists(path))
         {
             sound = soundCache.get(path);
@@ -101,7 +97,6 @@ class Paths
 
             soundCache.set(path, sound);
         }
-
         return sound;
     }
 
@@ -113,10 +108,8 @@ class Paths
     public static function levelsFolder(levelFolder:String = 'default', ?levelName:String)
     {
         var additionalPath:String = '';
-
         if (levelName != null)
             additionalPath = '/$levelName';
-
         return 'assets/levels/${levelFolder}${additionalPath}';
     }
 
@@ -156,7 +149,6 @@ class Paths
     public static function pathExists(path:String)
     {
         var exists:Bool = false;
-
         #if sys
         if (FileSystem.exists(path))
             exists = true;
@@ -164,14 +156,12 @@ class Paths
         if (OpenFlAssets.exists(path, null))
             exists = true;
         #end
-
         return exists;
     }
 
     public static function getText(path:String)
     {
         var content:String = "";
-
         if (pathExists(path))
         {
             #if sys
@@ -180,7 +170,6 @@ class Paths
             content = OpenFlAssets.getText(path);
             #end
         }
-
         return content;
     }
 
@@ -188,30 +177,24 @@ class Paths
     public static function getTexture(key:String):String
     {
         var value:String = '';
-        
         if (textures.exists(key))
             value = textures.get(key);
-
         return value;
     }
 
     public static function getSound(key:String):String
     {
         var value:String = '';
-        
         if (sounds.exists(key))
             value = sounds.get(key);
-
         return value;
     }
 
     public static function getFont(key:String):String
     {
         var value:String = '';
-        
         if (fonts.exists(key))
             value = fonts.get(key);
-
         return value;
     }
 }

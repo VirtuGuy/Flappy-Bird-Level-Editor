@@ -235,6 +235,8 @@ class PlayState extends FlappyState
 			{
 				case 'pipe':
 					die(true);
+				case 'end':
+					end();
 			}
 		}
 	}
@@ -278,7 +280,7 @@ class PlayState extends FlappyState
 		{
 			if (objects.contains(obj))
 				objects.remove(obj);
-			if (grpObjects.members.contains(obj))
+			else if (grpObjects.members.contains(obj))
 				grpObjects.remove(obj, true);
 		}
 	}

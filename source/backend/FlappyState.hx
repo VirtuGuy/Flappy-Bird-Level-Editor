@@ -16,11 +16,11 @@ import states.OutdatedState;
 
 class FlappyState extends FlxUIState
 {
-	private var keys:Keys;
-
 	public var doFadeInTransition:Bool = false;
 	public var doFadeOutTransition:Bool = false;
 	public var fadeDuration:Float = 0.5;
+
+	private var keys:Keys;
 	private var fadeBlacklist:Array<Class<Dynamic>> = [
 		Background
 	];
@@ -35,18 +35,16 @@ class FlappyState extends FlxUIState
 
 	override public function new(doFadeInTransition:Bool = false, doFadeOutTransition:Bool = false)
 	{
-		keys = new Keys();
-
 		super();
-
 		this.doFadeInTransition = doFadeInTransition;
 		this.doFadeOutTransition = doFadeOutTransition;
+
+		keys = new Keys();
 	}
 
 	override public function create()
 	{
 		super.create();
-
 		if (this.doFadeInTransition)
 			fadeObjects(true);
 	}
@@ -93,16 +91,14 @@ class FlappyState extends FlxUIState
 				object.tweenAlpha = object.alpha;
 			}
 
-			FlxTween.cancelTweensOf(object);
-
 			if (object is FlappyButton)
 			{
 				var button:FlappyButton = cast object;
-				button.active = fadeIn;
+				toggleSprite(button, fadeIn, true);
 			}
 
 			object.tweened = true;
-
+			FlxTween.cancelTweensOf(object);
 			FlxTween.tween(object, {alpha: alpha}, fadeDuration, {ease: FlxEase.quadInOut});
 			FlxTween.tween(object, {y: pos}, fadeDuration, {ease: FlxEase.quadOut});
 		}
@@ -174,7 +170,6 @@ class FlappyState extends FlxUIState
 		if (FlxG.state is FlappyState)
 		{
 			var currentState:FlappyState = cast FlxG.state;
-
 			currentState.stateSwitching(nextState);
 
 			if (currentState.doFadeOutTransition)
@@ -187,13 +182,9 @@ class FlappyState extends FlxUIState
 				});
 			}
 			else
-			{
 				doSwitch(nextState);
-			}
 		}
 		else
-		{
 			doSwitch(nextState);
-		}
 	}
 }

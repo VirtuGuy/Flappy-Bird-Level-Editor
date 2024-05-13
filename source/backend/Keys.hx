@@ -3,7 +3,7 @@ package backend;
 import flixel.FlxG;
 import flixel.input.keyboard.FlxKey;
 
-private enum KeyScheme
+enum KeyScheme
 {
     Keys1;
 }
@@ -22,7 +22,9 @@ class Keys
     private var k_accept:String = 'k_accept';
     private var k_back:String = 'k_back';
     private var k_flap:String = 'k_flap';
+    #if SCREENSHOTS
     private var k_screenshot:String = 'k_screenshot';
+    #end
 
     /// Volume key strings
     private var v_mute:String = 'v_mute';
@@ -47,119 +49,79 @@ class Keys
     public var ACCEPT(get, default):Bool;
     public var BACK(get, default):Bool;
     public var FLAP(get, default):Bool;
+    #if SCREENSHOTS
     public var SCREENSHOT(get, default):Bool;
+    #end
 
-    // Key functions
+    // Key checking
     private function get_LEFT():Bool
-    {
         return keyPressed(k_left);
-    }
 
     private function get_RIGHT():Bool
-    {
         return keyPressed(k_right);
-    }
 
     private function get_LEFT_P():Bool
-    {
         return keyJustPressed(k_left);
-    }
 
     private function get_RIGHT_P():Bool
-    {
         return keyJustPressed(k_right);
-    }
 
     private function get_LEFT_R():Bool
-    {
         return keyJustReleased(k_left);
-    }
 
     private function get_RIGHT_R():Bool
-    {
         return keyJustReleased(k_right);
-    }
 
     private function get_UP():Bool
-    {
         return keyPressed(k_up);
-    }
 
     private function get_DOWN():Bool
-    {
         return keyPressed(k_down);
-    }
 
     private function get_UP_P():Bool
-    {
         return keyJustPressed(k_up);
-    }
 
     private function get_DOWN_P():Bool
-    {
         return keyJustPressed(k_down);
-    }
 
     private function get_UP_R():Bool
-    {
         return keyJustReleased(k_up);
-    }
 
     private function get_DOWN_R():Bool
-    {
         return keyJustReleased(k_down);
-    }
 
     private function get_FLIP():Bool
-    {
         return keyJustPressed(k_flip);
-    }
 
     private function get_PAUSE():Bool
-    {
         return keyJustPressed(k_pause);
-    }
 
     private function get_ACCEPT():Bool
-    {
         return keyJustPressed(k_accept);
-    }
 
     private function get_BACK():Bool
-    {
         return keyJustPressed(k_back);
-    }
 
     private function get_FLAP():Bool
-    {
         return keyJustPressed(k_flap);
-    }
 
+    #if SCREENSHOTS
     private function get_SCREENSHOT():Bool
-    {
         return keyJustPressed(k_screenshot);
-    }
+    #end
 
-    // Other stuff
+    // Key press checking
     private function keyJustPressed(keyName:String):Bool
-    {
         return FlxG.keys.anyJustPressed(keybinds.get(keyName));
-    }
 
     private function keyPressed(keyName:String):Bool
-    {
         return FlxG.keys.anyPressed(keybinds.get(keyName));
-    }
 
     private function keyJustReleased(keyName:String):Bool
-    {
         return FlxG.keys.anyJustReleased(keybinds.get(keyName));
-    }
 
     public function bindKey(keyName:String, keys:Array<FlxKey>)
-    {
         keybinds.set(keyName, keys);
-    }
 
     public function setScheme(scheme:KeyScheme)
     {
@@ -176,7 +138,9 @@ class Keys
 
                 bindKey(k_flip, [F]);
                 bindKey(k_flap, [SPACE, ENTER]);
+                #if SCREENSHOTS
                 bindKey(k_screenshot, [F3]);
+                #end
 
                 bindKey(v_mute, [NUMPADZERO]);
                 bindKey(v_up, [NUMPADPLUS]);

@@ -18,7 +18,6 @@ class LevelSelectionState extends FlappyState
 {
     var bg:Background;
     var camFollow:CameraObject;
-
     var titleText:FlappyText;
     var backButton:FlappyButton;
 
@@ -39,6 +38,8 @@ class LevelSelectionState extends FlappyState
         bg = new Background();
         add(bg);
 
+        camFollow = new CameraObject();
+
         titleText = new FlappyText(0, 0, 0, 'Level Selection', 32, CENTER);
         titleText.screenCenter(X);
         titleText.y = titleText.height - 20;
@@ -53,8 +54,6 @@ class LevelSelectionState extends FlappyState
         backButton.onClicked = function(){
             FlappyState.switchState(new MenuState());
         }
-
-        camFollow = new CameraObject();
 
         super.create();
 

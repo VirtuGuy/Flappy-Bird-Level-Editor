@@ -12,11 +12,11 @@ import objects.CameraObject;
 
 class MenuState extends FlappyState
 {
-    var bg:Background;
+    public static var camPosX:Float = 0;
 
+    var bg:Background;
     var messageBox:FlxSprite;
     var messageText:FlappyText;
-
     var camFollow:CameraObject;
     var grpButtons:ButtonGroup;
 
@@ -29,8 +29,6 @@ class MenuState extends FlappyState
         #end
     ];
 
-    public static var camPosX:Float = 0;
-
     override public function new()
     {
         super(true, true);
@@ -42,6 +40,8 @@ class MenuState extends FlappyState
 
         bg = new Background();
         add(bg);
+
+        camFollow = new CameraObject();
 
         var title:FlxSprite = new FlxSprite();
         title.loadGraphic(Paths.imageFile('title'));
@@ -82,8 +82,6 @@ class MenuState extends FlappyState
             add(messageText);
         }
         #end
-
-        camFollow = new CameraObject();
 
         super.create();
 

@@ -56,6 +56,12 @@ class LevelSelectionState extends FlappyState
             FlappyState.switchState(new MenuState());
         }
 
+        var highscoreTxt:FlappyText = new FlappyText(0, 0, 0, '', 24, CENTER);
+        highscoreTxt.text = 'Infinite Mode Score: ${FlappyData.getData('infiniteScore')}';
+        highscoreTxt.screenCenter(X);
+        highscoreTxt.y = FlxG.height - (highscoreTxt.height + 70);
+        add(highscoreTxt);
+
         super.create();
 
         grpButtons = new ButtonGroup(buttons, Vertical, 0.5);
@@ -64,12 +70,6 @@ class LevelSelectionState extends FlappyState
             FlappyState.switchState(new PlayState());
         }
         add(grpButtons);
-
-        var highscoreTxt:FlappyText = new FlappyText(0, 0, 0, '', 24, CENTER);
-        highscoreTxt.text = 'Infinite Mode Score: ${FlappyData.getData('infiniteScore')}';
-        highscoreTxt.screenCenter(X);
-        highscoreTxt.y = FlxG.height - (highscoreTxt.height + 70);
-        add(highscoreTxt);
     }
 
     override function update(elapsed:Float)

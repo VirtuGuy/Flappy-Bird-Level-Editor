@@ -1,5 +1,6 @@
 package substates;
 
+import backend.FlappyData;
 import backend.FlappyState;
 import backend.FlappySubstate;
 import backend.FlappyText;
@@ -23,6 +24,10 @@ class GameOverSubstate extends FlappySubstate
     override public function new(points:Int)
     {
         super();
+
+        // Saves the highscore for infinite mode
+        if (PlayState.infiniteMode)
+            FlappyData.setScore('infiniteScore', points, true);
 
         var bg:FlxSprite = new FlxSprite();
         bg.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);

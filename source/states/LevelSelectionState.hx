@@ -1,6 +1,7 @@
 package states;
 
 import backend.FlappyButton;
+import backend.FlappyData;
 import backend.FlappySettings;
 import backend.FlappyState;
 import backend.FlappyText;
@@ -63,6 +64,12 @@ class LevelSelectionState extends FlappyState
             FlappyState.switchState(new PlayState());
         }
         add(grpButtons);
+
+        var highscoreTxt:FlappyText = new FlappyText(0, 0, 0, '', 24, CENTER);
+        highscoreTxt.text = 'Infinite Mode Score: ${FlappyData.getData('infiniteScore')}';
+        highscoreTxt.screenCenter(X);
+        highscoreTxt.y = FlxG.height - (highscoreTxt.height + 70);
+        add(highscoreTxt);
     }
 
     override function update(elapsed:Float)

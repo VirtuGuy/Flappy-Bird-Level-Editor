@@ -142,13 +142,13 @@ class EditorState extends FlappyState
 
         instructionsTxt = new FlappyText(0, 0, tabMenu.width + 32, '', 16, RIGHT);
         instructionsTxt.text = 'Controls:'
-        + '\nA/D or LeFt/Right to move'
+        + '\nA/D or Left/Right to move'
         + '\nHold SHIFT to speed up moving'
         + '\nHold CTRL to slow down moving'
-        + '\nLeFt click to place object'
+        + '\nLeft click to place object'
         + '\nRight click to delete object'
-        + '\nCTRL + LeFt click to select object'
-        + '\nF to Flip object'
+        + '\nCTRL + Left click to select object'
+        + '\nF to flip object'
         + '\nT to toggle buttons'
         + '\nX to hide instructions';
 

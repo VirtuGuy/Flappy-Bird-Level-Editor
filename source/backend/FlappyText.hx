@@ -18,11 +18,8 @@ class FlappyText extends FlxText
         super(x, y, fieldWidth, text, size);
         defaultX = this.x;
 
-        // Lowercase F looks bad in the font
-        text = text.replace('f', 'F');
-
-        setFormat(Paths.fontFile(Paths.getFont('default')), size, FlxColor.WHITE, alignment, OUTLINE,
-            FlxColor.BLACK);
+        setFormat(Paths.fontFile(Paths.getFont('default')), size, FlxColor.WHITE, alignment,
+            OUTLINE, FlxColor.BLACK);
         borderSize = 2;
         scrollFactor.set();
     }
@@ -41,5 +38,11 @@ class FlappyText extends FlxText
         FlxTween.cancelTweensOf(this);
         FlxTween.tween(this, {x: defaultX + 15}, selectDuration, {ease: FlxEase.quadOut});
         alpha = 1;
+    }
+
+    // Lowercase F gets replaced because it looks bad
+    override private function set_text(value:String):String
+    {
+        return super.set_text(value.replace('f', 'F'));
     }
 }

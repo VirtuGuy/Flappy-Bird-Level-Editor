@@ -135,11 +135,11 @@ class PlayState extends FlappyState
 		}
 	}
 
-	function generateInfiniteSection(size:Int = 5)
+	function generateInfiniteSection(size:Int = 3)
 	{
 		for (_ in 0...size)
 		{
-			infiniteLevelX += 200;
+			infiniteLevelX += 250;
 			var y:Float = 0;
 			for (i in 0...3)
 			{

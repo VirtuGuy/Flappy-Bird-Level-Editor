@@ -16,6 +16,7 @@ class FlappyText extends FlxText
         size:Int = 16, alignment:FlxTextAlign = LEFT)
     {
         super(x, y, fieldWidth, text, size);
+        set_text(this.text);
         defaultX = this.x;
 
         setFormat(Paths.fontFile(Paths.getFont('default')), size, FlxColor.WHITE, alignment,

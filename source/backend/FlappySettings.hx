@@ -6,8 +6,8 @@ class FlappySettings
 {
     // Main game settings
     inline static public var menuScrollSpeed:Float = 2;
-    inline static public var playerSkin:String = 'default';
-    inline static public var levelJson:LevelData = null;
+    static public var playerSkin:String = 'default';
+    static public var levelJson:LevelData = null;
 
     // Editor settings
     inline static public var editorScrollSpeed:Float = 6;

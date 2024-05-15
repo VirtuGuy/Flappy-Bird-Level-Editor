@@ -11,33 +11,33 @@ import sys.io.File;
 
 class Paths
 {
-    public static var imageExt:String = 'png';
-    public static var soundExt:String = #if html5 'mp3'; #else 'ogg'; #end
+    inline static public var imageExt:String = 'png';
+    inline static public var soundExt:String = #if html5 'mp3'; #else 'ogg'; #end
 
     // For caching images and sounds, which makes assets load faster
-    public static var imageCache:Map<String, FlxGraphic> = [];
-    public static var soundCache:Map<String, Sound> = [];
+    static public var imageCache:Map<String, FlxGraphic> = [];
+    static public var soundCache:Map<String, Sound> = [];
 
     // Textures and sounds (in case if the paths have multiple uses)
-    public static var textures:Map<String, String> = [];
-    public static var sounds:Map<String, String> = [
+    static public var textures:Map<String, String> = [];
+    static public var sounds:Map<String, String> = [
         "wing" => 'sfx_wing',
         "hit" => 'sfx_hit',
         "point" => 'sfx_point',
         "swooshing" => 'sfx_swooshing',
         "die" => 'sfx_die'
     ];
-    public static var fonts:Map<String, String> = [
+    static public var fonts:Map<String, String> = [
         "default" => '04B.TTF',
     ];
 
     // Paths
-    public static function imagePath(key:String)
+    inline static public function imagePath(key:String)
     {
         return 'assets/images/$key.$imageExt';
     }
 
-    public static function soundPath(key:String, isMusic:Bool = false)
+    inline static public function soundPath(key:String, isMusic:Bool = false)
     {
         var folder:String = 'sounds';
         if (isMusic)
@@ -46,17 +46,17 @@ class Paths
     }
 
     // Files
-    public static function imageFile(key:String):FlxGraphic
+    inline static public function imageFile(key:String):FlxGraphic
     {
         return image(imagePath(key));
     }
 
-    public static function soundFile(key:String, isMusic:Bool = false):Sound
+    inline static public function soundFile(key:String, isMusic:Bool = false):Sound
     {
         return sound(soundPath(key, isMusic));
     }
 
-    public static function image(path:String):FlxGraphic
+    inline static public function image(path:String):FlxGraphic
     {
         var graphic:FlxGraphic = null;
         if (imageCache.exists(path))
@@ -80,7 +80,7 @@ class Paths
         return graphic;
     }
 
-    public static function sound(path:String):Sound
+    inline static public function sound(path:String):Sound
     {
         var sound:Sound = null;
         if (soundCache.exists(path))
@@ -100,12 +100,12 @@ class Paths
         return sound;
     }
 
-    public static function fontFile(key:String)
+    inline static public function fontFile(key:String)
     {
         return 'assets/fonts/$key';
     }
 
-    public static function levelsFolder(levelFolder:String = 'default', ?levelName:String)
+    inline static public function levelsFolder(levelFolder:String = 'default', ?levelName:String)
     {
         var additionalPath:String = '';
         if (levelName != null)
@@ -113,30 +113,30 @@ class Paths
         return 'assets/levels/${levelFolder}${additionalPath}';
     }
 
-    public static function levelFile(levelFolder:String = 'default', levelName:String)
+    inline static public function levelFile(levelFolder:String = 'default', levelName:String)
     {
         return '${levelsFolder(levelFolder, levelName)}/level.json';
     }
 
-    public static function objectJson(objectName:String)
+    inline static public function objectJson(objectName:String)
     {
         return 'assets/data/objects/$objectName.json';
     }
 
-    public static function textFile(folder:String = 'data', key:String)
+    inline static public function textFile(folder:String = 'data', key:String)
     {
         return 'assets/$folder/$key.txt';
     }
 
     #if SCREENSHOTS
-    public static function screenshotsFolder():String
+    inline static public function screenshotsFolder():String
     {
         if (!pathExists('screenshots'))
             FileSystem.createDirectory('screenshots');
         return 'screenshots';
     }
 
-    public static function screenshotFile(key:String, getScreenshot:Bool = true):Any
+    inline static public function screenshotFile(key:String, getScreenshot:Bool = true):Any
     {
         var path:String = '${screenshotsFolder()}/$key.$imageExt';
         if (getScreenshot)
@@ -146,7 +146,7 @@ class Paths
     }
     #end
 
-    public static function pathExists(path:String)
+    inline static public function pathExists(path:String)
     {
         var exists:Bool = false;
         #if sys
@@ -159,7 +159,7 @@ class Paths
         return exists;
     }
 
-    public static function getText(path:String)
+    inline static public function getText(path:String)
     {
         var content:String = "";
         if (pathExists(path))
@@ -174,7 +174,7 @@ class Paths
     }
 
     // Key value getting functions
-    public static function getTexture(key:String):String
+    inline static public function getTexture(key:String):String
     {
         var value:String = '';
         if (textures.exists(key))
@@ -182,7 +182,7 @@ class Paths
         return value;
     }
 
-    public static function getSound(key:String):String
+    inline static public function getSound(key:String):String
     {
         var value:String = '';
         if (sounds.exists(key))
@@ -190,7 +190,7 @@ class Paths
         return value;
     }
 
-    public static function getFont(key:String):String
+    inline static public function getFont(key:String):String
     {
         var value:String = '';
         if (fonts.exists(key))

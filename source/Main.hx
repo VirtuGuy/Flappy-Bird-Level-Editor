@@ -6,7 +6,7 @@ import openfl.display.Sprite;
 
 class Main extends Sprite
 {
-	public static var fpsCounter:FPS;
+	static public var fpsCounter:FPS;
 
 	public function new()
 	{

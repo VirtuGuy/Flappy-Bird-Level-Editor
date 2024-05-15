@@ -5,17 +5,17 @@ import states.EditorState.LevelData;
 class FlappySettings
 {
     // Main game settings
-    public static var menuScrollSpeed:Float = 2;
-    public static var playerSkin:String = 'default';
-    public static var levelJson:LevelData = null;
+    inline static public var menuScrollSpeed:Float = 2;
+    inline static public var playerSkin:String = 'default';
+    inline static public var levelJson:LevelData = null;
 
     // Editor settings
-    public static var editorScrollSpeed:Float = 6;
-    public static var editorGridSize:Int = 16;
+    inline static public var editorScrollSpeed:Float = 6;
+    inline static public var editorGridSize:Int = 16;
 
     // HTTP web settings
-    public static var httpPrefix:String = 'https://raw.githubusercontent.com/VirtuGuy/Flappy-Bird-Level-Editor/main/';
-    public static var verCheckLink:String = '${httpPrefix}data/gameVersion.txt';
-    public static var messageLink:String = '${httpPrefix}data/messages.txt';
-    public static var gameLink:String = 'https://virtuguy.itch.io/fble';
+    inline static public var httpPrefix:String = 'https://raw.githubusercontent.com/VirtuGuy/Flappy-Bird-Level-Editor/main/';
+    inline static public var verCheckLink:String = '${httpPrefix}data/gameVersion.txt';
+    inline static public var messageLink:String = '${httpPrefix}data/messages.txt';
+    inline static public var gameLink:String = 'https://virtuguy.itch.io/fble';
 }

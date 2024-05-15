@@ -15,7 +15,7 @@ class FlappySettings
 
     // HTTP web settings
     public static var httpPrefix:String = 'https://raw.githubusercontent.com/VirtuGuy/Flappy-Bird-Level-Editor/main/';
-    public static var verCheckLink:String = '${httpPrefix}gameVersion.txt';
-    public static var messageLink:String = '${httpPrefix}messages.txt';
+    public static var verCheckLink:String = '${httpPrefix}/data/gameVersion.txt';
+    public static var messageLink:String = '${httpPrefix}data/messages.txt';
     public static var gameLink:String = 'https://virtuguy.itch.io/fble';
 }

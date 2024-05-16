@@ -13,7 +13,7 @@ import sys.io.File;
 
 class FlappyTools
 {
-    public static function openURL(url:String = '')
+    inline static public function openURL(url:String = '')
     {
         #if !linux
         FlxG.openURL(url);
@@ -22,7 +22,7 @@ class FlappyTools
         #end
     }
 
-    public static function loadJSON(path:String):Dynamic
+    inline static public function loadJSON(path:String):Dynamic
     {
         var json:Dynamic = null;
 
@@ -35,7 +35,7 @@ class FlappyTools
         return json;
     }
 
-    public static function httpRequest(url:String, onData:(data:String)->Void,
+    inline static public function httpRequest(url:String, onData:(data:String)->Void,
         ?onError:(error:String)->Void)
     {
         var http:Http = new Http(url);
@@ -49,7 +49,7 @@ class FlappyTools
     }
 
     #if SCREENSHOTS
-    public static function takeScreenshot()
+    inline static public function takeScreenshot()
     {
         FlxG.sound.play(Paths.soundFile('sfx_screenshot'));
 

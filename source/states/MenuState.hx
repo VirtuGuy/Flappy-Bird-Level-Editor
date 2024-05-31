@@ -108,9 +108,6 @@ class MenuState extends FlappyState
 
         camFollow.x += FlappySettings.menuScrollSpeed;
 
-        if (keys.FLIP)
-            FlappyState.switchState(new BirdCustomizerState());
-
         super.update(elapsed);
     }
 }

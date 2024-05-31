@@ -22,8 +22,6 @@ class Bird extends FlxSprite
         this.playerSkin = FlappySettings.playerSkin;
         this.startMoving = false;
 
-        scrollFactor.set();
-
         animation.add('idle', [0], 8);
         animation.add('flap', [1, 0, 2], 8, false);
         animation.play('flap');

@@ -14,7 +14,6 @@ import flixel.util.FlxCollision;
 import flixel.util.FlxTimer;
 import objects.Bird;
 import objects.Object;
-import shaders.ColorSwapEffect;
 import states.EditorState.LevelData;
 import substates.CompleteSubstate;
 import substates.GameOverSubstate;
@@ -51,8 +50,6 @@ class PlayState extends FlappyState
 		bg.backObjects.add(grpObjects);
 
 		bird = new Bird(50, 50);
-		bird.scrollFactor.set();
-		bird.shader = new ColorSwapEffect().shader;
 		bg.backObjects.add(bird);
 
 		if (!infiniteMode)

@@ -10,15 +10,22 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
 import objects.Background;
+import objects.CameraObject;
 import states.ExitState;
 import states.IntroState;
+import states.MenuState;
 import states.OutdatedState;
 
 class FlappyState extends FlxUIState
 {
 	public var doFadeInTransition:Bool = false;
 	public var doFadeOutTransition:Bool = false;
+	public var includeBG:Bool = true;
+	public var globalCameraPos:Bool = true;
 	public var fadeDuration:Float = 0.5;
+
+	private var bg:Background;
+	private var camFollow:CameraObject;
 
 	private var keys:Keys;
 	private var fadeBlacklist:Array<Class<Dynamic>> = [
@@ -33,18 +40,28 @@ class FlappyState extends FlxUIState
 	];
 	#end
 
-	override public function new(doFadeInTransition:Bool = false, doFadeOutTransition:Bool = false)
+	override public function new(doFadeInTransition:Bool = false, doFadeOutTransition:Bool = false,
+		includeBG:Bool = true, globalCameraPos:Bool = true)
 	{
 		super();
 		this.doFadeInTransition = doFadeInTransition;
 		this.doFadeOutTransition = doFadeOutTransition;
+		this.includeBG = includeBG;
+		this.globalCameraPos = globalCameraPos;
 
 		keys = new Keys();
+
+		bg = new Background();
+		if (includeBG)
+        	add(bg);
 	}
 
 	override public function create()
 	{
+		camFollow = new CameraObject(globalCameraPos);
+
 		super.create();
+
 		if (this.doFadeInTransition)
 			fadeObjects(true);
 	}
@@ -58,6 +75,8 @@ class FlappyState extends FlxUIState
 		#end
 
 		super.update(elapsed);
+
+		MenuState.camPosX = camFollow.x;
 	}
 
 	public function fadeObject(object:FlxSprite, fadeIn:Bool = true)

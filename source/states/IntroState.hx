@@ -11,7 +11,7 @@ class IntroState extends FlappyState
 
     override public function new()
     {
-        super(false, true);
+        super(false, true, false, false);
     }
 
     override function create()

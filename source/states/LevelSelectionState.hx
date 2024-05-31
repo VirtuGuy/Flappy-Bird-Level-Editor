@@ -6,9 +6,7 @@ import backend.FlappySettings;
 import backend.FlappyState;
 import backend.FlappyText;
 import flixel.FlxG;
-import objects.Background;
 import objects.ButtonGroup;
-import objects.CameraObject;
 
 using StringTools;
 #if sys
@@ -17,8 +15,6 @@ import sys.FileSystem;
 
 class LevelSelectionState extends FlappyState
 {
-    var bg:Background;
-    var camFollow:CameraObject;
     var titleText:FlappyText;
     var backButton:FlappyButton;
 
@@ -36,11 +32,6 @@ class LevelSelectionState extends FlappyState
     
     override function create()
     {
-        bg = new Background();
-        add(bg);
-
-        camFollow = new CameraObject();
-
         titleText = new FlappyText(0, 0, 0, 'Level Selection', 32, CENTER);
         titleText.screenCenter(X);
         titleText.y = titleText.height - 20;
@@ -75,7 +66,6 @@ class LevelSelectionState extends FlappyState
     override function update(elapsed:Float)
     {
         camFollow.x += FlappySettings.menuScrollSpeed;
-        MenuState.camPosX = camFollow.x;
 
         super.update(elapsed);
     }

@@ -19,9 +19,7 @@ import flixel.ui.FlxButton;
 import flixel.util.FlxCollision;
 import flixel.util.FlxColor;
 import haxe.Json;
-import objects.Background;
 import objects.ButtonGroup;
-import objects.CameraObject;
 import objects.Object;
 
 using StringTools;
@@ -47,8 +45,6 @@ typedef LevelObjectData = {
 
 class EditorState extends FlappyState
 {
-    var bg:Background;
-    var camFollow:CameraObject;
     var hudCamera:FlxCamera;
     var grpObjects:FlxTypedGroup<Object>;
     var grpLines:FlxTypedGroup<FlxSprite>;
@@ -90,7 +86,7 @@ class EditorState extends FlappyState
 
     override public function new(?levelData:LevelData)
     {
-        super();
+        super(false, false, true, false);
 
         if (levelData != null)
         {
@@ -114,9 +110,6 @@ class EditorState extends FlappyState
             for (text in texts)
                 objectNames.push(text.trim());
         }
-
-        bg = new Background();
-        add(bg);
 
         grpLines = new FlxTypedGroup<FlxSprite>();
         bg.backObjects.add(grpLines);
@@ -178,8 +171,6 @@ class EditorState extends FlappyState
         addObjectTab();
 
         loadStuff();
-
-        camFollow = new CameraObject(false);
 
         tabMenu.cameras = [hudCamera];
         instructionsTxt.cameras = [hudCamera];
@@ -299,8 +290,6 @@ class EditorState extends FlappyState
 
         if (camFollow.x < FlxG.width / 2)
             camFollow.x = FlxG.width / 2;
-
-        MenuState.camPosX = camFollow.x;
     }
 
     // Object stuff
@@ -774,9 +763,7 @@ class EditorState extends FlappyState
     override function destroy()
     {
         super.destroy();
-
-        FlxG.cameras.remove(hudCamera, true);
-        FlxG.camera.zoom = 1;
+        FlxG.cameras.reset();
     }
 
     // Save and load stuff

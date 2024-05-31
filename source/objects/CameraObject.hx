@@ -6,13 +6,13 @@ import states.MenuState;
 
 class CameraObject extends FlxObject
 {
-    override public function new(posToMenuPos:Bool = true)
+    override public function new(posToGlobalCameraPos:Bool = true)
     {
         super(0, 0, 50, 50);
 
         // Positions the camera
         screenCenter();
-        if (posToMenuPos)
+        if (posToGlobalCameraPos)
             x = MenuState.camPosX;
         y -= 12;
 

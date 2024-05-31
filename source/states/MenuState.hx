@@ -6,18 +6,14 @@ import backend.FlappyText;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.util.FlxColor;
-import objects.Background;
 import objects.ButtonGroup;
-import objects.CameraObject;
 
 class MenuState extends FlappyState
 {
     public static var camPosX:Float = 0;
 
-    var bg:Background;
     var messageBox:FlxSprite;
     var messageText:FlappyText;
-    var camFollow:CameraObject;
     var grpButtons:ButtonGroup;
 
     var buttons:Array<String> = [
@@ -37,11 +33,6 @@ class MenuState extends FlappyState
     override function create()
     {
         PlayState.editorMode = false;
-
-        bg = new Background();
-        add(bg);
-
-        camFollow = new CameraObject();
 
         var title:FlxSprite = new FlxSprite();
         title.loadGraphic(Paths.imageFile('title'));
@@ -116,7 +107,6 @@ class MenuState extends FlappyState
         }
 
         camFollow.x += FlappySettings.menuScrollSpeed;
-        camPosX = camFollow.x;
 
         super.update(elapsed);
     }

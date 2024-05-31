@@ -7,13 +7,9 @@ import backend.FlappyText;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup.FlxTypedGroup;
-import objects.Background;
-import objects.CameraObject;
 
 class OptionsState extends FlappyState
 {
-    var bg:Background;
-    var camFollow:CameraObject;
     var grpButtons:FlxTypedGroup<FlappyButton>;
 
     override public function new()
@@ -23,11 +19,6 @@ class OptionsState extends FlappyState
     
     override function create()
     {
-        bg = new Background();
-        add(bg);
-        
-        camFollow = new CameraObject();
-
         var boxBG:FlxSprite = new FlxSprite();
         boxBG.loadGraphic(Paths.imageFile('uiBox'));
         boxBG.setGraphicSize(Std.int(boxBG.width * 3));

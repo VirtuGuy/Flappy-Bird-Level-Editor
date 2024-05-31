@@ -12,10 +12,9 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxCollision;
 import flixel.util.FlxTimer;
-import objects.Background;
 import objects.Bird;
-import objects.CameraObject;
 import objects.Object;
+import shaders.ColorSwapEffect;
 import states.EditorState.LevelData;
 import substates.CompleteSubstate;
 import substates.GameOverSubstate;
@@ -31,11 +30,9 @@ class PlayState extends FlappyState
 	public var ending:Bool = false;
 	public var birdSpeedUp:Bool = false;
 
-	var bg:Background;
 	var bird:Bird;
 	var grpObjects:FlxTypedGroup<Object>;
 	var objects:Array<Object> = [];
-	var camFollow:CameraObject;
 	var pauseButton:FlappyButton;
 	var pointsTxt:FlappyText;
 	var points:Int = 0;
@@ -49,16 +46,13 @@ class PlayState extends FlappyState
 			MenuState.camPosX = 0;
 
 		startCamPosX = MenuState.camPosX;
-		camFollow = new CameraObject();
-
-		bg = new Background();
-        add(bg);
 
 		grpObjects = new FlxTypedGroup<Object>();
 		bg.backObjects.add(grpObjects);
 
 		bird = new Bird(50, 50);
 		bird.scrollFactor.set();
+		bird.shader = new ColorSwapEffect().shader;
 		bg.backObjects.add(bird);
 
 		if (!infiniteMode)
@@ -327,7 +321,6 @@ class PlayState extends FlappyState
 		if (!bird.isDead && !ending && !birdSpeedUp)
 		{
 			camFollow.x += scrollSpeed;
-			MenuState.camPosX = camFollow.x;
 
 			if (started && !ending)
 			{

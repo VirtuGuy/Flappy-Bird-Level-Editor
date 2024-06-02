@@ -142,7 +142,7 @@ class LevelSelectionState extends FlappyState
         {
             if (FileSystem.exists(Paths.levelFile(folder, item)))
             {
-                var levelText:FlappyText = new FlappyText(40, (i * 30) + 60, 0, item, 24);
+                var levelText:FlappyText = new FlappyText(40, (i * 60) + 60, 0, item, 24);
                 levelText.scrollFactor.set(1, 1);
                 levelText.ID = i++;
                 grpLevels.add(levelText);
@@ -222,7 +222,7 @@ class LevelSelectionState extends FlappyState
 
     override function update(elapsed:Float)
     {
-        camFollow.x += FlappySettings.menuScrollSpeed;
+        camFollow.x += FlappySettings.menuScrollSpeed * elapsed * 60;
 
         if (grpLevels.length > 0 && levels.length > 0)
         {

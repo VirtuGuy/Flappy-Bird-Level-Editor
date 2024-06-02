@@ -236,7 +236,7 @@ class EditorState extends FlappyState
                 else if (FlxG.keys.pressed.CONTROL)
                     speed /= 1.5;
     
-                camFollow.x += posAdd * speed;
+                camFollow.x += posAdd * speed * elapsed * 60;
                 updateObjects();
             }
 

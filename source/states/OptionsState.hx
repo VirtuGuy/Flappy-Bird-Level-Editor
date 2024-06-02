@@ -50,7 +50,7 @@ class OptionsState extends FlappyState
 
     override function update(elapsed:Float)
     {
-        camFollow.x += FlappySettings.menuScrollSpeed;
+        camFollow.x += FlappySettings.menuScrollSpeed * elapsed * 60;
         MenuState.camPosX = camFollow.x;
 
         super.update(elapsed);

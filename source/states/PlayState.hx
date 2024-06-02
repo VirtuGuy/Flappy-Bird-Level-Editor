@@ -318,7 +318,7 @@ class PlayState extends FlappyState
 	{
 		if (!bird.isDead && !ending && !birdSpeedUp)
 		{
-			camFollow.x += scrollSpeed;
+			camFollow.x += scrollSpeed * elapsed * 60;
 
 			if (started && !ending)
 			{
@@ -334,7 +334,7 @@ class PlayState extends FlappyState
 		}
 
 		if (birdSpeedUp && ending)
-			bird.velocity.x += 25;
+			bird.velocity.x += 25 * elapsed * 35;
 
 		updateObjects();
 		checkDeath();

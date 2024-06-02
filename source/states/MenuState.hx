@@ -101,12 +101,12 @@ class MenuState extends FlappyState
     {
         if (messageText.text != '')
         {
-            messageText.x -= 2;
+            messageText.x -= 2 * elapsed * 60;
             if (messageText.x < -(FlxG.width + messageText.width))
                 messageText.x = -messageText.x;
         }
 
-        camFollow.x += FlappySettings.menuScrollSpeed;
+        camFollow.x += FlappySettings.menuScrollSpeed * elapsed * 60;
 
         super.update(elapsed);
     }

@@ -30,7 +30,7 @@ class Bird extends FlxSprite
     override function update(elapsed:Float)
     {
         if (!isSinking && startMoving)
-            velocity.y += gravity;
+            velocity.y += gravity * elapsed * 60;
 
         if (animation.curAnim != null)
         {
@@ -48,7 +48,7 @@ class Bird extends FlxSprite
             if (!isSinking)
                 angle = (velocity.y / 100) * 5;
             else
-                angle += sinkSpeed / 20;
+                angle += sinkSpeed / 20 * elapsed * 40;
         }
 
         super.update(elapsed);

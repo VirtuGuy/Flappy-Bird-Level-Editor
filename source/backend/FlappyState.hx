@@ -26,8 +26,9 @@ class FlappyState extends FlxUIState
 
 	private var bg:Background;
 	private var camFollow:CameraObject;
-
 	private var keys:Keys;
+	
+	private var fadeMap:Map<FlxSprite, Array<Float>> = new Map<FlxSprite, Array<Float>>();
 	private var fadeBlacklist:Array<Class<Dynamic>> = [
 		Background
 	];
@@ -79,61 +80,62 @@ class FlappyState extends FlxUIState
 		MenuState.camPosX = camFollow.x;
 	}
 
-	public function fadeObject(object:FlxSprite, fadeIn:Bool = true, ?callback:Void->Void)
+	// Fade functions
+	public function fadeObject(object:FlxSprite, fadeIn:Bool = true, ?callback:()->Void)
 	{
 		if (object is FlxSprite)
 		{
-			FlxTween.cancelTweensOf(object);
-			
-			var pos:Float = object.y;
-			var alpha:Float = object.alpha;
-
-			if (fadeIn)
+			if (fadeIn || !fadeMap.exists(object))
 			{
-				if (object.tweened)
+				// Value setting
+				if (!fadeMap.exists(object) && !fadeIn)
 				{
-					object.x = object.tweenX;
-					object.y = object.tweenY;
-					object.alpha = object.tweenAlpha;
-					object.tweened = false;
+					var info:Array<Float> = [object.y, object.alpha];
+					FlxTween.completeTweensOf(object);
+					FlxTween.globalManager.update(0);
+					fadeMap.set(object, [object.y, object.alpha]);
+	
+					object.y = info[0];
+					object.alpha = info[1];
 				}
-
-				alpha = object.alpha;
-				pos = object.y;
-				
-				object.y -= 20;
-				object.alpha = 0;
-			}
-			else
-			{
-				alpha = 0;
-				pos -= 20;
-
-				if (!object.tweened)
+				if (!fadeIn)
+					FlxTween.cancelTweensOf(object);
+	
+				if (object is FlappyButton)
 				{
-					object.tweenX = object.x;
-					object.tweenY = object.y;
-					object.tweenAlpha = object.alpha;
-					object.tweened = true;
+					var button:FlappyButton = cast object;
+					toggleSprite(button, fadeIn, true);
 				}
+	
+				// Fades the object
+				var y:Float = fadeMap.exists(object) ? fadeMap.get(object)[0] : object.y;
+				var alpha:Float = fadeMap.exists(object) ? fadeMap.get(object)[1] : object.alpha;
+	
+				if (fadeIn)
+				{
+					object.y -= 20;
+					object.alpha = 0;
+				}
+				else
+				{
+					y -= 20;
+					alpha = 0;
+				}
+	
+				// The actual tween
+				FlxTween.tween(object, {alpha: alpha}, fadeDuration, {ease: FlxEase.quadInOut});
+				FlxTween.tween(object, {y: y}, fadeDuration, {ease: FlxEase.quadOut,
+					onComplete: function(_){
+						if (fadeMap.exists(object) && fadeIn)
+							fadeMap.remove(object);
+						if (callback != null)
+							callback();
+				}});
 			}
-
-			if (object is FlappyButton)
-			{
-				var button:FlappyButton = cast object;
-				toggleSprite(button, fadeIn, true);
-			}
-
-			FlxTween.tween(object, {alpha: alpha}, fadeDuration, {ease: FlxEase.quadInOut});
-			FlxTween.tween(object, {y: pos}, fadeDuration, {ease: FlxEase.quadOut,
-				onComplete: function(_){
-					if (callback != null)
-						callback();
-			}});
 		}
 	}
 
-	public function fadeGroup(group:Dynamic, fadeIn:Bool = true, ?callback:Void->Void)
+	public function fadeGroup(group:Dynamic, fadeIn:Bool = true, ?callback:()->Void)
 	{
 		if (group is FlxGroup)
 		{
@@ -167,6 +169,7 @@ class FlappyState extends FlxUIState
 		}
 	}
 
+	// Sprite toggling
 	public function toggleSprite(sprite:FlxBasic, toggle:Bool = true, keepVisibility:Bool = false)
 	{
 		if (!keepVisibility)

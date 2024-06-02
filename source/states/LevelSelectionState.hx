@@ -10,7 +10,6 @@ import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
-import flixel.FlxState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import objects.ButtonGroup;
 
@@ -172,9 +171,7 @@ class LevelSelectionState extends FlappyState
         fadeGroup(grpButtons);
         fadeObject(selectionArrow, false);
         fadeGroup(grpLevelButtons, false);
-        fadeGroup(grpLevels, false, function(){
-            grpLevels.clear();
-        });
+        fadeGroup(grpLevels, false, grpLevels.clear);
     }
 
     function changeSelection(change:Int = 0)

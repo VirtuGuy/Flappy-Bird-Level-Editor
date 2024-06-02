@@ -3,9 +3,9 @@ package backend;
 import flixel.FlxG;
 import flixel.input.keyboard.FlxKey;
 
-enum KeyScheme
+enum KeyPreset
 {
-    Keys1;
+    Default;
 }
 
 class Keys
@@ -123,11 +123,11 @@ class Keys
     public function bindKey(keyName:String, keys:Array<FlxKey>)
         keybinds.set(keyName, keys);
 
-    public function setScheme(scheme:KeyScheme)
+    public function setPreset(preset:KeyPreset)
     {
-        switch (scheme)
+        switch (preset)
         {
-            case Keys1:
+            case Default:
                 bindKey(k_left, [A, FlxKey.LEFT]);
                 bindKey(k_right, [D, FlxKey.RIGHT]);
                 bindKey(k_up, [W, FlxKey.UP]);
@@ -166,7 +166,7 @@ class Keys
 
     public function new()
     {
-        setScheme(Keys1);
+        setPreset(Default);
         toggleVolumeKeys(true);
     }
 }

@@ -130,8 +130,8 @@ class Keys
             case Keys1:
                 bindKey(k_left, [A, FlxKey.LEFT]);
                 bindKey(k_right, [D, FlxKey.RIGHT]);
-                bindKey(k_up, [A, FlxKey.UP]);
-                bindKey(k_down, [D, FlxKey.DOWN]);
+                bindKey(k_up, [W, FlxKey.UP]);
+                bindKey(k_down, [S, FlxKey.DOWN]);
                 bindKey(k_pause, [P]);
                 bindKey(k_accept, [SPACE, ENTER]);
                 bindKey(k_back, [ESCAPE, BACKSPACE]);

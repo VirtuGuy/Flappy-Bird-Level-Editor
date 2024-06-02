@@ -1,7 +1,7 @@
 package backend;
 
+import flixel.FlxBasic;
 import flixel.FlxG;
-import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.addons.ui.FlxUIState;
@@ -79,12 +79,14 @@ class FlappyState extends FlxUIState
 		MenuState.camPosX = camFollow.x;
 	}
 
-	public function fadeObject(object:FlxSprite, fadeIn:Bool = true)
+	public function fadeObject(object:FlxSprite, fadeIn:Bool = true, ?callback:Void->Void)
 	{
 		if (object is FlxSprite)
 		{
+			FlxTween.cancelTweensOf(object);
+			
 			var pos:Float = object.y;
-			var alpha:Float = 0;
+			var alpha:Float = object.alpha;
 
 			if (fadeIn)
 			{
@@ -93,6 +95,7 @@ class FlappyState extends FlxUIState
 					object.x = object.tweenX;
 					object.y = object.tweenY;
 					object.alpha = object.tweenAlpha;
+					object.tweened = false;
 				}
 
 				alpha = object.alpha;
@@ -105,9 +108,14 @@ class FlappyState extends FlxUIState
 			{
 				alpha = 0;
 				pos -= 20;
-				object.tweenX = object.x;
-				object.tweenY = object.y;
-				object.tweenAlpha = object.alpha;
+
+				if (!object.tweened)
+				{
+					object.tweenX = object.x;
+					object.tweenY = object.y;
+					object.tweenAlpha = object.alpha;
+					object.tweened = true;
+				}
 			}
 
 			if (object is FlappyButton)
@@ -116,14 +124,16 @@ class FlappyState extends FlxUIState
 				toggleSprite(button, fadeIn, true);
 			}
 
-			object.tweened = true;
-			FlxTween.cancelTweensOf(object);
 			FlxTween.tween(object, {alpha: alpha}, fadeDuration, {ease: FlxEase.quadInOut});
-			FlxTween.tween(object, {y: pos}, fadeDuration, {ease: FlxEase.quadOut});
+			FlxTween.tween(object, {y: pos}, fadeDuration, {ease: FlxEase.quadOut,
+				onComplete: function(_){
+					if (callback != null)
+						callback();
+			}});
 		}
 	}
 
-	public function fadeGroup(group:Dynamic, fadeIn:Bool = true)
+	public function fadeGroup(group:Dynamic, fadeIn:Bool = true, ?callback:Void->Void)
 	{
 		if (group is FlxGroup)
 		{
@@ -134,7 +144,7 @@ class FlappyState extends FlxUIState
 				if (item is FlxSprite)
 				{
 					var object:FlxSprite = cast item;
-					fadeObject(object, fadeIn);
+					fadeObject(object, fadeIn, callback);
 				}
 			}
 		}
@@ -157,14 +167,14 @@ class FlappyState extends FlxUIState
 		}
 	}
 
-	public function toggleSprite(sprite:FlxObject, toggle:Bool = true, keepVisibility:Bool = false)
+	public function toggleSprite(sprite:FlxBasic, toggle:Bool = true, keepVisibility:Bool = false)
 	{
 		if (!keepVisibility)
 			sprite.visible = toggle;
 		sprite.active = toggle;
 	}
 
-	public function toggleSprites(sprites:Array<FlxObject>, toggle:Bool = true,
+	public function toggleSprites(sprites:Array<FlxBasic>, toggle:Bool = true,
 		keepVisibility:Bool = false)
 	{
 		for (sprite in sprites)

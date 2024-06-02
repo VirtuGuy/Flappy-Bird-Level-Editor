@@ -18,6 +18,7 @@ class ButtonGroup extends FlxTypedGroup<FlappyButton>
     public var buttons:Array<String> = [];
     public var buttonLayout:ButtonLayout = Vertical;
     public var fadeInDelay:Float = -1;
+    public var buttonScale:Float = 1;
 
     function sortStuff(obj1:FlappyButton, obj2:FlappyButton):Int
     {
@@ -25,15 +26,16 @@ class ButtonGroup extends FlxTypedGroup<FlappyButton>
     }
 
     override public function new(buttons:Array<String>, buttonLayout:ButtonLayout = Vertical,
-        fadeInDelay:Float = -1)
+        fadeInDelay:Float = -1, ?buttonScale:Float = 1)
     {
         super();
         this.buttons = buttons;
         this.buttonLayout = buttonLayout;
         this.fadeInDelay = fadeInDelay;
+        this.buttonScale = buttonScale;
 
-        var spacingX:Float = 124;
-        var spacingY:Float = 47;
+        var spacingX:Float = 124 * buttonScale;
+        var spacingY:Float = 47 * buttonScale;
         var right:Float = (FlxG.width - (spacingX * (buttons.length))) / 2;
 		var top:Float = (FlxG.height - (spacingY * (buttons.length))) / 2;
 
@@ -61,6 +63,8 @@ class ButtonGroup extends FlxTypedGroup<FlappyButton>
                 realY = y;
 
             var button:FlappyButton = new FlappyButton(realX, realY, buttons[i]);
+            button.setGraphicSize(Std.int(button.width * buttonScale));
+            button.updateHitbox();
             button.ID = i;
             if (x == null)
                 button.screenCenter(X);
@@ -93,6 +97,15 @@ class ButtonGroup extends FlxTypedGroup<FlappyButton>
         {
             var button:FlappyButton = cast members[buttonId];
             button.clickSound = toggle;
+        }
+    }
+
+    public function addPosition(x:Float = 0, y:Float = 0)
+    {
+        for (item in members)
+        {
+            item.x += x;
+            item.y += y;
         }
     }
 }

@@ -11,6 +11,7 @@ class FlappyText extends FlxText
 {
     public var defaultX:Float = 0;
     public var selectDuration:Float = 0.2;
+    public var selected:Bool = false;
 
     override public function new(x:Float = 0, y:Float = 0, fieldWidth:Float = 0, text:String,
         size:Int = 16, alignment:FlxTextAlign = LEFT)
@@ -27,6 +28,8 @@ class FlappyText extends FlxText
 
     public function deselect()
     {
+        selected = false;
+        
         FlxTween.cancelTweensOf(this);
         FlxTween.tween(this, {x: defaultX}, selectDuration, {ease: FlxEase.quadOut});
         alpha = 0.7;
@@ -34,7 +37,11 @@ class FlappyText extends FlxText
 
     public function select()
     {
-        defaultX = x;
+        if (!selected)
+        {
+            defaultX = x;
+            selected = true;
+        }
 
         FlxTween.cancelTweensOf(this);
         FlxTween.tween(this, {x: defaultX + 15}, selectDuration, {ease: FlxEase.quadOut});

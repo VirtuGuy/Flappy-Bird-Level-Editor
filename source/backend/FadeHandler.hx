@@ -13,7 +13,7 @@ class FadeHandler
 
     public function new(target:FlxSprite, callback:(Bool)->Void)
     {
-        var info:Array<Float> = [target.y, target.alpha];
+        var info:Array<Float> = [target.x, target.y, target.alpha, target.angle];
         FlxTween.completeTweensOf(target);
         FlxTween.globalManager.update(0);
 
@@ -22,8 +22,10 @@ class FadeHandler
         this.alpha = target.alpha;
         this.callback = callback;
 
-        target.y = info[0];
-        target.alpha = info[1];
+        target.x = info[0];
+        target.y = info[1];
+        target.alpha = info[2];
+        target.angle = info[3];
     }
 
     public function start(fadeIn:Bool = true, fadeDuration:Float = 0.5)

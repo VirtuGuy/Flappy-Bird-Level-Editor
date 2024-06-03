@@ -28,7 +28,7 @@ class FlappyState extends FlxUIState
 	private var camFollow:CameraObject;
 	private var keys:Keys;
 	
-	private var fadeMap:Map<FlxSprite, Array<Float>> = new Map<FlxSprite, Array<Float>>();
+	private var fadeMap:Map<FlxSprite, FadeHandler> = new Map<FlxSprite, FadeHandler>();
 	private var fadeBlacklist:Array<Class<Dynamic>> = [
 		Background
 	];
@@ -85,6 +85,25 @@ class FlappyState extends FlxUIState
 	{
 		if (object is FlxSprite)
 		{
+			if (!fadeMap.exists(object))
+			{
+				var fadeHandler:FadeHandler = new FadeHandler(object, function(fadeIn:Bool){
+					if (fadeIn)
+						fadeMap.remove(object);
+					if (callback != null)
+						callback();
+				});
+				fadeMap.set(object, fadeHandler);
+			}
+			fadeMap.get(object).start(fadeIn, fadeDuration);
+		}
+	}
+
+	/*
+	public function fadeObject(object:FlxSprite, fadeIn:Bool = true, ?callback:()->Void)
+	{
+		if (object is FlxSprite)
+		{
 			if (fadeIn || !fadeMap.exists(object))
 			{
 				// Value setting
@@ -134,6 +153,7 @@ class FlappyState extends FlxUIState
 			}
 		}
 	}
+	*/
 
 	public function fadeGroup(group:Dynamic, fadeIn:Bool = true, ?callback:()->Void)
 	{

@@ -171,7 +171,7 @@ class LevelSelectionState extends FlappyState
         fadeGroup(grpButtons);
         fadeObject(selectionArrow, false);
         fadeGroup(grpLevelButtons, false);
-        fadeGroup(grpLevels, false, grpLevels.clear);
+        grpLevels.clear();
     }
 
     function changeSelection(change:Int = 0)

@@ -159,7 +159,6 @@ class LevelSelectionState extends FlappyState
         else
         {
             toggleSprites([selectionArrow, grpLevelButtons]);
-            fadeObject(selectionArrow);
             fadeGroup(grpLevelButtons);
             changeSelection();
         }
@@ -169,8 +168,8 @@ class LevelSelectionState extends FlappyState
     {
         fadeObject(highscoreTxt);
         fadeGroup(grpButtons);
-        fadeObject(selectionArrow, false);
         fadeGroup(grpLevelButtons, false);
+        toggleSprite(selectionArrow, false);
         grpLevels.clear();
     }
 

@@ -159,6 +159,7 @@ class LevelSelectionState extends FlappyState
         else
         {
             toggleSprites([selectionArrow, grpLevelButtons]);
+            updateSelectionArrowPos();
             fadeGroup(grpLevelButtons);
             changeSelection();
         }

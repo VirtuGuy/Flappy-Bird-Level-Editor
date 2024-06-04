@@ -43,13 +43,12 @@ class PlayState extends FlappyState
 	{
 		if (editorMode)
 			MenuState.camPosX = 0;
-
 		startCamPosX = MenuState.camPosX;
 
 		grpObjects = new FlxTypedGroup<Object>();
 		bg.backObjects.add(grpObjects);
 
-		bird = new Bird(50, 50);
+		bird = new Bird(75, 75);
 		bird.scrollFactor.set();
 		bg.backObjects.add(bird);
 

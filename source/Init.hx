@@ -36,6 +36,7 @@ class Init extends FlxState
     override function create()
     {
         FlxG.mouse.useSystemCursor = true;
+        FlxG.stage.showDefaultContextMenu = false;
 
         FlappyData.loadData();
 

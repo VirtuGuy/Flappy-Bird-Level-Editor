@@ -136,7 +136,7 @@ class Paths
         return 'screenshots';
     }
 
-    inline static public function screenshotFile(key:String, getScreenshot:Bool = true):Any
+    inline static public function screenshotFile(key:String, getScreenshot:Bool = true):Dynamic
     {
         var path:String = '${screenshotsFolder()}/$key.$imageExt';
         if (getScreenshot)

@@ -8,8 +8,9 @@ This is a guide on how to properly compile the game's source code. Follow the st
 
 ## Platforms
 ### Windows
-* Install Visual Studio 2019.
-* Once you get the option, click `Individual components`, select `MSVC v142 - VS 2019 C++ x64/x86 build tools` and `Windows SDK (10.0.17763.0)`.
+* Install the [Visual Studio 2022 Build Tools](https://aka.ms/vs/17/release/vs_BuildTools.exe).
+* Once you get the option, click `Individual components`.
+* Download `MSVC v143 VS 2022 C++ x64/x86 build tools` and `Windows 10/11 SDK`.
 ### MacOS
 * Install the latest version of Xcode from the MacOS App Store.
 ### Linux

@@ -4,7 +4,7 @@ This is a guide on how to properly compile the game's source code. Follow the st
 ## Dependencies
 * Install [Haxe 4.3.2](https://haxe.org/download/version/4.3.2/)
 * Open command prompt and run the commands `haxelib install hmm` and `haxelib run hmm setup`.
-* From the source code directory, run the command `hmm install`. A tip for doing this step is that if you have command prompt open still, you can run `cd (source code directory location)`.
+* From the source code directory, run the command `hmm install`.
 
 ## Platforms
 ### Windows
@@ -18,6 +18,10 @@ This is a guide on how to properly compile the game's source code. Follow the st
 
 ## Commands
 Congratulations on managing to complete the previous steps. Now you can finally compile the game! From the source code directory, run `lime test [target]` in command prompt.
-Replace `[target]` with the platform you're compiling for. Ex. `windows`, `mac`, `linux`, `android`, etc. To compile the game in debug mode, add `-debug` at the end of the command line.
+Replace `[target]` with the platform you're compiling for. The platforms the game can compile for would be `windows`, `mac`, `linux`, and `html5`. To compile the game in debug mode, add `-debug` at the end of the command line.
 
+## Prettier
+When using Visual Studio Code, there's an extension called Prettier that automatically formats the code to look pretty. In the game's source code, Prettier is disabled because I want the game's code to be formatted my way. However, if you are modifying the source code and you want to use Prettier, then you can simply delete the .prettierignore file from the game's source code directory.
+
+## Conclusion
 I hope this was helpful and that everything went well. If you've had any issues, please report them.

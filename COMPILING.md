@@ -2,7 +2,7 @@
 This is a guide on how to properly compile the game's source code. Follow the steps carefully, so you don't experience any issues.
 
 ## Dependencies
-* Install [Haxe 4.2.5](https://haxe.org/download/version/4.2.5/)
+* Install [Haxe 4.3.2](https://haxe.org/download/version/4.3.2/)
 * Open command prompt and run the commands `haxelib install hmm` and `haxelib run hmm setup`.
 * From the source code directory, run the command `hmm install`. A tip for doing this step is that if you have command prompt open still, you can run `cd (source code directory location)`.
 

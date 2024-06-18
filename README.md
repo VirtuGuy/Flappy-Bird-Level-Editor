@@ -14,7 +14,7 @@
  * Infinitely generated levels.
  * Infinite level scrolling.
  * No bugs.
- * Open source content using the MIT license.
+ * Open source content under the MIT license.
 
 # Credits
 * [VirtuGuy (it's a me!)](https://github.com/VirtuGuy). The being who invented a project this cool like this.

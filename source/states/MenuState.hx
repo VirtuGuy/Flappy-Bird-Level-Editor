@@ -10,7 +10,7 @@ import objects.ButtonGroup;
 
 class MenuState extends FlappyState
 {
-    public static var camPosX:Float = 0;
+    static public var camPosX:Float = 0;
 
     var messageBox:FlxSprite;
     var messageText:FlappyText;

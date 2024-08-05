@@ -32,7 +32,7 @@
 	<define name="CHECK_FOR_UPDATES" />
 	<define name="MESSAGES" />
 	<define name="SCREENSHOTS" if="desktop" />
-	<!--<define name="SHOW_FPS" />-->
+	<define name="SHOW_FPS" />
 
 	<!-- _____________________________ Path Settings ____________________________ -->
 

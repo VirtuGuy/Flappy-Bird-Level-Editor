@@ -4,10 +4,10 @@ import flixel.FlxG;
 
 class FlappyData
 {
-    public static var dataMap:Map<String, Dynamic> = [
+    static public var dataMap:Map<String, Dynamic> = [
         'infiniteScore' => 0
     ];
-    public static var ogDataMap:Map<String, Dynamic> = dataMap.copy();
+    static public var ogDataMap:Map<String, Dynamic> = dataMap.copy();
 
     public static function saveData()
     {

@@ -16,13 +16,13 @@ using StringTools;
 
 class Init extends FlxState
 {
-    public static var curVersion:String = '';
+    static public var curVersion:String = '';
     #if CHECK_FOR_UPDATES
-    public static var latestVersion:String = '';
-    public static var showOutdated:Bool = false;
+    static public var latestVersion:String = '';
+    static public var showOutdated:Bool = false;
     #end
     #if MESSAGES
-    public static var messages:Array<String> = [];
+    static public var messages:Array<String> = [];
     #end
 
     private var percent:Float = 0;

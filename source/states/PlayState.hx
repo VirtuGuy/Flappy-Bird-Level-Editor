@@ -21,9 +21,9 @@ import substates.PauseSubstate;
 
 class PlayState extends FlappyState
 {
-	public static var editorMode:Bool = false;
-	public static var infiniteMode:Bool = false;
-	public static var levelData:LevelData;
+	static public var editorMode:Bool = false;
+	static public var infiniteMode:Bool = false;
+	static public var levelData:LevelData;
 
 	public var started:Bool = false;
 	public var ending:Bool = false;

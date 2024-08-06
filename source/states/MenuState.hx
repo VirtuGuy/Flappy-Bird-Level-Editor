@@ -1,5 +1,6 @@
 package states;
 
+import backend.FlappyData;
 import backend.FlappySettings;
 import backend.FlappyState;
 import backend.FlappyText;
@@ -24,6 +25,8 @@ class MenuState extends FlappyState
         'exit'
         #end
     ];
+
+    var eraseDataTime:Float = 0;
 
     override public function new()
     {
@@ -55,6 +58,12 @@ class MenuState extends FlappyState
         + '\n${Init.curVersion}';
         versionTxt.y = FlxG.height - versionTxt.height;
         add(versionTxt);
+
+        var eraseDataTxt:FlappyText = new FlappyText(0, 0, 0, 'Hold ESC to erase data!', 18, RIGHT);
+        eraseDataTxt.borderSize = 1.2;
+        eraseDataTxt.x = FlxG.width - eraseDataTxt.width;
+        eraseDataTxt.y = FlxG.height - eraseDataTxt.height;
+        add(eraseDataTxt);
 
         #if MESSAGES
         messageBox = new FlxSprite();
@@ -107,6 +116,19 @@ class MenuState extends FlappyState
         }
 
         camFollow.x += FlappySettings.menuScrollSpeed * elapsed * 60;
+
+        // Erase data
+        if (FlxG.keys.pressed.ESCAPE)
+        {
+            eraseDataTime += elapsed;
+            if (eraseDataTime > 1)
+            {
+                FlxG.resetState();
+                FlappyData.eraseData();
+            }
+        }
+        else
+            eraseDataTime = 0;
 
         super.update(elapsed);
     }

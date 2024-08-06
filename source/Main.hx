@@ -14,7 +14,7 @@ class Main extends Sprite
 		super();
 
 		// Web cannot run at an fps higher than 60
-		#if web
+		#if WEB_FPS_CAP
 		framerate = 60;
 		#end
 

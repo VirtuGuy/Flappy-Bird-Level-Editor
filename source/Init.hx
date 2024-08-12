@@ -77,6 +77,10 @@ class Init extends FlxState
         // BG
         addImage('background/Sky');
         addImage('background/Ground');
+        addImage('background/NightSky');
+        addImage('background/NightGround');
+        addImage('background/CloudsSky');
+        addImage('background/CloudsGround');
 
         // Player skins
         addImage('playerSkins/default');

@@ -1,7 +1,8 @@
 {
-    "canBeFlipped": false,
-    "canCollide": false,
-    "invisible": true,
-    "canBeScaled": false,
-    "triggerMode": 0
+  "canBeFlipped": false,
+  "canCollide": false,
+  "invisible": true,
+  "canBeScaled": false,
+  "max": 1,
+  "triggerMode": 0
 }

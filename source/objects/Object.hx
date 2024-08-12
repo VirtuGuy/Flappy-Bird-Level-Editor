@@ -9,6 +9,7 @@ typedef ObjectData = {
     invisible:Null<Bool>,
     canBeScaled:Null<Bool>,
     triggerMode:Null<Int>,
+    max:Null<Int>,
     variables:Null<Array<Array<Dynamic>>>
 }
 
@@ -23,6 +24,7 @@ class Object extends FlxSprite
     public var invisible(default, set):Bool = false;
     public var canBeScaled:Bool = true;
     public var triggerMode:Int = 0;
+    public var max:Int = 0;
     public var variables:Array<Array<Dynamic>> = [];
     public var scaleMulti(default, set):Float = -1;
     public var alreadyTriggered:Bool = false;
@@ -56,31 +58,13 @@ class Object extends FlxSprite
         if (Paths.pathExists(Paths.objectJson(objectName)))
         {
             var json:ObjectData = FlappyTools.loadJSON(Paths.objectJson(objectName));
-            
-            if (json.canBeFlipped != null)
-                canBeFlipped = json.canBeFlipped;
-            else
-                canBeFlipped = true;
 
-            if (json.canCollide != null)
-                canCollide = json.canCollide;
-            else
-                canCollide = true;
-
-            if (json.invisible != null)
-                invisible = json.invisible;
-            else
-                invisible = false;
-
-            if (json.canBeScaled != null)
-                canBeScaled = json.canBeScaled;
-            else
-                canBeScaled = true;
-
-            if (json.triggerMode != null)
-                triggerMode = json.triggerMode;
-            else
-                triggerMode = 0;
+            canBeFlipped = json.canBeFlipped ?? true;
+            canCollide = json.canCollide ?? true;
+            invisible = json.invisible ?? false;
+            canBeScaled = json.canBeScaled ?? true;
+            triggerMode = json.triggerMode ?? 0;
+            max = json.max ?? 0;
         }
 
         loadGraphic(Paths.imageFile('objects/$value'));
@@ -88,7 +72,6 @@ class Object extends FlxSprite
 
         if (flipped && !canBeFlipped)
             flipped = false;
-        
         if (scaleMulti != 1 && !canBeScaled)
             scaleMulti = 1;
 

@@ -1,10 +1,9 @@
 {
-    "canBeFlipped": false,
-    "canCollide": false,
-    "invisible": true,
-    "canBeScaled": false,
-    "triggerMode": 0,
-    "variables": [
-        ["points", 1]
-    ]
+  "canBeFlipped": false,
+  "canCollide": false,
+  "invisible": true,
+  "canBeScaled": false,
+  "max": 0,
+  "triggerMode": 0,
+  "variables": [["points", 1]]
 }

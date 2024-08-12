@@ -334,7 +334,8 @@ class EditorState extends FlappyState
 
         for (item in levelData.objects)
         {
-            if (item.name == 'point' || item.name == 'end')
+            var json:ObjectData = FlappyTools.loadJSON(Paths.objectJson(item.name));
+            if (json.triggerMode == 0)
             {
                 var line:LineObject = new LineObject(item.x);
                 grpLines.add(line);
@@ -366,6 +367,18 @@ class EditorState extends FlappyState
                 var json:ObjectData = FlappyTools.loadJSON(Paths.objectJson(name));
                 if (json.variables != null)
                     variables = json.variables;
+                if (json.max > 0)
+                {
+                    var obj:LevelObjectData = null;
+                    for (i in 0...levelData.objects.length)
+                    {
+                        var item:LevelObjectData = levelData.objects[i];
+                        if (i + 1 >= json.max && item.name == name)
+                            obj = item;
+                    }
+                    if (obj != null)
+                        removeObject(obj.x, obj.y, obj.name);
+                }
             }
 
             levelData.objects.push({

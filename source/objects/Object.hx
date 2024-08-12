@@ -44,6 +44,7 @@ class Object extends FlxSprite
             flipX = flipped == true;
         else
             flipX = false;
+        visible = isOnScreen();
 
         super.update(elapsed);
     }

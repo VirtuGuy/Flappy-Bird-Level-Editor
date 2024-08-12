@@ -1,5 +1,6 @@
 package states;
 
+import objects.LineObject;
 import backend.FlappySettings;
 import backend.FlappyState;
 import backend.FlappyText;
@@ -246,7 +247,6 @@ class EditorState extends FlappyState
                     speed /= 1.5;
     
                 camFollow.x += posAdd * speed * elapsed * 60;
-                updateObjects();
             }
 
             // Hide instructions
@@ -313,8 +313,8 @@ class EditorState extends FlappyState
             object.scaleMulti = item.scale;
             object.flipped = item.flipped;
             object.variables = item.variables;
-            if (object.isOnScreen())
-                grpObjects.add(object);
+            grpObjects.add(object);
+
             if (selectedObject != null)
             {
                 if (selectedObject.x == object.x && selectedObject.y == object.y &&
@@ -336,11 +336,8 @@ class EditorState extends FlappyState
         {
             if (item.name == 'point' || item.name == 'end')
             {
-                var line:FlxSprite = new FlxSprite(item.x, 0);
-                line.makeGraphic(2, FlxG.height + 50, FlxColor.fromRGB(255, 255, 255, 135));
-                line.screenCenter(Y);
-                if (line.isOnScreen())
-                    grpLines.add(line);
+                var line:LineObject = new LineObject(item.x);
+                grpLines.add(line);
             }
         }
     }

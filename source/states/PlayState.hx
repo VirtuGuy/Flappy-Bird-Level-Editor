@@ -164,6 +164,8 @@ class PlayState extends FlappyState
 			editor();
 		else
 		{
+			if (!bird.isDead)
+				FlxG.camera.shake(0.02, 0.02);
 			bird.killBird(playHitSound);
 			toggleSprites([pauseButton, pointsTxt], false);
 		}

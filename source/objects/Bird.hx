@@ -46,7 +46,10 @@ class Bird extends FlxSprite
         if (startMoving)
         {
             if (!isSinking)
-                angle = (velocity.y / 100) * 5;
+                if (!isDead)
+                    angle = (velocity.y / 100) * 5;
+                else
+                    angle = (velocity.y / 50) * 5;
             else
                 angle += sinkSpeed / 20 * elapsed * 40;
         }
@@ -58,18 +61,22 @@ class Bird extends FlxSprite
     {
         if (!isDead)
         {
+            FlxG.sound.play(Paths.soundFile(Paths.getSound('wing'), false));
             animation.play('flap', true);
             velocity.y = -flapHeight;
-            
-            FlxG.sound.play(Paths.soundFile(Paths.getSound('wing'), false));
         }
     }
 
     public function killBird(playHitSound:Bool = true)
     {
-        if (playHitSound && !isDead)
-            FlxG.sound.play(Paths.soundFile(Paths.getSound('hit'), false));
-        isDead = true;
+        if (!isDead)
+        {
+            if (playHitSound)
+                FlxG.sound.play(Paths.soundFile(Paths.getSound('hit'), false));
+            gravity /= 2.5;
+            velocity.y = -flapHeight / 1.5;
+            isDead = true;
+        }
     }
 
     public function sink()
@@ -78,7 +85,6 @@ class Bird extends FlxSprite
         {
             FlxG.sound.play(Paths.soundFile(Paths.getSound('die'), false));
             velocity.y = sinkSpeed;
-
             isSinking = true;
         }
     }
@@ -86,11 +92,9 @@ class Bird extends FlxSprite
     private function set_playerSkin(value:String):String
     {
         this.playerSkin = value;
-
         loadGraphic(Paths.imageFile('$playerSkinDir/$value'), true, 17, 12);
         setGraphicSize(Std.int(width * 2));
         updateHitbox();
-
         return value;
     }
 

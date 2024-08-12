@@ -1,0 +1,18 @@
+{
+  "elements": [
+    {
+      "path": "background/Sky",
+      "scale": 2,
+      "y": null,
+      "scrollFactor": 0.3,
+      "foreground": false
+    }
+  ],
+  "ground": {
+    "path": "background/Ground",
+    "scale": 2,
+    "y": null,
+    "scrollFactor": 0.7,
+    "foreground": true
+  }
+}

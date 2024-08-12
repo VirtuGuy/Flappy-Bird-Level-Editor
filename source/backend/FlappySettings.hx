@@ -1,5 +1,6 @@
 package backend;
 
+import flixel.FlxState;
 import states.EditorState.LevelData;
 
 class FlappySettings
@@ -8,6 +9,7 @@ class FlappySettings
     inline static public var menuScrollSpeed:Float = 2;
     static public var playerSkin:String = 'default';
     static public var levelJson:LevelData = null;
+    static public var lastState:FlxState = null;
 
     // Editor settings
     inline static public var editorScrollSpeed:Float = 6;

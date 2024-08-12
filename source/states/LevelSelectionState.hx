@@ -98,6 +98,7 @@ class LevelSelectionState extends FlappyState
         }
         grpButtons.members[2].onClicked = function(){
             PlayState.infiniteMode = true;
+            FlappySettings.levelJson = null;
             FlappyState.switchState(new PlayState());
         }
         add(grpButtons);

@@ -1,0 +1,18 @@
+{
+  "elements": [
+    {
+      "path": "background/NightSky",
+      "scale": 2,
+      "y": null,
+      "scrollFactor": 0.3,
+      "foreground": false
+    }
+  ],
+  "ground": {
+    "path": "background/NightGround",
+    "scale": 2,
+    "y": null,
+    "scrollFactor": 0.7,
+    "foreground": true
+  }
+}

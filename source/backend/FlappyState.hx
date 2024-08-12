@@ -153,6 +153,7 @@ class FlappyState extends FlxUIState
 
 	public static function doSwitch(nextState:FlxState)
 	{
+		FlappySettings.lastState = FlxG.state;
 		if (FlxG.state != nextState)
 			FlxG.switchState(nextState);
 		else

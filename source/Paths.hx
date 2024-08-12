@@ -123,6 +123,11 @@ class Paths
         return 'assets/data/objects/$objectName.json';
     }
 
+    inline static public function backgroundJson(bgName:String)
+    {
+        return 'assets/data/backgrounds/$bgName.json';
+    }
+
     inline static public function textFile(folder:String = 'data', key:String)
     {
         return 'assets/$folder/$key.txt';

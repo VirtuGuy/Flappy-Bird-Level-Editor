@@ -64,4 +64,9 @@ class FlappyTools
         FlxG.camera.flash(FlxColor.WHITE, 0.2);
     }
     #end
+
+    inline static public function getClassName(o:Dynamic):String
+    {
+        return Type.getClassName(Type.getClass(o));
+    }
 }

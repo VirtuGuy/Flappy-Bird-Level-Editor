@@ -1,5 +1,7 @@
 package states;
 
+import backend.FlappyTools;
+import objects.Background;
 import backend.FlappyButton;
 import backend.FlappySettings;
 import backend.FlappyState;
@@ -43,6 +45,16 @@ class PlayState extends FlappyState
 	{
 		if (editorMode)
 			MenuState.camPosX = 0;
+		else if (FlappyTools.getClassName(FlappySettings.lastState) != FlappyTools.getClassName(FlxG.state))
+		{
+			var fakeBG:Background = new Background();
+			add(fakeBG);
+			for (member in fakeBG.elements)
+				FlxTween.tween(member, {alpha: 0}, 0.5, {ease: FlxEase.quadInOut, onComplete: function(_){
+					remove(fakeBG, true);
+					fakeBG.destroy();
+				}});
+		}
 		startCamPosX = MenuState.camPosX;
 
 		grpObjects = new FlxTypedGroup<Object>();
@@ -107,6 +119,7 @@ class PlayState extends FlappyState
 	function loadLevel()
 	{
 		levelData = FlappySettings.levelJson;
+		bg.backgroundName = levelData.backgroundName;
 
 		while (grpObjects.length > 0)
 			grpObjects.remove(grpObjects.members[0], true);

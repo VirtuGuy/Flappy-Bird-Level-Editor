@@ -31,6 +31,7 @@ import sys.io.File;
 typedef LevelData = {
     levelName:String,
     scrollSpeed:Float,
+    backgroundName:String,
     objects:Array<LevelObjectData>
 }
 
@@ -77,21 +78,20 @@ class EditorState extends FlappyState
     var levelData:LevelData = {
         levelName: 'example-level',
         scrollSpeed: 4,
+        backgroundName: 'default',
         objects: []
     }
 
     var loadLevelName:String = '';
     var saveToDefault:Bool = false;
     var objectNames:Array<String> = [];
+    var bgNames:Array<String> = [];
 
     override public function new(?levelData:LevelData)
     {
         super(false, false, true, false);
-
         if (levelData != null)
-        {
             this.levelData = levelData;
-        }
     }
     
     override function create()
@@ -109,6 +109,15 @@ class EditorState extends FlappyState
             var texts:Array<String> = content.split('\n');
             for (text in texts)
                 objectNames.push(text.trim());
+        }
+
+        var bgsPath:String = Paths.textFile('data', 'bgList');
+        if (Paths.pathExists(bgsPath))
+        {
+            var content:String = Paths.getText(bgsPath);
+            var texts:Array<String> = content.split('\n');
+            for (text in texts)
+                bgNames.push(text.trim());
         }
 
         grpLines = new FlxTypedGroup<FlxSprite>();
@@ -489,10 +498,22 @@ class EditorState extends FlappyState
 
         var scrollSpeedText:FlxText = new FlxText(77, 36, 0, 'Scroll Speed');
 
+        var bgNameItems = FlxUIDropDownMenu.makeStrIdLabelArray(bgNames);
+        var bgNameDropdown:FlxUIDropDownMenu = new FlxUIDropDownMenu(15, 61, bgNameItems, function(bgName:String){
+            levelData.backgroundName = bgName;
+            bg.backgroundName = levelData.backgroundName;
+        });
+        bgNameDropdown.selectedLabel = levelData.backgroundName;
+        dropdowns.push(bgNameDropdown);
+
+        var bgNameText:FlxText = new FlxText(140, 65, 0, 'Background');
+
         group.add(levelNameInput);
         group.add(levelNameText);
         group.add(scrollSpeedStepper);
         group.add(scrollSpeedText);
+        group.add(bgNameText);
+        group.add(bgNameDropdown);
         
         tabMenu.addGroup(group);
     }
@@ -809,6 +830,7 @@ class EditorState extends FlappyState
 
     function loadStuff()
     {
+        bg.backgroundName = levelData.backgroundName;
         setObjectSelection(selectedObject, false);
         updateObjects();
         updateLevelTab();

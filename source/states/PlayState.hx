@@ -45,16 +45,6 @@ class PlayState extends FlappyState
 	{
 		if (editorMode)
 			MenuState.camPosX = 0;
-		else if (FlappyTools.getClassName(FlappySettings.lastState) != FlappyTools.getClassName(FlxG.state))
-		{
-			var fakeBG:Background = new Background();
-			add(fakeBG);
-			for (member in fakeBG.elements)
-				FlxTween.tween(member, {alpha: 0}, 0.5, {ease: FlxEase.quadInOut, onComplete: function(_){
-					remove(fakeBG, true);
-					fakeBG.destroy();
-				}});
-		}
 		startCamPosX = MenuState.camPosX;
 
 		grpObjects = new FlxTypedGroup<Object>();
@@ -62,7 +52,7 @@ class PlayState extends FlappyState
 
 		bird = new Bird(75, 75);
 		bird.scrollFactor.set();
-		bg.backObjects.add(bird);
+		add(bird);
 
 		if (!infiniteMode)
 			loadLevel();
@@ -120,6 +110,7 @@ class PlayState extends FlappyState
 	{
 		levelData = FlappySettings.levelJson;
 		bg.backgroundName = levelData.backgroundName;
+		startFakeBG();
 
 		while (grpObjects.length > 0)
 			grpObjects.remove(grpObjects.members[0], true);
@@ -137,6 +128,21 @@ class PlayState extends FlappyState
 				objects.push(object);
 			}
 		}
+	}
+
+	function startFakeBG()
+	{
+		var oldClassName:String = FlappyTools.getClassName(FlappySettings.lastState);
+		var curClassName:String = FlappyTools.getClassName(FlxG.state);
+		if (bg.backgroundName == 'default' || oldClassName == curClassName || editorMode) return;
+
+		var fakeBG:Background = new Background();
+		add(fakeBG);
+		for (member in fakeBG.elements)
+			FlxTween.tween(member, {alpha: 0}, 0.5, {ease: FlxEase.quadInOut, onComplete: function(_){
+				remove(fakeBG, true);
+				fakeBG.destroy();
+			}});
 	}
 
 	function generateInfiniteSection(size:Int = 3)
@@ -171,7 +177,7 @@ class PlayState extends FlappyState
 		}
 	}
 
-	function die(playHitSound:Bool = true)
+	function die()
 	{
 		if (editorMode)
 			editor();
@@ -179,7 +185,7 @@ class PlayState extends FlappyState
 		{
 			if (!bird.isDead)
 				FlxG.camera.shake(0.02, 0.02);
-			bird.killBird(playHitSound);
+			bird.killBird();
 			toggleSprites([pauseButton, pointsTxt], false);
 		}
 	}
@@ -210,7 +216,6 @@ class PlayState extends FlappyState
 			ending = true;
 
 			FlxTween.tween(bird, {y: (FlxG.height / 2) - (bird.height * 2), angle: 0}, 0.4, {ease: FlxEase.quadInOut});
-
 			for (object in grpObjects.members)
 			{
 				FlxTween.tween(object, {alpha: 0}, 0.2, {ease: FlxEase.quadInOut, onComplete: function(_){
@@ -241,14 +246,11 @@ class PlayState extends FlappyState
 		{
 			if (!bird.isDead)
 				if (bird.y < 0 - bird.height)
-					die(true);
+					die();
 
 			var grounded:Bool = bird.overlaps(bg.ground);
-			if (grounded && !bird.isSinking)
-			{
-				die(false);
-				bird.sink();
-			}
+			if (grounded && !bird.isDead)
+				die();
 		}
 	}
 
@@ -273,7 +275,7 @@ class PlayState extends FlappyState
 			switch (obj.objectName)
 			{
 				case 'pipe':
-					die(true);
+					die();
 				case 'end':
 					end();
 			}
@@ -359,7 +361,7 @@ class PlayState extends FlappyState
 		super.update(elapsed);
 
 		// Substates
-		if (bird.isDead && bird.isSinking && bird.y > FlxG.height - bg.ground.height + 15)
+		if (bird.isDead && bird.y > FlxG.height + bird.height)
 			openSubState(new GameOverSubstate(points));
 		if (ending && bird.x > FlxG.width + bird.width)
 			openSubState(new CompleteSubstate(points));
@@ -375,9 +377,7 @@ class PlayState extends FlappyState
 	{
 		super.closeSubState();
 
-		toggleSprite(pauseButton);
-		toggleSprite(pointsTxt);
-
 		persistentUpdate = true;
+		toggleSprites([pauseButton, pointsTxt]);
 	}
 }

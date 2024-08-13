@@ -1,5 +1,6 @@
 package objects;
 
+import flixel.sound.FlxSound;
 import backend.FlappySettings;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -8,13 +9,13 @@ class Bird extends FlxSprite
 {
     public var gravity:Float = 20;
     public var flapHeight:Float = 300;
-    public var sinkSpeed:Float = 12;
     public var isDead:Bool = false;
-    public var isSinking:Bool = false;
     public var startMoving(default, set):Bool = true;
     public var playerSkin(default, set):String = '';
 
     private var playerSkinDir:String = 'playerSkins';
+    private var playedDieSound:Bool = false;
+    private var dieSound:FlxSound;
 
     override public function new(x:Float = 0, y:Float = 0)
     {
@@ -25,11 +26,15 @@ class Bird extends FlxSprite
         animation.add('idle', [0], 8);
         animation.add('flap', [1, 0, 2], 8, false);
         animation.play('flap');
+
+        dieSound = new FlxSound().loadEmbedded(Paths.soundFile(Paths.getSound('die')));
+        dieSound.looped = false;
+        FlxG.sound.list.add(dieSound);
     }
 
     override function update(elapsed:Float)
     {
-        if (!isSinking && startMoving)
+        if (startMoving)
             velocity.y += gravity * elapsed * 60;
 
         if (animation.curAnim != null)
@@ -45,13 +50,16 @@ class Bird extends FlxSprite
 
         if (startMoving)
         {
-            if (!isSinking)
-                if (!isDead)
-                    angle = (velocity.y / 100) * 5;
-                else
-                    angle = (velocity.y / 50) * 5;
+            if (!isDead)
+                angle = (velocity.y / 100) * 5;
             else
-                angle += sinkSpeed / 20 * elapsed * 40;
+                angle = (velocity.y / 35) * 5;
+        }
+
+        if (isDead && velocity.y > gravity * 50 && !playedDieSound)
+        {
+            playedDieSound = true;
+            dieSound.play();
         }
 
         super.update(elapsed);
@@ -67,25 +75,14 @@ class Bird extends FlxSprite
         }
     }
 
-    public function killBird(playHitSound:Bool = true)
+    public function killBird()
     {
         if (!isDead)
         {
-            if (playHitSound)
-                FlxG.sound.play(Paths.soundFile(Paths.getSound('hit'), false));
+            FlxG.sound.play(Paths.soundFile(Paths.getSound('hit'), false));
             gravity /= 2.5;
             velocity.y = -flapHeight / 1.5;
             isDead = true;
-        }
-    }
-
-    public function sink()
-    {
-        if (!isSinking)
-        {
-            FlxG.sound.play(Paths.soundFile(Paths.getSound('die'), false));
-            velocity.y = sinkSpeed;
-            isSinking = true;
         }
     }
 

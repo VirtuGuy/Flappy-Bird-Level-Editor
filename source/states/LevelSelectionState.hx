@@ -1,12 +1,12 @@
 package states;
 
+import flixel.util.FlxColor;
 import backend.FlappyButton;
 import backend.FlappyData;
 import backend.FlappySettings;
 import backend.FlappyState;
 import backend.FlappyText;
 import backend.FlappyTools;
-import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
@@ -21,8 +21,6 @@ import sys.FileSystem;
 class LevelSelectionState extends FlappyState
 {
     private var levels:Array<String> = [];
-    private var levelsCamera:FlxCamera;
-    private var levelsCamFollow:FlxObject;
     private var buttons:Array<String> = [
         'levels',
         'custom',
@@ -36,7 +34,7 @@ class LevelSelectionState extends FlappyState
 
     var grpLevels:FlxTypedGroup<FlappyText>;
     var grpLevelButtons:ButtonGroup;
-    var selectionArrow:FlxSprite;
+    var grpLevelBoxes:FlxTypedGroup<FlxSprite>;
     var targetFolder:String = 'default';
     var curSelected:Int = 0;
 
@@ -47,17 +45,6 @@ class LevelSelectionState extends FlappyState
     
     override function create()
     {
-        // Camera
-        levelsCamera = new FlxCamera();
-        levelsCamera.bgColor.alpha = 0;
-        FlxG.cameras.add(levelsCamera, false);
-
-        levelsCamFollow = new FlxObject(0, 0, 50, 50);
-        levelsCamFollow.screenCenter();
-
-        levelsCamera.follow(levelsCamFollow, LOCKON);
-
-        // Main screen
         titleText = new FlappyText(0, 0, 0, 'Level Selection', 32, CENTER);
         titleText.screenCenter(X);
         titleText.y = titleText.height - 20;
@@ -75,6 +62,10 @@ class LevelSelectionState extends FlappyState
             else
                 FlappyState.switchState(new MenuState());
         }
+
+        // Level selection boxes group
+        grpLevelBoxes = new FlxTypedGroup<FlxSprite>();
+        add(grpLevelBoxes);
 
         // Level group
         grpLevels = new FlxTypedGroup<FlappyText>();
@@ -114,17 +105,6 @@ class LevelSelectionState extends FlappyState
         }
         toggleSprite(grpLevelButtons, false);
         add(grpLevelButtons);
-
-        selectionArrow = new FlxSprite();
-        selectionArrow.loadGraphic(Paths.imageFile('arrow'));
-        selectionArrow.setGraphicSize(Std.int(selectionArrow.width * 2));
-        selectionArrow.updateHitbox();
-        toggleSprite(selectionArrow, false);
-        add(selectionArrow);
-
-        // Camera assignment
-        grpLevels.cameras = [levelsCamera];
-        selectionArrow.cameras = [levelsCamera];
     }
 
     function loadLevels(folder:String = 'default')
@@ -142,11 +122,24 @@ class LevelSelectionState extends FlappyState
         {
             if (FileSystem.exists(Paths.levelFile(folder, item)))
             {
-                var levelText:FlappyText = new FlappyText(40, (i * 60) + 60, 0, item, 24);
-                levelText.scrollFactor.set(1, 1);
-                levelText.ID = i++;
+                var levelText:FlappyText = new FlappyText(0, 0, 0, item, 24);
+                levelText.selectionItem = true;
+                levelText.selectionIndex = i;
+
+                var selectionBox:FlxSprite = new FlxSprite();
+                var sw:Int = Std.int(levelText.width + 250);
+                var sh:Int = Std.int(levelText.height);
+                selectionBox.makeGraphic(sw, sh, FlxColor.BLACK);
+                selectionBox.alpha = 0.9;
+                selectionBox.scrollFactor.set();
+                levelText.selectionBox = selectionBox;
+                grpLevelBoxes.add(selectionBox);
+
+                levelText.posSelectionItem();
+
                 grpLevels.add(levelText);
                 levels.push(item);
+                i++;
             }
         }
         #end
@@ -159,8 +152,7 @@ class LevelSelectionState extends FlappyState
         }
         else
         {
-            toggleSprites([selectionArrow, grpLevelButtons]);
-            updateSelectionArrowPos();
+            toggleSprite(grpLevelButtons);
             fadeGroup(grpLevelButtons);
             changeSelection();
         }
@@ -171,8 +163,14 @@ class LevelSelectionState extends FlappyState
         fadeObject(highscoreTxt);
         fadeGroup(grpButtons);
         fadeGroup(grpLevelButtons, false);
-        toggleSprite(selectionArrow, false);
-        grpLevels.clear();
+
+        // Fades and removes the level group members to help save memory
+        fadeGroup(grpLevels, false, function(){
+            FlappyTools.clearGroup(grpLevels);
+        });
+        fadeGroup(grpLevelBoxes, false, function(){
+            FlappyTools.clearGroup(grpLevelBoxes);
+        });
     }
 
     function changeSelection(change:Int = 0)
@@ -185,37 +183,15 @@ class LevelSelectionState extends FlappyState
             else if (curSelected >= grpLevels.length)
                 curSelected = grpLevels.length - 1;
 
+            var i:Int = 0;
             for (item in grpLevels.members)
             {
-                if (item == getSelectedText())
-                {
-                    item.select();
-                    levelsCamFollow.y = item.y;
-                }
-                else
-                {
-                    item.deselect();
-                    item.alpha /= (Math.abs(item.ID - curSelected)) / 1.65;
-                    item.alpha -= 0.2;
-                }
+                item.selectionIndex = i - curSelected;
+                item.alpha = (1 / Math.abs(item.selectionIndex) / 1.65) - 0.2;
+                item.posSelectionItem();
+                i++;
             }
         }
-    }
-
-    function getSelectedText():FlappyText
-    {
-        for (item in grpLevels.members)
-        {
-            if (item.ID == curSelected)
-                return item;
-        }
-        return null;
-    }
-
-    function updateSelectionArrowPos()
-    {
-        var item:FlappyText = getSelectedText();
-        selectionArrow.setPosition(item.x + item.width + 5, item.y);
     }
 
     override function update(elapsed:Float)
@@ -228,7 +204,6 @@ class LevelSelectionState extends FlappyState
                 changeSelection(keys.UP_P ? -1 : 1);
             if (FlxG.mouse.wheel != 0)
                 changeSelection(-FlxG.mouse.wheel);
-            updateSelectionArrowPos();
         }
 
         super.update(elapsed);
@@ -249,7 +224,6 @@ class LevelSelectionState extends FlappyState
 
     override function destroy()
     {
-        FlxG.cameras.reset();
         super.destroy();
     }
 }

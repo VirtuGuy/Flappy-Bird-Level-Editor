@@ -19,6 +19,8 @@ class ButtonGroup extends FlxTypedGroup<FlappyButton>
     public var buttonLayout:ButtonLayout = Vertical;
     public var fadeInDelay:Float = -1;
     public var buttonScale:Float = 1;
+    public var xOffset:Float = 0;
+    public var yOffset:Float = 0;
 
     function sortStuff(obj1:FlappyButton, obj2:FlappyButton):Int
     {
@@ -26,13 +28,15 @@ class ButtonGroup extends FlxTypedGroup<FlappyButton>
     }
 
     override public function new(buttons:Array<String>, buttonLayout:ButtonLayout = Vertical,
-        fadeInDelay:Float = -1, ?buttonScale:Float = 1)
+        fadeInDelay:Float = -1, buttonScale:Float = 1, xOffset:Float = 0, yOffset:Float = 0)
     {
         super();
         this.buttons = buttons;
         this.buttonLayout = buttonLayout;
         this.fadeInDelay = fadeInDelay;
         this.buttonScale = buttonScale;
+        this.xOffset = xOffset;
+        this.yOffset = yOffset;
 
         var spacingX:Float = 124 * buttonScale;
         var spacingY:Float = 47 * buttonScale;
@@ -70,6 +74,8 @@ class ButtonGroup extends FlxTypedGroup<FlappyButton>
                 button.screenCenter(X);
             if (y == null)
                 button.screenCenter(Y);
+            button.x += xOffset;
+            button.y += yOffset;
             button.clickSound = true;
 
             add(button);

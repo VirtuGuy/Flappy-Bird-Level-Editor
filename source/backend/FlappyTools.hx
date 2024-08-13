@@ -1,5 +1,6 @@
 package backend;
 
+import flixel.group.FlxGroup;
 import flixel.FlxG;
 import flixel.util.FlxColor;
 import haxe.Http;
@@ -68,5 +69,16 @@ class FlappyTools
     inline static public function getClassName(o:Dynamic):String
     {
         return Type.getClassName(Type.getClass(o));
+    }
+
+    inline static public function clearGroup(group:Dynamic)
+    {
+        if (group is FlxGroup)
+        {
+            var o:FlxGroup = cast group;
+            for (item in o.members)
+                item.destroy();
+            o.clear();
+        }
     }
 }

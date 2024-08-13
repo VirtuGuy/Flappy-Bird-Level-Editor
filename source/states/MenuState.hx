@@ -20,7 +20,7 @@ class MenuState extends FlappyState
     var buttons:Array<String> = [
         'start',
         'editor',
-        // 'options',
+        'options',
         #if desktop
         'exit'
         #end
@@ -85,24 +85,21 @@ class MenuState extends FlappyState
 
         super.create();
 
-        grpButtons = new ButtonGroup(buttons, Vertical, 0.5);
+        grpButtons = new ButtonGroup(buttons, Vertical, 0.5, 1, 0, 15);
         grpButtons.members[0].onClicked = function(){
             FlappyState.switchState(new LevelSelectionState());
         }
         grpButtons.members[1].onClicked = function(){
             FlappyState.switchState(new EditorState());
         }
-        /*
         grpButtons.members[2].onClicked = function(){
             FlappyState.switchState(new OptionsState());
         }
-        */
         #if desktop
-        grpButtons.members[2].onClicked = function(){
+        grpButtons.members[3].onClicked = function(){
             FlappyState.switchState(new ExitState());
         }
         #end
-
         add(grpButtons);
     }
 

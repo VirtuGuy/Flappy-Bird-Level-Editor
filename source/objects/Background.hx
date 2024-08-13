@@ -75,12 +75,7 @@ class Background extends FlxGroup
             ground = null;
         }
 
-        while (elements.length > 0)
-        {
-            remove(elements[0], true);
-            elements[0].destroy();
-            elements.shift();
-        }
+        FlappyTools.clearGroup(elements);
 
         var json:BackgroundJSON = FlappyTools.loadJSON(Paths.backgroundJson(value));
         for (element in json.elements)

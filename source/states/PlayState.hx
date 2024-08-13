@@ -112,8 +112,7 @@ class PlayState extends FlappyState
 		bg.backgroundName = levelData.backgroundName;
 		startFakeBG();
 
-		while (grpObjects.length > 0)
-			grpObjects.remove(grpObjects.members[0], true);
+		FlappyTools.clearGroup(grpObjects);
 
 		if (levelData != null)
 		{

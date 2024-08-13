@@ -304,8 +304,7 @@ class EditorState extends FlappyState
     // Object stuff
     function updateObjects()
     {
-        while (grpObjects.length > 0)
-            grpObjects.remove(grpObjects.members[0], true);
+        FlappyTools.clearGroup(grpObjects);
 
         for (item in levelData.objects)
         {
@@ -329,8 +328,7 @@ class EditorState extends FlappyState
 
     function updateLines()
     {
-        while (grpLines.length > 0)
-            grpLines.remove(grpLines.members[0], true);
+        FlappyTools.clearGroup(grpLines);
 
         for (item in levelData.objects)
         {

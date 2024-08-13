@@ -1,5 +1,7 @@
 package backend;
 
+import flixel.FlxSprite;
+import flixel.FlxG;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -9,16 +11,15 @@ using StringTools;
 
 class FlappyText extends FlxText
 {
-    public var defaultX:Float = 0;
-    public var selectDuration:Float = 0.2;
-    public var selected:Bool = false;
+    public var selectionItem:Bool = false;
+    public var selectionIndex:Int = 0;
+    public var selectionBox:FlxSprite;
 
     override public function new(x:Float = 0, y:Float = 0, fieldWidth:Float = 0, text:String,
         size:Int = 16, alignment:FlxTextAlign = LEFT)
     {
         super(x, y, fieldWidth, text, size);
         set_text(this.text);
-        defaultX = this.x;
 
         setFormat(Paths.fontFile(Paths.getFont('default')), size, FlxColor.WHITE, alignment,
             OUTLINE, FlxColor.BLACK);
@@ -26,26 +27,26 @@ class FlappyText extends FlxText
         scrollFactor.set();
     }
 
-    public function deselect()
+    public function posSelectionItem()
     {
-        selected = false;
-        
-        FlxTween.cancelTweensOf(this);
-        FlxTween.tween(this, {x: defaultX}, selectDuration, {ease: FlxEase.quadOut});
-        alpha = 0.7;
+        if (selectionItem)
+        {
+            x = 30 + (selectionIndex * (width / 5));
+            y = FlxG.height / 2.5 + (selectionIndex * height + 10);
+            if (selectionBox != null)
+            {
+                selectionBox.setPosition(x - 250, y);
+                selectionBox.visible = selectionIndex == 0;
+            }
+        }
     }
 
-    public function select()
+    override function update(elapsed:Float)
     {
-        if (!selected)
-        {
-            defaultX = x;
-            selected = true;
-        }
-
-        FlxTween.cancelTweensOf(this);
-        FlxTween.tween(this, {x: defaultX + 15}, selectDuration, {ease: FlxEase.quadOut});
-        alpha = 1;
+        // Helps make the game run faster
+        visible = isOnScreen();
+        
+        super.update(elapsed);
     }
 
     // Lowercase F gets replaced because it looks bad

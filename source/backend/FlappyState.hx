@@ -151,7 +151,7 @@ class FlappyState extends FlxUIState
 		// In case if you want something to happen when the state switches
 	}
 
-	public static function doSwitch(nextState:FlxState)
+	inline static public function doSwitch(nextState:FlxState)
 	{
 		FlappySettings.lastState = FlxG.state;
 		if (FlxG.state != nextState)
@@ -160,7 +160,7 @@ class FlappyState extends FlxUIState
 			FlxG.resetState();
 	}
 
-	public static function switchState(nextState:FlxState)
+	inline static public function switchState(nextState:FlxState)
 	{
 		if (FlxG.state is FlappyState)
 		{
@@ -181,5 +181,10 @@ class FlappyState extends FlxUIState
 		}
 		else
 			doSwitch(nextState);
+	}
+
+	inline static public function resetState()
+	{
+		switchState(FlxG.state);
 	}
 }

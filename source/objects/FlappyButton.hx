@@ -1,4 +1,4 @@
-package backend;
+package objects;
 
 import flixel.FlxG;
 import flixel.addons.display.FlxExtendedMouseSprite;
@@ -7,7 +7,7 @@ import flixel.util.FlxColor;
 class FlappyButton extends FlxExtendedMouseSprite
 {
     // Button properties
-    public var buttonName:String = '';
+    public var buttonName(default, set):String = '';
     public var clickSound:Bool = false;
     public var disabled:Bool = false;
 
@@ -31,11 +31,7 @@ class FlappyButton extends FlxExtendedMouseSprite
     override public function new(x:Float = 0, y:Float = 0, buttonName:String = '')
     {
         super(x, y);
-        this.buttonName = buttonName;
-
-        loadGraphic(Paths.imageFile('buttons/$buttonName'));
-        setGraphicSize(Std.int(width * 3));
-        updateHitbox();
+        set_buttonName(buttonName);
         scrollFactor.set();
     }
 
@@ -118,5 +114,14 @@ class FlappyButton extends FlxExtendedMouseSprite
     public function setBrightness(brightness:Float)
     {
         color = FlxColor.fromHSB(color.hue, color.saturation, brightness);
+    }
+
+    private function set_buttonName(value:String):String
+    {
+        this.buttonName = value;
+        loadGraphic(Paths.imageFile('buttons/$buttonName'));
+        setGraphicSize(Std.int(width * 3));
+        updateHitbox();
+        return value;
     }
 }

@@ -1,6 +1,5 @@
 package objects;
 
-import backend.FlappyButton;
 import flixel.FlxG;
 import flixel.group.FlxGroup;
 import flixel.tweens.FlxEase;

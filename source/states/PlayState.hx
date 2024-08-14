@@ -1,8 +1,9 @@
 package states;
 
+import backend.FlappyData;
 import backend.FlappyTools;
 import objects.Background;
-import backend.FlappyButton;
+import objects.FlappyButton;
 import backend.FlappySettings;
 import backend.FlappyState;
 import backend.FlappyText;

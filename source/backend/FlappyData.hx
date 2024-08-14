@@ -5,18 +5,21 @@ import flixel.FlxG;
 class FlappyData
 {
     static public var dataMap:Map<String, Dynamic> = [
-        'infiniteScore' => 0
+        'infiniteScore' => 0,
+
+        // Options
+        'option_classic' => false
     ];
     static public var ogDataMap:Map<String, Dynamic> = dataMap.copy();
 
-    public static function saveData()
+    inline static public function saveData()
     {
         for (key in dataMap.keys())
             Reflect.setField(FlxG.save.data, key, dataMap.get(key));
         FlxG.save.flush();
     }
 
-    public static function loadData()
+    inline static public function loadData()
     {
         dataMap = ogDataMap.copy();
         for (key in dataMap.keys())
@@ -27,14 +30,14 @@ class FlappyData
         }
     }
 
-    public static function eraseData()
+    inline static public function eraseData()
     {
         FlxG.save.erase();
         loadData();
     }
 
     // Setting functions
-    public static function getData(varr:String):Dynamic
+    inline static public function getData(varr:String):Dynamic
     {
         var value:Dynamic = null;
         if (dataMap.exists(varr))
@@ -42,7 +45,7 @@ class FlappyData
         return value;
     }
 
-    public static function setData(varr:String, value:Dynamic, ?save:Bool = false)
+    inline static public function setData(varr:String, value:Dynamic, ?save:Bool = false)
     {
         dataMap.set(varr, value);
         if (save)
@@ -50,12 +53,23 @@ class FlappyData
     }
 
     // Highscore functions
-    public static function setScore(varr:String, value:Float, ?save:Bool = false)
+    inline static public function setScore(varr:String, value:Float, ?save:Bool = false)
     {
         var score:Null<Float> = getData(varr);
         if (score == null)
             score = 0;
         if (value > score)
             setData(varr, value, save);
+    }
+
+    // Options functions
+    inline static public function getOption(varr:String):Dynamic
+    {
+        return getData('option_${varr}');
+    }
+
+    inline static public function setOption(varr:String, value:Dynamic)
+    {
+        setData('option_${varr}', value, true);
     }
 }

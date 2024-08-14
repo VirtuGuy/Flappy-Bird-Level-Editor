@@ -1,14 +1,13 @@
 package states;
 
 import flixel.util.FlxColor;
-import backend.FlappyButton;
+import objects.FlappyButton;
 import backend.FlappyData;
 import backend.FlappySettings;
 import backend.FlappyState;
 import backend.FlappyText;
 import backend.FlappyTools;
 import flixel.FlxG;
-import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import objects.ButtonGroup;

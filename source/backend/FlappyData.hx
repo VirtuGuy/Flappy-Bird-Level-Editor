@@ -8,7 +8,8 @@ class FlappyData
         'infiniteScore' => 0,
 
         // Options
-        'option_classic' => false
+        'option_classic' => false,
+        'option_muteSFX' => false
     ];
     static public var ogDataMap:Map<String, Dynamic> = dataMap.copy();
 

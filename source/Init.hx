@@ -96,6 +96,8 @@ class Init extends FlxState
         addImage('buttons/restart');
         addImage('buttons/menu');
         addImage('buttons/pause');
+        addImage('buttons/checkboxOff');
+        addImage('buttons/checkbotOn');
 
         // Objects
         addImage('objects/pipe');

@@ -1,5 +1,6 @@
 package states;
 
+import flixel.util.FlxColor;
 import backend.FlappyData;
 import backend.FlappyTools;
 import objects.Background;
@@ -41,17 +42,19 @@ class PlayState extends FlappyState
 	var scrollSpeed:Float = 4;
 	var startCamPosX:Float = 0;
 	var infiniteLevelX:Float = 0;
+	var isClassicMode:Bool = false;
 	
 	override function create()
 	{
 		if (editorMode)
 			MenuState.camPosX = 0;
 		startCamPosX = MenuState.camPosX;
+		isClassicMode = FlappyData.getOption('classic');
 
 		grpObjects = new FlxTypedGroup<Object>();
 		bg.backObjects.add(grpObjects);
 
-		bird = new Bird(75, 75);
+		bird = new Bird(isClassicMode ? 175 : 75, 75);
 		bird.scrollFactor.set();
 		add(bird);
 
@@ -102,7 +105,29 @@ class PlayState extends FlappyState
 		add(pauseButton);
 
 		pointsTxt = new FlappyText(pauseButton.x, pauseButton.y + 32, 0, '', 24);
+		if (isClassicMode)
+		{
+			pointsTxt.alignment = CENTER;
+			pointsTxt.screenCenter(X);
+		}
 		add(pointsTxt);
+
+		// Creates a fake screen border
+		if (isClassicMode)
+		{
+			var width:Int = 160;
+			pauseButton.x += width;
+
+			var box:FlxSprite = new FlxSprite();
+			box.makeGraphic(width, FlxG.height, FlxColor.BLACK);
+			box.scrollFactor.set();
+			add(box);
+
+			var box:FlxSprite = new FlxSprite(FlxG.width - width);
+			box.makeGraphic(width, FlxG.height, FlxColor.BLACK);
+			box.scrollFactor.set();
+			add(box);
+		}
 
 		toggleSprites([pauseButton, pointsTxt], false);
 	}
@@ -114,7 +139,6 @@ class PlayState extends FlappyState
 		startFakeBG();
 
 		FlappyTools.clearGroup(grpObjects);
-
 		if (levelData != null)
 		{
 			scrollSpeed = levelData.scrollSpeed;
@@ -183,8 +207,8 @@ class PlayState extends FlappyState
 			editor();
 		else
 		{
-			if (!bird.isDead)
-				FlxG.camera.shake(0.02, 0.02);
+			if (!bird.isDead && !isClassicMode)
+				FlxG.camera.shake(0.02, 0.04);
 			bird.killBird();
 			toggleSprites([pauseButton, pointsTxt], false);
 		}
@@ -193,7 +217,8 @@ class PlayState extends FlappyState
 	function point(amount:Int = 1)
 	{
 		points += amount;
-		FlxG.sound.play(Paths.soundFile(Paths.getSound('point')));
+		if (!FlappyData.getOption('muteSFX'))
+			FlxG.sound.play(Paths.soundFile(Paths.getSound('point')));
 	}
 
 	function start()
@@ -357,6 +382,8 @@ class PlayState extends FlappyState
 
 		// UI update
 		pointsTxt.text = Std.string(points);
+		if (isClassicMode)
+			pointsTxt.screenCenter(X);
 
 		super.update(elapsed);
 

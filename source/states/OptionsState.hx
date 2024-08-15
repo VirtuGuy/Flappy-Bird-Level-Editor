@@ -8,19 +8,16 @@ import backend.FlappySettings;
 import backend.FlappyState;
 import backend.FlappyText;
 import flixel.FlxG;
-import flixel.FlxSprite;
 import flixel.group.FlxGroup.FlxTypedGroup;
 
 class OptionsState extends FlappyState
 {
-    var grpLabels:FlxTypedGroup<FlappyText>;
-    var grpCheckboxes:FlxTypedGroup<FlappyCheckbox>;
+    var grpOptions:FlxTypedGroup<FlappyOption>;
 
     var curCategory:String = 'gameplay';
-    var options:Map<String, Array<FlappyOption>> = [
-        'gameplay' => [
-            new FlappyOption('classic mode', 'classic'),
-        ]
+    var options:Array<Array<String>> = [
+        ['classic mode', 'classic'],
+        ['mute sfx', 'muteSFX']
     ];
 
     override public function new()
@@ -46,11 +43,14 @@ class OptionsState extends FlappyState
         }
 
         // Options
-        grpLabels = new FlxTypedGroup<FlappyText>();
-        add(grpLabels);
-        grpCheckboxes = new FlxTypedGroup<FlappyCheckbox>();
-        add(grpCheckboxes);
-        reloadOptions();
+        grpOptions = new FlxTypedGroup<FlappyOption>();
+        add(grpOptions);
+        
+        for (i in 0...options.length)
+        {
+            var option:Array<String> = options[i];
+            grpOptions.add(new FlappyOption(30, 80 + (45 * i), option[0], option[1]));
+        }
 
         super.create();
     }
@@ -59,39 +59,5 @@ class OptionsState extends FlappyState
     {
         camFollow.x += FlappySettings.menuScrollSpeed * elapsed * 60;
         super.update(elapsed);
-    }
-
-    function reloadOptions()
-    {
-        FlappyTools.clearGroup(grpCheckboxes);
-        FlappyTools.clearGroup(grpLabels);
-
-        for (i in 0...options.get(curCategory).length)
-        {
-            var option:FlappyOption = options.get(curCategory)[i];
-            var labelX:Float = 30;
-            var labelY:Float = 80 + (45 * i);
-
-            switch (option.getType())
-            {
-                case TBool:
-                    var checkbox:FlappyCheckbox = new FlappyCheckbox(
-                        labelX,
-                        labelY - 8,
-                        option.getValue()
-                    );
-                    checkbox.onClicked = function(){
-                        checkbox.value = !checkbox.value;
-                        option.setValue(checkbox.value);
-                    }
-                    labelX = checkbox.x + checkbox.width + 4;
-                    grpCheckboxes.add(checkbox);
-                default:
-                    // absolutely nothing lmfao
-            }
-
-            var label:FlappyText = new FlappyText(labelX, labelY, 0, option.name, 24);
-            grpLabels.add(label);
-        }
     }
 }

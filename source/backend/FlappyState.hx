@@ -1,5 +1,6 @@
 package backend;
 
+import options.FlappyOption;
 import flixel.FlxBasic;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -109,6 +110,12 @@ class FlappyState extends FlxUIState
 				{
 					var object:FlxSprite = cast item;
 					fadeObject(object, fadeIn, callback);
+				}
+				else if (item is FlappyOption)
+				{
+					var option:FlappyOption = cast item;
+					fadeObject(option.label, fadeIn, callback);
+					fadeObject(option.spr, fadeIn);
 				}
 			}
 		}

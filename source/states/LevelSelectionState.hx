@@ -27,6 +27,8 @@ class LevelSelectionState extends FlappyState
     ];
 
     var titleText:FlappyText;
+    var untestedTxt:FlappyText;
+    var untestedLevels:Array<String> = [];
     var backButton:FlappyButton;
     var grpButtons:ButtonGroup;
     var highscoreTxt:FlappyText;
@@ -44,6 +46,8 @@ class LevelSelectionState extends FlappyState
     
     override function create()
     {
+        untestedLevels = Paths.getText(Paths.textFile('levels/untested')).split('\n');
+
         titleText = new FlappyText(0, 0, 0, 'Level Selection', 32, CENTER);
         titleText.screenCenter(X);
         titleText.y = titleText.height - 20;
@@ -94,8 +98,7 @@ class LevelSelectionState extends FlappyState
         add(grpButtons);
 
         // Level selection screen
-        grpLevelButtons = new ButtonGroup(['start', 'editor'], Vertical, -1, 1.5);
-        grpLevelButtons.addPosition(200);
+        grpLevelButtons = new ButtonGroup(['start', 'editor'], Vertical, -1, 1.5, 200, 0);
         grpLevelButtons.members[0].onClicked = function(){
             loadLevelAndSwitchState(false);
         }
@@ -104,6 +107,15 @@ class LevelSelectionState extends FlappyState
         }
         toggleSprite(grpLevelButtons, false);
         add(grpLevelButtons);
+
+        untestedTxt = new FlappyText(0, 0, 0, '', 20, CENTER);
+        untestedTxt.text = 'This level is untested!'
+        + '\nBeating it may be impossible, so be warned.';
+        untestedTxt.alpha = 0.7;
+        untestedTxt.screenCenter(X);
+        untestedTxt.y = backButton.y - untestedTxt.height;
+        toggleSprite(untestedTxt, false);
+        add(untestedTxt);
     }
 
     function loadLevels(folder:String = 'default')
@@ -133,7 +145,6 @@ class LevelSelectionState extends FlappyState
                 selectionBox.scrollFactor.set();
                 levelText.selectionBox = selectionBox;
                 grpLevelBoxes.add(selectionBox);
-
                 levelText.posSelectionItem();
 
                 grpLevels.add(levelText);
@@ -170,6 +181,7 @@ class LevelSelectionState extends FlappyState
         fadeGroup(grpLevelBoxes, false, function(){
             FlappyTools.clearGroup(grpLevelBoxes);
         });
+        fadeObject(untestedTxt, false);
     }
 
     function changeSelection(change:Int = 0)
@@ -190,6 +202,11 @@ class LevelSelectionState extends FlappyState
                 item.posSelectionItem();
                 i++;
             }
+
+            var isUntested:Bool = untestedLevels.contains(levels[curSelected]);
+            toggleSprite(untestedTxt, isUntested);
+            if (isUntested)
+                fadeObject(untestedTxt);
         }
     }
 

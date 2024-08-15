@@ -1,0 +1,2625 @@
+{
+	"scrollSpeed": 5,
+	"objects": [
+		{
+			"x": 96,
+			"y": 256,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 96,
+			"y": 128,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 256,
+			"y": 224,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 256,
+			"y": 112,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 432,
+			"y": 144,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 432,
+			"y": 240,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 624,
+			"y": 224,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 624,
+			"y": 112,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 784,
+			"y": 160,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 784,
+			"y": 272,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 960,
+			"y": 240,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 960,
+			"y": 112,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 1120,
+			"y": 144,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 1120,
+			"y": 256,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 1296,
+			"y": 208,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 1296,
+			"y": 128,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 1360,
+			"y": 128,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 1360,
+			"y": 208,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 1424,
+			"y": 208,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 1424,
+			"y": 128,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 1616,
+			"y": 160,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 1616,
+			"y": 256,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 1760,
+			"y": 304,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 1760,
+			"y": 188,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 1920,
+			"y": 128,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 1920,
+			"y": 224,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 2080,
+			"y": 272,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 2080,
+			"y": 176,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 2288,
+			"y": 208,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 2288,
+			"y": 304,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 2496,
+			"y": 208,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 2496,
+			"y": 112,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 2720,
+			"y": 208,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 2720,
+			"y": 320,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 2928,
+			"y": 240,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 2928,
+			"y": 144,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 3008,
+			"y": 144,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 3008,
+			"y": 240,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 3120,
+			"y": 304,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 3120,
+			"y": 164,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 3248,
+			"y": 352,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 3408,
+			"y": 336,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 3408,
+			"y": 240,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 3408,
+			"y": 256,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 3120,
+			"y": 200,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 3008,
+			"y": 160,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 2928,
+			"y": 160,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 2720,
+			"y": 240,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 2496,
+			"y": 128,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 2288,
+			"y": 224,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 2080,
+			"y": 192,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 1920,
+			"y": 144,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 1760,
+			"y": 224,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 1616,
+			"y": 176,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 1424,
+			"y": 144,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 1360,
+			"y": 144,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 1296,
+			"y": 144,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 1120,
+			"y": 176,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 960,
+			"y": 144,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 784,
+			"y": 192,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 624,
+			"y": 128,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 432,
+			"y": 160,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 256,
+			"y": 144,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 96,
+			"y": 160,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 3600,
+			"y": 256,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 3600,
+			"y": 128,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 3760,
+			"y": 160,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 3760,
+			"y": 256,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 3920,
+			"y": 272,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 3920,
+			"y": 160,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 4096,
+			"y": 208,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 4096,
+			"y": 304,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 4272,
+			"y": 272,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 4272,
+			"y": 160,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 4448,
+			"y": 208,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 4448,
+			"y": 304,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 4624,
+			"y": 272,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 4624,
+			"y": 144,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 4800,
+			"y": 176,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 4800,
+			"y": 288,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 4944,
+			"y": 272,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 4944,
+			"y": 176,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 5264,
+			"y": 256,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 5264,
+			"y": 144,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 5424,
+			"y": 176,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 5424,
+			"y": 288,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 5568,
+			"y": 320,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 5568,
+			"y": 240,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 5680,
+			"y": 256,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 5680,
+			"y": 336,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 5808,
+			"y": 336,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 5808,
+			"y": 256,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 5744,
+			"y": 256,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 5744,
+			"y": 336,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 5984,
+			"y": 320,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 5984,
+			"y": 224,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 6112,
+			"y": 176,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 6112,
+			"y": 272,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 6272,
+			"y": 288,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 6272,
+			"y": 192,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 6448,
+			"y": 240,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 6448,
+			"y": 336,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 6640,
+			"y": 288,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 6640,
+			"y": 192,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 6784,
+			"y": 80,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 6784,
+			"y": 240,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 6912,
+			"y": 208,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 6912,
+			"y": 112,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 7072,
+			"y": 144,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 7072,
+			"y": 272,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 7216,
+			"y": 304,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 7216,
+			"y": 144,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 7344,
+			"y": 160,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 7344,
+			"y": 240,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 7520,
+			"y": 224,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 7520,
+			"y": 144,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 7664,
+			"y": 128,
+			"flipped": true,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 7664,
+			"y": 208,
+			"flipped": false,
+			"scale": 1,
+			"variables": [],
+			"name": "pipe"
+		},
+		{
+			"x": 7664,
+			"y": 144,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 7520,
+			"y": 160,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 7344,
+			"y": 160,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 7216,
+			"y": 208,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 7072,
+			"y": 176,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 6912,
+			"y": 128,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 6784,
+			"y": 128,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 6640,
+			"y": 208,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 6448,
+			"y": 256,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 6272,
+			"y": 208,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 6112,
+			"y": 192,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 5984,
+			"y": 240,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 5808,
+			"y": 272,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 5744,
+			"y": 272,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 5680,
+			"y": 272,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 5568,
+			"y": 256,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 5424,
+			"y": 208,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 5264,
+			"y": 176,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 4944,
+			"y": 192,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 4800,
+			"y": 208,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 4624,
+			"y": 192,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 4448,
+			"y": 224,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 4272,
+			"y": 176,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 4096,
+			"y": 240,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 3920,
+			"y": 192,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 3760,
+			"y": 176,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 3600,
+			"y": 160,
+			"flipped": false,
+			"scale": 1,
+			"variables": [
+				[
+					"points",
+					1
+				]
+			],
+			"name": "point"
+		},
+		{
+			"x": 3248,
+			"y": 224,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 3248,
+			"y": 256,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 5072,
+			"y": 192,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 5072,
+			"y": 320,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 5072,
+			"y": 224,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 7856,
+			"y": 272,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 7856,
+			"y": 160,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 8016,
+			"y": 192,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 8016,
+			"y": 288,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 8224,
+			"y": 240,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 8224,
+			"y": 128,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 8416,
+			"y": 160,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 8416,
+			"y": 256,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 8592,
+			"y": 272,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 8592,
+			"y": 160,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 8784,
+			"y": 240,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 8784,
+			"y": 336,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 9024,
+			"y": 240,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 9024,
+			"y": 128,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 9184,
+			"y": 176,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 9184,
+			"y": 304,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 8912,
+			"y": 288,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 8912,
+			"y": 160,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 9328,
+			"y": 224,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 9328,
+			"y": 336,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 9488,
+			"y": 304,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 9488,
+			"y": 192,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 9696,
+			"y": 128,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 9696,
+			"y": 256,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 9696,
+			"y": 160,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 9488,
+			"y": 224,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 9328,
+			"y": 256,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 9184,
+			"y": 208,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 9024,
+			"y": 160,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 8912,
+			"y": 192,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 8784,
+			"y": 256,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 8592,
+			"y": 192,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 8416,
+			"y": 176,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 8224,
+			"y": 160,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 8016,
+			"y": 208,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 7856,
+			"y": 192,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 9888,
+			"y": 208,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 9888,
+			"y": 96,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 9968,
+			"y": 96,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 9968,
+			"y": 208,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 10112,
+			"y": 256,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 10112,
+			"y": 128,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 10272,
+			"y": 192,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 10272,
+			"y": 320,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 10464,
+			"y": 304,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 10464,
+			"y": 192,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 10640,
+			"y": 144,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 10640,
+			"y": 256,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 10784,
+			"y": 208,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 10784,
+			"y": 112,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 10944,
+			"y": 80,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 10944,
+			"y": 176,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 11184,
+			"y": 272,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 11184,
+			"y": 144,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 11344,
+			"y": 176,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 11344,
+			"y": 272,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 11488,
+			"y": 304,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 11488,
+			"y": 192,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 11664,
+			"y": 224,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 11664,
+			"y": 336,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 11872,
+			"y": 272,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 11872,
+			"y": 144,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 12032,
+			"y": 96,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 12032,
+			"y": 224,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 12208,
+			"y": 192,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 12208,
+			"y": 64,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 12368,
+			"y": 64,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 12368,
+			"y": 176,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 12288,
+			"y": 160,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 12288,
+			"y": 48,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 12544,
+			"y": 112,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 12544,
+			"y": 240,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 12704,
+			"y": 256,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 12704,
+			"y": 160,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 12704,
+			"y": 176,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 12544,
+			"y": 144,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 12368,
+			"y": 96,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 12288,
+			"y": 80,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 12208,
+			"y": 96,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 12032,
+			"y": 128,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 11872,
+			"y": 176,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 11664,
+			"y": 256,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 11488,
+			"y": 208,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 11344,
+			"y": 192,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 11184,
+			"y": 176,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 10944,
+			"y": 96,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 10784,
+			"y": 128,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 10640,
+			"y": 176,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 10464,
+			"y": 224,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 10272,
+			"y": 224,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 10112,
+			"y": 160,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 9968,
+			"y": 128,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 9888,
+			"y": 128,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 12928,
+			"y": 288,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 12928,
+			"y": 176,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 13088,
+			"y": 208,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 13088,
+			"y": 304,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 13264,
+			"y": 272,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 13264,
+			"y": 176,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 13360,
+			"y": 128,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 13360,
+			"y": 240,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 13440,
+			"y": 208,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 13440,
+			"y": 96,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 13504,
+			"y": 96,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 13504,
+			"y": 208,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 13568,
+			"y": 240,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 13568,
+			"y": 112,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 13632,
+			"y": 128,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 13632,
+			"y": 256,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 13696,
+			"y": 288,
+			"flipped": false,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 13696,
+			"y": 160,
+			"flipped": true,
+			"scale": 1,
+			"name": "pipe",
+			"variables": []
+		},
+		{
+			"x": 12928,
+			"y": 208,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 13088,
+			"y": 224,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 13264,
+			"y": 192,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 13360,
+			"y": 144,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 13440,
+			"y": 128,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 13504,
+			"y": 128,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 13568,
+			"y": 160,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 13632,
+			"y": 176,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"x": 13696,
+			"y": 208,
+			"flipped": false,
+			"scale": 1,
+			"name": "point",
+			"variables": [
+				[
+					"points",
+					1
+				]
+			]
+		},
+		{
+			"variables": [],
+			"x": 13984,
+			"y": 192,
+			"name": "end",
+			"scale": 1,
+			"flipped": false
+		}
+	],
+	"levelName": "default-night",
+	"backgroundName": "night"
+}

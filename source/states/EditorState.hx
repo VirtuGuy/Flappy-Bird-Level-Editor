@@ -103,7 +103,7 @@ class EditorState extends FlappyState
         hudCamera.bgColor.alpha = 0;
         FlxG.cameras.add(hudCamera, false);
 
-        var objectsPath:String = Paths.textFile('data', 'objectsList');
+        var objectsPath:String = Paths.textFile('data/objectsList');
         if (Paths.pathExists(objectsPath))
         {
             var content:String = Paths.getText(objectsPath);
@@ -112,7 +112,7 @@ class EditorState extends FlappyState
                 objectNames.push(text.trim());
         }
 
-        var bgsPath:String = Paths.textFile('data', 'bgList');
+        var bgsPath:String = Paths.textFile('data/bgList');
         if (Paths.pathExists(bgsPath))
         {
             var content:String = Paths.getText(bgsPath);

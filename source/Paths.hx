@@ -128,9 +128,9 @@ class Paths
         return 'assets/data/backgrounds/$bgName.json';
     }
 
-    inline static public function textFile(folder:String = 'data', key:String)
+    inline static public function textFile(key:String)
     {
-        return 'assets/$folder/$key.txt';
+        return 'assets/$key.txt';
     }
 
     #if SCREENSHOTS

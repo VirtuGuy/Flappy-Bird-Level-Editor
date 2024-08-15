@@ -1,5 +1,6 @@
 package states;
 
+import backend.FlappyTools;
 import options.FlappyCheckbox;
 import options.FlappyOption;
 import objects.FlappyButton;
@@ -15,8 +16,11 @@ class OptionsState extends FlappyState
     var grpLabels:FlxTypedGroup<FlappyText>;
     var grpCheckboxes:FlxTypedGroup<FlappyCheckbox>;
 
-    var options:Array<FlappyOption> = [
-        new FlappyOption('classic mode', 'classic'),
+    var curCategory:String = 'gameplay';
+    var options:Map<String, Array<FlappyOption>> = [
+        'gameplay' => [
+            new FlappyOption('classic mode', 'classic'),
+        ]
     ];
 
     override public function new()
@@ -26,14 +30,6 @@ class OptionsState extends FlappyState
     
     override function create()
     {
-        var boxBG:FlxSprite = new FlxSprite();
-        boxBG.loadGraphic(Paths.imageFile('uiBox'));
-        boxBG.setGraphicSize(Std.int(boxBG.width * 3));
-        boxBG.updateHitbox();
-        boxBG.scrollFactor.set();
-        boxBG.screenCenter();
-        add(boxBG);
-
         var titleText:FlappyText = new FlappyText(0, 0, 0, 'Options', 32, CENTER);
         titleText.screenCenter(X);
         titleText.y = titleText.height - 20;
@@ -54,12 +50,27 @@ class OptionsState extends FlappyState
         add(grpLabels);
         grpCheckboxes = new FlxTypedGroup<FlappyCheckbox>();
         add(grpCheckboxes);
+        reloadOptions();
 
-        for (i in 0...options.length)
+        super.create();
+    }
+
+    override function update(elapsed:Float)
+    {
+        camFollow.x += FlappySettings.menuScrollSpeed * elapsed * 60;
+        super.update(elapsed);
+    }
+
+    function reloadOptions()
+    {
+        FlappyTools.clearGroup(grpCheckboxes);
+        FlappyTools.clearGroup(grpLabels);
+
+        for (i in 0...options.get(curCategory).length)
         {
-            var option:FlappyOption = options[i];
-            var labelX:Float = boxBG.x + 20;
-            var labelY:Float = boxBG.y + 30 + (45 * i);
+            var option:FlappyOption = options.get(curCategory)[i];
+            var labelX:Float = 30;
+            var labelY:Float = 80 + (45 * i);
 
             switch (option.getType())
             {
@@ -82,13 +93,5 @@ class OptionsState extends FlappyState
             var label:FlappyText = new FlappyText(labelX, labelY, 0, option.name, 24);
             grpLabels.add(label);
         }
-
-        super.create();
-    }
-
-    override function update(elapsed:Float)
-    {
-        camFollow.x += FlappySettings.menuScrollSpeed * elapsed * 60;
-        super.update(elapsed);
     }
 }

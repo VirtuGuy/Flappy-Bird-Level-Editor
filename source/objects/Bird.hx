@@ -1,5 +1,6 @@
 package objects;
 
+import backend.FlappyData;
 import flixel.sound.FlxSound;
 import backend.FlappySettings;
 import flixel.FlxG;
@@ -20,7 +21,7 @@ class Bird extends FlxSprite
     override public function new(x:Float = 0, y:Float = 0)
     {
         super(x, y);
-        this.playerSkin = FlappySettings.playerSkin;
+        this.playerSkin = FlappyData.getOption('birdSkin');
         this.startMoving = false;
 
         animation.add('idle', [0], 8);
@@ -89,7 +90,17 @@ class Bird extends FlxSprite
     private function set_playerSkin(value:String):String
     {
         this.playerSkin = value;
-        loadGraphic(Paths.imageFile('$playerSkinDir/$value'), true, 17, 12);
+
+        // Checks to see if the player skin exists. If not, replace it with the default one.
+        var path:String;
+        if (!Paths.pathExists(Paths.imagePath('$playerSkinDir/$value')))
+            path = '$playerSkinDir/default';
+        else
+            path = '$playerSkinDir/$value';
+
+        // Gets the frame width
+        loadGraphic(Paths.imageFile(path));
+        loadGraphic(Paths.imageFile(path), true, Std.int(width / 3), Std.int(height));
         setGraphicSize(Std.int(width * 2));
         updateHitbox();
         return value;

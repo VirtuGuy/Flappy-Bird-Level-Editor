@@ -7,7 +7,6 @@ class FlappySettings
 {
     // Main game settings
     inline static public var menuScrollSpeed:Float = 2;
-    static public var playerSkin:String = 'default';
     static public var levelJson:LevelData = null;
     static public var lastState:FlxState = null;
 

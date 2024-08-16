@@ -97,7 +97,8 @@ class Init extends FlxState
         addImage('buttons/menu');
         addImage('buttons/pause');
         addImage('buttons/checkboxOff');
-        addImage('buttons/checkbotOn');
+        addImage('buttons/checkboxOn');
+        addImage('buttons/arrow');
 
         // Objects
         addImage('objects/pipe');
@@ -110,7 +111,6 @@ class Init extends FlxState
         addImage('gameover');
         addImage('gameComplete');
         addImage('uiBox');
-        addImage('arrow');
 
         // Sounds
         addSound(Paths.getSound('wing'), false);

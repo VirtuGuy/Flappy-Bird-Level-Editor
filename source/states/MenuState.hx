@@ -120,7 +120,7 @@ class MenuState extends FlappyState
             eraseDataTime += elapsed;
             if (eraseDataTime > 1)
             {
-                FlappyState.resetState();
+                FlxG.resetState();
                 FlappyData.eraseData();
             }
         }

@@ -1,5 +1,6 @@
 package options;
 
+import objects.FlappyButton;
 import flixel.FlxSprite;
 import backend.FlappyText;
 import flixel.group.FlxGroup;
@@ -10,34 +11,68 @@ class FlappyOption extends FlxGroup
 {
     public var name:String;
     public var variable:String;
+    public var metadata:Array<Dynamic>;
 
-    public var label:FlappyText;
-    public var spr:FlxSprite;
-
-    override public function new(x:Float = 0, y:Float = 0, name:String, variable:String)
+    override public function new(x:Float = 0, y:Float = 0, name:String, variable:String, ?metadata:Array<Dynamic>)
     {
         super();
         this.name = name;
         this.variable = variable;
+        this.metadata = metadata;
 
         // Adds the label
-        label = new FlappyText(x, y + 8, 0, name, 24);
+        var label:FlappyText = new FlappyText(x, y + 8, 0, name, 24);
         add(label);
 
         switch (getType())
         {
             case TBool:
-                spr = new FlappyCheckbox(x, y, getValue());
-                add(spr);
-                label.x = spr.x + spr.width + 4;
+                var checkbox:FlappyCheckbox = new FlappyCheckbox(x, y, getValue());
+                add(checkbox);
+                label.x = x + checkbox.width + 4;
 
-                var checkbox:FlappyCheckbox = cast spr;
                 checkbox.onClicked = function(){
                     checkbox.value = !checkbox.value;
                     setValue(checkbox.value);
                 }
             default:
-                // nothing lmfao
+                var leftButton:FlappyButton = new FlappyButton(x, y, 'arrow');
+                add(leftButton);
+
+                var valueTxt:FlappyText = new FlappyText(x, label.y, 0,
+                    getValue(), 24);
+                add(valueTxt);
+
+                var rightButton:FlappyButton = new FlappyButton(x, y, 'arrow');
+                rightButton.flipX = true;
+                add(rightButton);
+
+                // Button functionality
+                var callback:(Int)->Void = function(change:Int){
+                    if (metadata != null && metadata.length > 0)
+                    {
+                        var i:Int = metadata.indexOf(getValue()) + change;
+                        if (i < 0)
+                            i = metadata.length - 1;
+                        else if (i >= metadata.length)
+                            i = 0;
+                        valueTxt.text = metadata[i];
+
+                        valueTxt.x = leftButton.x + leftButton.width + 4;
+                        rightButton.x = valueTxt.x + valueTxt.width + 2;
+                        label.x = rightButton.x + rightButton.width + 4;
+                        if (change != 0)
+                            setValue(metadata[i]);
+                    }
+                }
+                callback(0);
+
+                leftButton.onClicked = function(){
+                    callback(-1);
+                }
+                rightButton.onClicked = function(){
+                    callback(1);
+                }
         }
     }
 

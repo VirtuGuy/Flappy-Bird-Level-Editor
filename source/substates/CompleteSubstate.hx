@@ -32,7 +32,7 @@ class CompleteSubstate extends FlappySubstate
 
         grpButtons = new ButtonGroup(buttons, Vertical, 1.5);
         grpButtons.members[0].onClicked = function(){
-            FlappyState.resetState();
+            FlxG.resetState();
         }
         grpButtons.members[1].onClicked = function(){
             PlayState.infiniteMode = false;

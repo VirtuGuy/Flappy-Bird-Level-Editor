@@ -43,10 +43,13 @@ class FlappyText extends FlxText
 
     override function update(elapsed:Float)
     {
-        // Helps make the game run faster
-        visible = isOnScreen();
-        
         super.update(elapsed);
+    }
+
+    override function draw()
+    {
+        if (isOnScreen())
+            super.draw();
     }
 
     // Lowercase F gets replaced because it looks bad

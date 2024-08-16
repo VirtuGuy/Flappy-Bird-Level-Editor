@@ -15,9 +15,10 @@ class OptionsState extends FlappyState
     var grpOptions:FlxTypedGroup<FlappyOption>;
 
     var curCategory:String = 'gameplay';
-    var options:Array<Array<String>> = [
+    var options:Array<Dynamic> = [
         ['classic mode', 'classic'],
-        ['mute sfx', 'muteSFX']
+        ['mute sfx', 'muteSFX'],
+        ['bird skin', 'birdSkin', Paths.getText(Paths.textFile('data/skinsList')).split('\n')]
     ];
 
     override public function new()
@@ -48,8 +49,9 @@ class OptionsState extends FlappyState
         
         for (i in 0...options.length)
         {
-            var option:Array<String> = options[i];
-            grpOptions.add(new FlappyOption(30, 80 + (45 * i), option[0], option[1]));
+            var option:Array<Dynamic> = options[i];
+            var metadata:Array<Dynamic> = option[2] ?? [];
+            grpOptions.add(new FlappyOption(30, 80 + (45 * i), option[0], option[1], metadata));
         }
 
         super.create();

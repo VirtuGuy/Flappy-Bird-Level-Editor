@@ -46,7 +46,6 @@ class Object extends FlxSprite
             flipX = flipped == true;
         else
             flipX = false;
-        visible = isOnScreen();
 
         super.update(elapsed);
     }
@@ -130,5 +129,11 @@ class Object extends FlxSprite
             alpha = _lastAlpha;
 
         return value;
+    }
+
+    override function draw()
+    {
+        if (isOnScreen())
+            super.draw();
     }
 }

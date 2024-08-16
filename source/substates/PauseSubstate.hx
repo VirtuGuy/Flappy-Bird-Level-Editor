@@ -36,7 +36,7 @@ class PauseSubstate extends FlappySubstate
             close();
         }
         grpButtons.members[1].onClicked = function(){
-            FlappyState.resetState();
+            FlxG.resetState();
         }
         grpButtons.members[2].onClicked = function(){
             PlayState.infiniteMode = false;

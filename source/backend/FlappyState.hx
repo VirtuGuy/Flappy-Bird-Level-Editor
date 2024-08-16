@@ -103,19 +103,28 @@ class FlappyState extends FlxUIState
 		if (group is FlxGroup)
 		{
 			var group:FlxGroup = cast group;
+			var callbackToRun:()->Void = callback;
 
 			for (item in group.members)
 			{
 				if (item is FlxSprite)
 				{
 					var object:FlxSprite = cast item;
-					fadeObject(object, fadeIn, callback);
+					fadeObject(object, fadeIn, callbackToRun);
+					callbackToRun = null;
 				}
 				else if (item is FlappyOption)
 				{
 					var option:FlappyOption = cast item;
-					fadeObject(option.label, fadeIn, callback);
-					fadeObject(option.spr, fadeIn);
+					for (optionItem in option.members)
+					{
+						if (optionItem is FlxSprite)
+						{
+							var object:FlxSprite = cast optionItem;
+							fadeObject(object, fadeIn, callbackToRun);
+						}
+					}
+					callbackToRun = null;
 				}
 			}
 		}
@@ -167,7 +176,7 @@ class FlappyState extends FlxUIState
 			FlxG.resetState();
 	}
 
-	inline static public function switchState(nextState:FlxState)
+	inline static public function switchState(nextState:FlxState, ?doFadeOut:Bool)
 	{
 		if (FlxG.state is FlappyState)
 		{
@@ -176,9 +185,11 @@ class FlappyState extends FlxUIState
 
 			if (currentState.doFadeOutTransition)
 			{
-				currentState.fadeObjects(false);
+				if (doFadeOut == false) return;
 
+				currentState.fadeObjects(false);
 				currentState.persistentUpdate = false;
+
 				new FlxTimer().start(currentState.fadeDuration + 0.15, function(_){
 					doSwitch(nextState);
 				});
@@ -188,10 +199,5 @@ class FlappyState extends FlxUIState
 		}
 		else
 			doSwitch(nextState);
-	}
-
-	inline static public function resetState()
-	{
-		switchState(FlxG.state);
 	}
 }

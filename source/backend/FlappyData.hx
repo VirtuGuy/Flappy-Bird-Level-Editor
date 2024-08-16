@@ -9,7 +9,8 @@ class FlappyData
 
         // Options
         'option_classic' => false,
-        'option_muteSFX' => false
+        'option_muteSFX' => false,
+        'option_birdSkin' => 'default'
     ];
     static public var ogDataMap:Map<String, Dynamic> = dataMap.copy();
 

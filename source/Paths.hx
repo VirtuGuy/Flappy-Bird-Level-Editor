@@ -68,7 +68,9 @@ class Paths
             #if sys
             var bitmap:BitmapData = BitmapData.fromFile(path);
             #else
-            var bitmap:BitmapData = OpenFlAssets.getBitmapData(path);
+            var bitmap:BitmapData = null;
+            if (pathExists(path))
+                bitmap = OpenFlAssets.getBitmapData(path);
             #end
 
             graphic = FlxGraphic.fromBitmapData(bitmap, false, path);
@@ -92,7 +94,8 @@ class Paths
             #if sys
             sound = Sound.fromFile(path);
             #else
-            sound = OpenFlAssets.getSound(path);
+            if (pathExists(path))
+                sound = OpenFlAssets.getSound(path);
             #end
 
             soundCache.set(path, sound);

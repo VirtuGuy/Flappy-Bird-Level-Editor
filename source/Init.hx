@@ -172,9 +172,7 @@ class Init extends FlxState
 
         percent = loadedFiles / totalFiles;
         if (percent >= 1)
-        {
             boot();
-        }
     }
 
     function boot()

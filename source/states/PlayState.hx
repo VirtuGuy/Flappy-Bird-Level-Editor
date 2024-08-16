@@ -66,6 +66,11 @@ class PlayState extends FlappyState
 		getReady();
 
 		super.create();
+
+		// Sets the background scroll factor to zero if classic mode is enabled
+		for (element in bg.elements)
+			if (isClassicMode && bg.ground != element)
+				element.scrollFactor.x = 0;
 	}
 
 	function getReady()

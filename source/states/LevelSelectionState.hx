@@ -5,7 +5,7 @@ import objects.FlappyButton;
 import backend.FlappyData;
 import backend.FlappySettings;
 import backend.FlappyState;
-import backend.FlappyText;
+import objects.FlappyText;
 import backend.FlappyTools;
 import flixel.FlxG;
 import flixel.FlxSprite;

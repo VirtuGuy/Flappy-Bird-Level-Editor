@@ -1,8 +1,7 @@
 package options;
 
 import objects.FlappyButton;
-import flixel.FlxSprite;
-import backend.FlappyText;
+import objects.FlappyText;
 import flixel.group.FlxGroup;
 import Type.ValueType;
 import backend.FlappyData;

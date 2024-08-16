@@ -3,7 +3,7 @@ package states;
 import backend.FlappyData;
 import backend.FlappySettings;
 import backend.FlappyState;
-import backend.FlappyText;
+import objects.FlappyText;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.util.FlxColor;

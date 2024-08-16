@@ -6,7 +6,7 @@ import options.FlappyOption;
 import objects.FlappyButton;
 import backend.FlappySettings;
 import backend.FlappyState;
-import backend.FlappyText;
+import objects.FlappyText;
 import flixel.FlxG;
 import flixel.group.FlxGroup.FlxTypedGroup;
 
@@ -18,7 +18,8 @@ class OptionsState extends FlappyState
     var options:Array<Dynamic> = [
         ['classic mode', 'classic'],
         ['mute sfx', 'muteSFX'],
-        ['bird skin', 'birdSkin', Paths.getText(Paths.textFile('data/skinsList')).split('\n')]
+        ['bird skin', 'birdSkin', Paths.getText(Paths.textFile('data/skinsList')).split('\n')],
+        ['debug features', 'debug']
     ];
 
     override public function new()

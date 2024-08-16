@@ -3,7 +3,7 @@ package substates;
 import backend.FlappyData;
 import backend.FlappyState;
 import backend.FlappySubstate;
-import backend.FlappyText;
+import objects.FlappyText;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.tweens.FlxEase;

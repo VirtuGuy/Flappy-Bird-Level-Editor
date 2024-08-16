@@ -1,7 +1,7 @@
 package states;
 
 import backend.FlappyState;
-import backend.FlappyText;
+import objects.FlappyText;
 import flixel.FlxG;
 import flixel.util.FlxTimer;
 

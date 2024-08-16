@@ -2,7 +2,7 @@ package;
 
 import backend.FlappyData;
 import backend.FlappySettings;
-import backend.FlappyText;
+import objects.FlappyText;
 import backend.FlappyTools;
 import flixel.FlxG;
 import flixel.FlxState;

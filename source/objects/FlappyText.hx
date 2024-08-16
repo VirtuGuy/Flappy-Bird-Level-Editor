@@ -1,10 +1,8 @@
-package backend;
+package objects;
 
 import flixel.FlxSprite;
 import flixel.FlxG;
 import flixel.text.FlxText;
-import flixel.tweens.FlxEase;
-import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 
 using StringTools;

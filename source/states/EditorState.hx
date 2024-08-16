@@ -1,9 +1,10 @@
 package states;
 
+import backend.FlappyData;
 import objects.LineObject;
 import backend.FlappySettings;
 import backend.FlappyState;
-import backend.FlappyText;
+import objects.FlappyText;
 import backend.FlappyTools;
 import flixel.FlxCamera;
 import flixel.FlxG;
@@ -103,6 +104,7 @@ class EditorState extends FlappyState
         hudCamera.bgColor.alpha = 0;
         FlxG.cameras.add(hudCamera, false);
 
+        // Loads the lists
         var objectsPath:String = Paths.textFile('data/objectsList');
         if (Paths.pathExists(objectsPath))
         {
@@ -111,7 +113,6 @@ class EditorState extends FlappyState
             for (text in texts)
                 objectNames.push(text.trim());
         }
-
         var bgsPath:String = Paths.textFile('data/bgList');
         if (Paths.pathExists(bgsPath))
         {
@@ -128,7 +129,7 @@ class EditorState extends FlappyState
 		bg.backObjects.add(grpObjects);
 
         editCursor = new FlxSprite();
-        editCursor.makeGraphic(1, 1, FlxColor.fromRGB(255, 255, 255, 0));
+        editCursor.makeGraphic(1, 1, FlxColor.WHITE);
         add(editCursor);
 
         editObject = new Object(0, 0, 'pipe', true);
@@ -477,9 +478,8 @@ class EditorState extends FlappyState
         group.add(loadLevelNameInput);
         group.add(loadLevelNameText);
         group.add(clearButton);
-        #if debug
-        group.add(saveToDefaultCheckbox);
-        #end
+        if (FlappyData.getOption('debug'))
+            group.add(saveToDefaultCheckbox);
         group.add(objectNameDropdown);
         group.add(objectNameText);
 

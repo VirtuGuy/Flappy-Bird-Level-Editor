@@ -81,4 +81,13 @@ class FlappyTools
             o.clear();
         }
     }
+
+    inline static public function getTextAsArray(path:String):Array<String>
+    {
+        var content:String = Paths.getText(path).trim();
+        var strArray:Array<String> = content.split('\n');
+        for (i in 0...strArray.length)
+            strArray[i] = strArray[i].trim();
+        return strArray;
+    }
 }

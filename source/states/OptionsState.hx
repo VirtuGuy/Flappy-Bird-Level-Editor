@@ -18,7 +18,7 @@ class OptionsState extends FlappyState
     var options:Array<Dynamic> = [
         ['classic mode', 'classic'],
         ['mute sfx', 'muteSFX'],
-        ['bird skin', 'birdSkin', Paths.getText(Paths.textFile('data/skinsList')).split('\n')],
+        ['bird skin', 'birdSkin', FlappyTools.getTextAsArray(Paths.textFile('data/skinsList'))],
         ['debug features', 'debug']
     ];
 

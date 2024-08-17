@@ -108,16 +108,14 @@ class EditorState extends FlappyState
         var objectsPath:String = Paths.textFile('data/objectsList');
         if (Paths.pathExists(objectsPath))
         {
-            var content:String = Paths.getText(objectsPath);
-            var texts:Array<String> = content.split('\n');
+            var texts:Array<String> = FlappyTools.getTextAsArray(objectsPath);
             for (text in texts)
                 objectNames.push(text.trim());
         }
         var bgsPath:String = Paths.textFile('data/bgList');
         if (Paths.pathExists(bgsPath))
         {
-            var content:String = Paths.getText(bgsPath);
-            var texts:Array<String> = content.split('\n');
+            var texts:Array<String> = FlappyTools.getTextAsArray(bgsPath);
             for (text in texts)
                 bgNames.push(text.trim());
         }

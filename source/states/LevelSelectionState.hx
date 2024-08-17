@@ -46,7 +46,7 @@ class LevelSelectionState extends FlappyState
     
     override function create()
     {
-        untestedLevels = Paths.getText(Paths.textFile('levels/untested')).split('\n');
+        untestedLevels = FlappyTools.getTextAsArray(Paths.textFile('levels/untested'));
 
         titleText = new FlappyText(0, 0, 0, 'Level Selection', 32, CENTER);
         titleText.screenCenter(X);

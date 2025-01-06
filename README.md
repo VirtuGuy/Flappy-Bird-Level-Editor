@@ -1,3 +1,6 @@
+> [!NOTE]
+This project is old and is getting completely reworked in a new repository.
+
 # Flappy Bird Level Editor
 ### Ever wanted to make your own Flappy Bird level?
  Well now you can!
